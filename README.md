@@ -120,5 +120,7 @@ można zmienić przez `PLANNER_REPORT_DIR`.
 
 ## Licencja
 
-Projekt udostępniany na licencji [MIT](LICENSE).
+Projekt udostępniany na licencji [GNU General Public License v3.0 (GPLv3)](LICENSE).
+
+Copyright (C) 2026 **Szymon Czaja**.
 

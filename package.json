@@ -3,7 +3,7 @@
   "private": true,
   "version": "0.1.0",
   "description": "Nowy frontend BUSearch (React, TypeScript, Vite, MapLibre GL)",
-  "license": "MIT",
+  "license": "GPL-3.0-only",
   "type": "module",
   "scripts": {
     "dev": "vite",
