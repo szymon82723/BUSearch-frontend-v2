@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="pl">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Błąd - BUSearch</title>
+    <meta name="robots" content="noindex" />
+    <link rel="icon" href="/logo/logo.ico" sizes="any" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+      <!-- Analytics: our own Rybbit at statistics.busearch.pl. Data stays on this server,
+         no cookies and nothing sent externally. The address is under /api/, so the
+         service worker doesn't touch it — its handler passes /api/ through without
+         caching (sw.js), otherwise beacons would end up in the cache or the offline queue. -->
+    <script src="https://statistics.busearch.pl/api/script.js" data-site-id="{{ANALYTICS_ID}}" defer></script>
+</head>
+  <body>
+    <div class="error-card">
+      <div class="error-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="10"></circle>
+          <line x1="12" y1="8" x2="12" y2="12"></line>
+          <line x1="12" y1="16" x2="12.01" y2="16"></line>
+        </svg>
+      </div>
+      <h1>Wystąpił błąd</h1>
+      <p>Przepraszamy, ale coś poszło nie tak. Spróbuj odświeżyć stronę.</p>
+    </div>
+    <script type="module" src="/src/pages/error.js"></script>
+  </body>
+</html>

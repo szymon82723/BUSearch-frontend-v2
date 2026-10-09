@@ -1,0 +1,154 @@
+
+## TRAMWAJE — w eksploatacji / w majątku GAiT (163 poj., 50 zakresów)
+zakres	model	rok produkcji
+3	Metropolitan	?
+11	Konstal N3	1952
+266	WFD 1927	1927
+273	DWF Ring Tw	1930
+399	Fuchs KSW	1948
+1001	Alstom NGd99	1999
+1002-1004	Alstom NGd99	2000
+1005-1007	Bombardier NGT6-2	2007
+1011-1015	Pesa 120NaG	2010
+1016-1045	Pesa 120NaG	2011
+1051-1055	Pesa 128NG	2014
+1056-1060	Pesa 128NG	2019
+1061-1082	Pesa 128NG	2020
+1083-1085	Pesa 128NG	2021
+1105	Konstal 102Na	1970
+1107-1120	Duewag N8C-NF	1978
+1121-1123	Duewag N8C-NF	1981
+1124	Duewag N8C	1981
+1125-1128	Duewag N8C-NF	1981
+1129	Duewag N8C	1981
+1131-1132	Duewag N8C-NF	1981
+1133	Duewag N8C	1981
+1134	Duewag N8C-NF	1981
+1135	Duewag N8C	1981
+1137-1138	Duewag N8C-NF	1981
+1139	Duewag N8C	1981
+1140-1141	Duewag N8C-NF	1981
+1143	Duewag N8C-NF	1981
+1145-1148	Duewag N8C	1982
+1149-1150	Duewag N8C-NF	1982
+1151	Duewag N8C	1982
+1152-1153	Duewag N8C-NF	1982
+1154	Duewag N8C	1982
+1161-1176	Duewag N8C-NF	1981
+1226	Konstal 105Na	1977
+1299-1300	Konstal 105Na	1982
+1309	Konstal 105Na	1983
+1341-1342	Konstal 105Na	1984
+1501-1502	Alstom 114Na	1996
+5405-5406	Konstal 105Na	1987
+6205	Konstal 105N	1977
+9003	Konstal 105N	1977
+9005	Konstal 105N	1977
+9006	Konstal 4N1	1958
+9007	Konstal 4N1	1960
+9013	Konstal 4N	1957
+9016	Konstal N3	1955
+9021	Konstal 4N1	1959
+9023	Konstal 4N1	1960
+9024	Konstal 4N1	1958
+
+## TRAMWAJE — spisane / wycofane (29 poj., 18 zakresów)
+zakres	model	rok produkcji
+1136	Duewag N8C-NF	1981
+1144	Duewag N8C-NF	1982
+1202-1203	Konstal 105Na	?
+1227	Konstal 105Na	1977
+1232-1234	Konstal 105Na	?
+1238	Konstal 105Na	?
+1259-1260	Konstal 105Na	?
+1290-1292	Konstal 105Na	?
+1295	Konstal 105Na	1982
+1296	Konstal 105Na	1977
+1301	Konstal 105Na	?
+1310	Konstal 105Na	1983
+1324-1325	Konstal 105Na	1983
+1339-1340	Konstal 105Na	?
+1346	Konstal 105Na	?
+1349-1350	Konstal 105Na	?
+1353-1354	Konstal 105Na	?
+1415-1416	Konstal 105Na	?
+
+## AUTOBUSY — w eksploatacji / w majątku GAiT (284 poj., 50 zakresów)
+zakres	model	rok produkcji
+2001	Mercedes-Benz O405N	1994
+2024	Neoplan N4016	1997
+2066	MAN NL283	2004
+2067	Solaris Urbino 12	2006
+2069	Solaris Urbino 12	2006
+2071-2072	Solaris Urbino 12	2006
+2075-2081	Solaris Urbino 12	2006
+2083-2087	Solaris Urbino 12	2006
+2090-2091	Solaris Urbino 12	2006
+2092-2098	Solaris Urbino 12 W33	2008
+2307	Ikarus 260.73A	1993
+2480	Neoplan N4007	1998
+2487-2489	Mercedes-Benz O530K C2	2016
+2490-2491	Mercedes-Benz O530K C2	2017
+2492-2493	Mercedes-Benz O530K C2	2019
+2494-2499	Mercedes-Benz O530K C2	2020
+2501	MAN NG313	2002
+2514-2515	Solaris Urbino 18	2006
+2517	Solaris Urbino 18	2006
+2518-2534	Solaris Urbino 18 W13	2008
+2535-2547	Solaris Urbino 18 W13	2009
+2548-2555	MAN NG544 Lion`s City 18E	2023
+2556-2568	Mercedes-Benz O530G C2	2020
+2605	Neoplan N4020	1997
+2620	Mercedes-Benz O405GN	1996
+2641-2647	Mercedes-Benz Conecto G	2011
+2649-2652	Mercedes-Benz Conecto G	2011
+2653-2661	Mercedes-Benz O530G C2	2016
+2662-2687	Mercedes-Benz O530G C2	2019
+2728-2734	Mercedes-Benz Conecto LF A30	2011
+2736-2737	Mercedes-Benz Conecto LF A30	2011
+2738-2746	Mercedes-Benz O530 C2	2016
+2747-2760	Mercedes-Benz O530 II	2009
+2761-2778	Mercedes-Benz O530 C2	2019
+2800-2806	Solaris Urbino 12 W33	2008
+2807-2816	MAN NL326 Lion`s City 12E	2023
+2818	Jelcz 043	1984
+2819-2830	Mercedes-Benz O530 C2	2020
+2832	Mercedes-Benz O530 C2	2020
+2834-2849	Mercedes-Benz O530 C2	2020
+2904	Iveco Daily 70C17 / Kapena Urby LE	2013
+2906-2908	Iveco Daily 70C17 / Kapena Urby LE	2013
+2910-2912	Karsan e-Jest	2022
+3101-3110	Neso Bus 12	2024
+3111-3121	Solaris Urbino 12 electric	2026
+3311-3315	Solaris Urbino 18 electric	2026
+3317-3321	Solaris Urbino 18 electric	2026
+5053	Autosan A1010T.M03-V01-F01	2015
+5054	Solaris Urbino 12	2006
+21783	Jelcz PR110M	1991
+
+## AUTOBUSY — spisane / wycofane (47 poj., 24 zakresów)
+zakres	model	rok produkcji
+2002-2005	Mercedes-Benz O405N	1994
+2007-2008	Mercedes-Benz O405N	1994
+2010-2013	Mercedes-Benz O405N	1994
+2015	Mercedes-Benz O405N	1994
+2016	Neoplan N4016	1997
+2021	Neoplan N4016	1997
+2032	Neoplan N4016	1997
+2038	Neoplan N4016	1997
+2055-2062	MAN NL283	2002
+2063-2065	MAN NL283	2004
+2070	Solaris Urbino 12	2006
+2073-2074	Solaris Urbino 12	2006
+2082	Solaris Urbino 12	2006
+2088-2089	Solaris Urbino 12	2006
+2099	Solaris Urbino 12 W33	2008
+2481-2482	Neoplan N4007	1998
+2502-2503	MAN NG313	2002
+2510-2513	Solaris Urbino 18	2006
+2516	Solaris Urbino 18	2006
+2604	Neoplan N4020	1997
+2648	Mercedes-Benz Conecto G	2011
+2735	Mercedes-Benz Conecto LF A30	2011
+2903	Iveco Daily 70C17 / Kapena Urby LE	2013
+2905	Iveco Daily 70C17 / Kapena Urby LE	2013

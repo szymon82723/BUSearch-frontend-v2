@@ -1,0 +1,118 @@
+.home-benefits, .home-data-flow, .home-reading, .home-travel-guide, .home-city-guides { padding: 76px 0; }
+.home-benefits { background: var(--navy); color: #fff; }
+.home-benefits h2, .home-data-flow h2 { text-align: center; font-size: clamp(32px, 4vw, 46px); font-weight: 800; letter-spacing: -.035em; line-height: 1.2; }
+.home-info-intro { max-width: 720px; margin: 18px auto 0 !important; text-align: center; font-size: 16px; color: #dae1f2; }
+.home-info-columns { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 46px; margin: 48px 0 0; padding: 0; list-style: none; text-align: center; }
+.home-info-icon { display: block; margin: 0 auto 20px; }
+.home-info-icon--green { color: #a6d962; }
+.home-info-icon--white { color: #fff; }
+.home-info-icon--yellow { color: #ffc400; }
+.home-info-icon--orange { color: #ef831c; }
+.home-info-icon--blue { color: #4777b6; }
+.home-info-columns h3 { font-size: 23px; line-height: 1.3; font-weight: 750; }
+.home-info-columns p { margin-top: 14px; font-size: 15px; line-height: 1.8; color: #e0e5f2; }
+.home-data-flow { background: #f7f8fa; }
+.home-data-flow .home-info-intro, .home-data-flow .home-info-columns p { color: #566178; }
+.home-info-step { display: block; margin-bottom: 12px; font-size: 26px; font-weight: 800; }
+.home-data-flow .home-info-columns h3 { font-size: 19px; }
+.home-source-note { display: flex; align-items: flex-start; gap: 16px; margin-top: 42px; padding-top: 26px; border-top: 1px solid #dce1eb; color: #59667e; }
+.home-source-note svg { flex-shrink: 0; color: #657ca8; margin-top: 4px; }
+.home-source-note p { font-size: 14px; line-height: 1.8; }
+.home-reading-heading { max-width: 780px; margin: 0 auto 40px; text-align: center; }
+.home-reading-heading h2 { margin-top: 12px; font-size: clamp(30px, 3.5vw, 42px); line-height: 1.2; letter-spacing: -.035em; }
+.home-reading-heading > p { margin-top: 18px; color: #59667e; line-height: 1.8; }
+.home-departure-types { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 34px; }
+.home-departure-types article { padding-top: 24px; border-top: 2px solid #e4e9f1; }
+.home-departure-types h3 { margin-top: 18px; font-size: 21px; line-height: 1.35; }
+.home-departure-types p { margin-top: 14px; color: #59667e; font-size: 15px; line-height: 1.85; }
+.home-status { display: inline-block; padding: 4px 12px; border-radius: 6px; font-size: 13px; font-weight: 700; }
+.home-status--live { color: #1b7053; background: #e5f5ec; }
+.home-status--planned { color: #375888; background: #eaf0fa; }
+.home-status--delay { color: #955014; background: #fff0dc; }
+.home-travel-guide { background: #f7f8fa; }
+.home-guide-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 72px; row-gap: 42px; }
+.home-guide-number { color: #8796b1; font-size: 14px; font-weight: 700; letter-spacing: .08em; }
+.home-guide-grid h3 { margin-top: 10px; font-size: 24px; line-height: 1.35; letter-spacing: -.02em; }
+.home-guide-grid p, .home-city-guide p { margin-top: 16px; font-size: 16px; color: #59667e; line-height: 1.85; }
+.home-info-link { display: inline-flex; align-items: center; gap: 9px; margin-top: 26px; color: #37466f; font-weight: 700; font-size: 15px; }
+.home-info-link:hover { text-decoration: underline; text-underline-offset: 4px; }
+.home-travel-guide > .home-container > .home-info-link { margin-top: 38px; }
+.home-city-guide { display: grid; grid-template-columns: minmax(0, .8fr) minmax(0, 1.2fr); gap: 64px; padding: 36px 0; border-top: 1px solid #e0e6f0; }
+.home-city-guide-title > svg { color: #6982b0; margin-bottom: 14px; }
+.home-city-guide h3 { font-size: 26px; line-height: 1.35; letter-spacing: -.025em; }
+.home-city-guide p:first-child { margin-top: 0; }
+.home-hero-download { display: inline-flex; align-items: center; justify-content: center; gap: 9px; min-height: 56px; padding: 12px 22px; color: #fff; border: 1px solid #ffffff80; border-radius: 12px; font-weight: 700; }
+.home-hero-download:hover { background: #ffffff15; }
+.home-start { padding: 68px 0; background: #f3f6fb; }
+.home-start-heading { text-align: center; margin-bottom: 32px; }
+.home-start-heading h2 { font-size: clamp(28px, 3.5vw, 40px); line-height: 1.2; letter-spacing: -.035em; }
+.home-start-heading p { margin-top: 14px; color: #59667e; }
+.home-start-options { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; align-items: stretch; }
+.home-start-options article { min-width: 0; padding: 32px; border-radius: 22px; border: 1px solid #dce4f0; background: #fff; }
+.home-start-options .home-start-app { background: #37466f; color: #fff; border-color: #37466f; }
+.home-start-label { display: flex; align-items: center; gap: 9px; font-size: 12px; font-weight: 700; letter-spacing: .07em; }
+.home-start-options h3 { font-size: 29px; line-height: 1.25; letter-spacing: -.03em; margin-top: 16px; }
+.home-start-options article > p { margin-top: 15px; font-size: 15px; line-height: 1.75; color: #59667e; }
+.home-start-options .home-start-app > p { color: #e0e5f2; }
+.home-start-android, .home-start-ios { padding: 22px 0; border-bottom: 1px solid #ffffff30; }
+.home-start-android { margin-top: 12px; }
+.home-start-android > div, .home-start-ios > div { display: grid; grid-template-columns: 28px 1fr; column-gap: 10px; align-items: center; }
+.home-start-android svg, .home-start-ios svg { grid-row: span 2; }
+.home-start-android span, .home-start-ios span { font-size: 13px; color: #d5ddf0; }
+.home-start-android .home-store { margin-top: 16px; }
+.home-start-ios button { display: inline-flex; align-items: center; gap: 9px; margin-top: 15px; min-height: 42px; padding: 9px 15px; border: 1px solid #ffffff70; border-radius: 9px; background: transparent; color: #fff; font: inherit; font-size: 14px; cursor: pointer; }
+.home-start-ios button:hover { background: #ffffff15; }
+.home-start-options article > .home-start-hint { font-size: 12px; display: flex; align-items: center; gap: 6px; }
+.home-start-cities { display: grid; gap: 10px; margin-top: 26px; scroll-margin-top: 24px; }
+.home-start-cities a { display: flex; align-items: center; gap: 14px; padding: 15px; border: 1px solid #dce4f0; border-radius: 12px; color: #26344d; transition: background .15s ease; }
+.home-start-cities a:hover { background: #f0f4fb; }
+.home-start-cities img { flex-shrink: 0; }
+.home-start-cities a > span { flex: 1; min-width: 0; }
+.home-start-cities strong, .home-start-cities small, .home-start-cities em { display: block; }
+.home-start-cities small { font-size: 13px; color: #64718a; }
+.home-start-cities em { font-style: normal; font-size: 11px; color: #267858; }
+.home-start-cities a > svg { flex-shrink: 0; color: #6982b0; }
+#pobierz { scroll-margin-top: 24px; }
+#home-start-ios-guide > section { width: 100%; padding-bottom: 0; }
+.home-usage { padding: 64px 0; background: #edf2fa; border-block: 1px solid #dde5f1; }
+.home-usage-heading { display: flex; align-items: flex-end; justify-content: space-between; gap: 30px; }
+.home-usage-heading h2 { margin-top: 10px; max-width: 620px; font-size: clamp(28px, 3.3vw, 38px); line-height: 1.25; letter-spacing: -.035em; }
+.home-usage-heading > p { font-size: 13px; color: #59667e; flex-shrink: 0; }
+.home-usage-metrics { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 28px; margin: 38px 0 0; }
+.home-usage-metrics > div { display: flex; flex-direction: column; }
+.home-usage-metrics dt { font-size: 15px; font-weight: 700; }
+.home-usage-metrics dd { order: -1; margin: 0 0 7px; color: #37466f; font-size: clamp(32px, 4vw, 48px); font-weight: 800; letter-spacing: -.04em; line-height: 1.2; font-variant-numeric: tabular-nums; }
+.home-usage-metrics p { font-size: 12px; color: #64718a; margin-top: 5px; }
+.home-usage-trend { display: grid; grid-template-columns: .8fr 1.2fr; align-items: center; gap: 40px; margin-top: 34px; padding-top: 28px; border-top: 1px solid #cfd9e9; }
+.home-usage-trend-copy > svg { color: #6982b0; margin-bottom: 9px; }
+.home-usage-trend h3 { font-size: 18px; }
+.home-usage-trend-copy p { color: #59667e; font-size: 14px; margin-top: 9px; }
+.home-usage-chart { width: 100%; display: block; fill: #647eaf; }
+.home-usage-chart rect:hover { fill: #37466f; }
+.home-usage-chart-dates { display: flex; justify-content: space-between; color: #64718a; font-size: 12px; }
+.home-usage-note { margin-top: 24px !important; color: #59667e; font-size: 12px; line-height: 1.75; }
+@media (max-width: 850px) {
+  .home-info-columns { gap: 24px; }
+  .home-info-columns h3 { font-size: 20px; }
+  .home-departure-types { gap: 22px; }
+  .home-guide-grid { column-gap: 34px; }
+  .home-city-guide { gap: 30px; }
+}
+@media (max-width: 640px) {
+  .home-start { padding: 44px 0; }
+  .home-start-options { grid-template-columns: 1fr; gap: 18px; }
+  .home-start-options article { padding: 24px; }
+  .home-start-options h3 { font-size: 26px; }
+  .home-usage { padding: 48px 0; }
+  .home-usage-heading { align-items: flex-start; flex-direction: column; gap: 15px; }
+  .home-usage-metrics { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 26px 18px; }
+  .home-usage-trend { grid-template-columns: 1fr; gap: 18px; }
+  .home-benefits, .home-data-flow, .home-reading, .home-travel-guide, .home-city-guides { padding: 54px 0; }
+  .home-info-columns, .home-departure-types, .home-guide-grid, .home-city-guide { grid-template-columns: 1fr; }
+  .home-info-columns { gap: 38px; margin-top: 34px; }
+  .home-info-columns article, .home-info-columns li { max-width: 440px; margin-inline: auto; }
+  .home-info-columns p { font-size: 15px; }
+  .home-city-guide { gap: 22px; }
+  .home-reading-heading { margin-bottom: 30px; }
+  .home-guide-grid h3, .home-city-guide h3 { font-size: 23px; }
+}

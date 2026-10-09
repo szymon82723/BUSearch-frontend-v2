@@ -1,0 +1,65 @@
+/* Strona /testy dokłada do webapp.css tylko przyciski kroków i drobiazgi nagłówka
+   sekcji — reszta (tło, kafel logo, karta sekcji, kroki, .note, .highlight) przychodzi
+   stamtąd bez zmian, żeby obie strony o aplikacji były tym samym widokiem. */
+
+/* Przycisk pod krokiem. Wcięcie 34 px zgadza się z .step-desc, więc przycisk stoi
+   w jednej linii z opisem, a nie pod numerkiem. Wysokość 46 px, bo to cel dotykowy
+   na telefonie — a ta strona jest otwierana przede wszystkim na telefonie. */
+.btn-krok {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  height: 46px;
+  margin-left: 34px;
+  border-radius: var(--ui-radius);
+  background: transparent;
+  border: 1px solid var(--border-strong);
+  color: var(--text);
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 600;
+  transition: background 0.18s ease, border-color 0.18s ease, transform 0.18s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.btn-krok:hover {
+  background: var(--ui-surface-2);
+  border-color: var(--ui-line-strong);
+}
+
+.btn-krok:active {
+  transform: scale(0.98);
+}
+
+/* Krok pierwszy dostaje pełny akcent, kolejny już nie: kroki idą po kolei, więc to
+   kolejność niesie hierarchię i dwa jednakowo mocne przyciski tylko by się biły. */
+.btn-krok--glowny {
+  background: var(--ui-accent);
+  border-color: transparent;
+  box-shadow: none;
+  color: var(--ui-on-accent);
+}
+
+.btn-krok--glowny:hover {
+  background: var(--ui-accent-hover);
+  border-color: transparent;
+}
+
+/* Na /webapp kropka dziedziczy kolor tytułu (currentColor) i cała nazwa systemu jest
+   zielona. Tu tytuł zostaje biały, a zielona jest sama kropka — sekcja nie nazywa
+   systemu, tylko mówi „to działa”, więc kolor nie ma po co iść na tekst. */
+.section-header .os-name--testy .dot {
+  background: var(--ui-live);
+  box-shadow: none;
+}
+
+.section-count {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-faint);
+}
+
+/* Ostatni krok nie ma pod sobą przycisku, więc nie potrzebuje odstępu na niego. */
+.step-desc--ostatni {
+  margin-bottom: 0;
+}

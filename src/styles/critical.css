@@ -1,0 +1,64 @@
+/* Reguły, które muszą działać zanim wczyta się główny arkusz: tryb aplikacji,
+   widok goły dla WebView i ekran startowy. Wycięte z <style> w <head> dawnego
+   templates/index.html. */
+/* Everything that nudges you to install the PWA disappears in the app: the position
+   in the side menu, the "Dodaj"/Add button on the bar and the bottom toast. */
+html[data-app="1"] #sideMenuInstall,
+html[data-app="1"] #sideMenuPlayStore,
+html[data-app="1"] #installBtn,
+html[data-app="1"] #installToast,
+html[data-app="1"] #playStoreBanner {
+  display: none !important;
+}
+
+/* Bare view: the loading screen disappears (the app has its own splash and shows it
+   before the WebView draws anything at all), the top bar together with the hamburger,
+   search and announcements strip, and the bottom island with the map buttons.
+   EVERYTHING that responds to touching the map STAYS: the vehicle, stop and route
+   panels — without them the bare view would be wallpaper, not a map. */
+html[data-goly="1"] #appSplash,
+/* The install-PWA prompt makes no sense in the app view — whoever is looking at
+   this already has the app. */
+html[data-goly="1"] #installToast,
+html[data-goly="1"] #installBtn,
+html[data-goly="1"] #playStoreBanner,
+html[data-goly="1"] #sideMenuPlayStore {
+  display: none !important;
+}
+
+html[data-goly="1"][data-goly-bez-belki="1"] #topbar {
+  display: none !important;
+}
+
+/* The hamburger leads to the side menu, i.e. the rest of the service — in the app
+   that is an exit from the native flow with no way back. The bar stays, the
+   hamburger doesn't. */
+html[data-goly="1"] #menuBtn {
+  display: none !important;
+}
+
+/* The dividers between the bar segments go via "> * + *", and a hidden element is
+   STILL a sibling — without this the search would get a divider right at its left
+   edge, i.e. a vertical scratch on the empty spot left by the hamburger. */
+html[data-goly="1"] .ui-topbar .ui-topbar__rzad > #menuBtn + * {
+  border-left: 0 !important;
+}
+
+html[data-goly="1"]:not([data-goly-wyspa="1"]) .ui-map-type {
+  display: none !important;
+}
+
+/* Wiki in the tracked-vehicle panel. This button leads off the map to a separate
+   page of the service — in the app that would mean falling out of the native flow in
+   the middle of tracking a bus. "!important", because the visibility of this button
+   is controlled by code (it only shows it for vehicles with a Wiki entry) and it does
+   so with an inline style. */
+html[data-goly="1"] #routePanelWiki {
+  display: none !important;
+}
+
+/* The terms/privacy-policy consent bar disappears in the mobile-app view — the app
+   has its own start screen with the acceptance of these documents. */
+html[data-goly="1"] #uiZgoda {
+  display: none !important;
+}

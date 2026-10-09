@@ -1,0 +1,75 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+  <defs>
+    <linearGradient id="byd-bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1d4ed8" />
+      <stop offset="100%" stop-color="#2563eb" />
+    </linearGradient>
+    <linearGradient id="byd-wall" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#ef4444" />
+      <stop offset="100%" stop-color="#b91c1c" />
+    </linearGradient>
+    <linearGradient id="byd-roof" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#60a5fa" />
+      <stop offset="100%" stop-color="#1e40af" />
+    </linearGradient>
+    <linearGradient id="byd-gold" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#fde047" />
+      <stop offset="100%" stop-color="#eab308" />
+    </linearGradient>
+    <linearGradient id="byd-gate" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a" />
+      <stop offset="100%" stop-color="#1e293b" />
+    </linearGradient>
+    <filter id="byd-shadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="2" stdDeviation="2" flood-color="#0f172a" flood-opacity="0.3" />
+    </filter>
+  </defs>
+
+  <!-- Background Squircle -->
+  <rect width="64" height="64" rx="16" fill="url(#byd-bg)" />
+
+  <!-- Subtle Inner Glow / Highlight -->
+  <rect x="1" y="1" width="62" height="62" rx="15" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="1.5" />
+
+  <!-- Fortress Group -->
+  <g filter="url(#byd-shadow)">
+    <!-- Main Brick Wall -->
+    <path d="M12 37 h40 v15 h-40 z" fill="url(#byd-wall)" />
+    <!-- Wall Crenellations (Blanki) -->
+    <path d="M12 34 h4 v3 h-4 z M20 34 h4 v3 h-4 z M28 34 h8 v3 h-8 z M40 34 h4 v3 h-4 z M48 34 h4 v3 h-4 z" fill="url(#byd-wall)" />
+
+    <!-- Left Tower -->
+    <path d="M15 25 h8 v12 h-8 z" fill="url(#byd-wall)" />
+    <!-- Left Conical Roof -->
+    <polygon points="19,13 13,25 25,25" fill="url(#byd-roof)" />
+    <circle cx="19" cy="12" r="1.8" fill="url(#byd-gold)" />
+
+    <!-- Right Tower -->
+    <path d="M41 25 h8 v12 h-8 z" fill="url(#byd-wall)" />
+    <!-- Right Conical Roof -->
+    <polygon points="45,13 39,25 51,25" fill="url(#byd-roof)" />
+    <circle cx="45" cy="12" r="1.8" fill="url(#byd-gold)" />
+
+    <!-- Center Tower (Higher) -->
+    <path d="M26 21 h12 v16 h-12 z" fill="url(#byd-wall)" />
+    <polygon points="32,7 24,21 40,21" fill="url(#byd-roof)" />
+    <circle cx="32" cy="6" r="2.2" fill="url(#byd-gold)" />
+
+    <!-- Tower Window Slits -->
+    <rect x="18" y="27" width="2" height="4" rx="1" fill="#fff" opacity="0.9" />
+    <rect x="31" y="23" width="2" height="5" rx="1" fill="#fff" opacity="0.9" />
+    <rect x="44" y="27" width="2" height="4" rx="1" fill="#fff" opacity="0.9" />
+
+    <!-- Arched Gateway Portal -->
+    <path d="M27 52 v-10 a5 5 0 0 1 10 0 v10 z" fill="url(#byd-gate)" />
+    <!-- Open Gate Doors (Golden Wing Doors) -->
+    <path d="M27 42 l4 3 v7 l-4 -2 z" fill="url(#byd-gold)" opacity="0.95" />
+    <path d="M37 42 l-4 3 v7 l4 -2 z" fill="url(#byd-gold)" opacity="0.95" />
+    <!-- Golden Portcullis Grate Teeth -->
+    <path d="M29 42 h6 M32 40 v4" stroke="url(#byd-gold)" stroke-width="1.2" stroke-linecap="round" />
+  </g>
+
+  <!-- River Brda Modern Waves -->
+  <path d="M10 55 Q 21 53, 32 55 T 54 55" fill="none" stroke="#93c5fd" stroke-width="2" stroke-linecap="round" opacity="0.85" />
+  <path d="M14 59 Q 23 57, 32 59 T 50 59" fill="none" stroke="#60a5fa" stroke-width="1.5" stroke-linecap="round" opacity="0.6" />
+</svg>

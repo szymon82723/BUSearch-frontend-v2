@@ -1,0 +1,574 @@
+/* Tokeny wspólne z resztą serwisu (ten sam zestaw co api.html) teraz naprawdę
+         wspólne — patrz public/css/dark-panel.css — zamiast trzymanych w zgodzie ręcznie. */
+      :root {
+        --sunken: rgba(0, 0, 0, 0.2);
+        --panel: rgba(9, 9, 9, 0.55);
+        --accent-text: var(--ui-accent);
+        --danger: #ef4444;
+        --radius: var(--ui-radius-lg);
+        --radius-sm: var(--ui-radius);
+        /* Jedna skala odstępów zamiast wpisywanych osobno 6/8/10/12/14 px przy każdej karcie. */
+        --gap: 14px;
+        --gap-sm: 10px;
+        --gap-lg: 22px;
+      }
+      * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+      body {
+        margin: 0;
+        font-family: var(--font-main);
+        background: var(--bg);
+        background-attachment: fixed;
+        color: var(--text);
+        -webkit-text-size-adjust: 100%;
+        -webkit-font-smoothing: antialiased;
+      }
+      a { color: var(--accent-text); text-decoration: none; }
+      /* 1200px zamiast 980px — przy jednej kolumnie szerokość i tak ogranicza .col--main,
+         a dwie kolumny potrzebują miejsca, żeby nie ścisnąć wpisów do rynny. */
+      .wrap { max-width: 1200px; margin: 0 auto; padding: calc(18px + env(safe-area-inset-top, 0px)) 14px 44px; }
+
+      /* Układ dwukolumnowy: wyszukiwarka i dane pojazdu z boku, wpisy i zdjęcia w głównej
+         kolumnie. Kolumna boczna jest przyklejona, żeby dane pojazdu zostały na ekranie
+         przy przewijaniu długiej listy wpisów; własne przewijanie w środku włącza się
+         dopiero, gdy sama nie mieści się w oknie — bez tego jej dół byłby nie do obejrzenia. */
+      .layout { display: grid; gap: var(--gap); grid-template-columns: minmax(0, 1fr); align-items: start; }
+      .col { display: grid; gap: var(--gap); min-width: 0; align-content: start; }
+      @media (min-width: 960px) {
+        /* Lewa kolumna trzyma już tylko wyszukiwarkę — dane pojazdu przeniosły się na prawo,
+           więc nie musi mieścić zdjęcia obok pól i wraca do 340 px. Cała reszta zyskuje
+           przez to szerokość. */
+        .layout { grid-template-columns: 340px minmax(0, 1fr); gap: var(--gap-lg); }
+        .col--side {
+          position: sticky;
+          top: 14px;
+          max-height: calc(100vh - 28px);
+          overflow-y: auto;
+          overscroll-behavior: contain;
+          scrollbar-width: thin;
+          padding-right: 2px;
+        }
+      }
+      .top { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; margin-bottom: 18px; }
+      .title { display: grid; gap: 4px; }
+      /* Tytuł strony był mniejszy (20px) niż tytuły kart (16px przy grubości 950), więc
+         hierarchia czytała się odwrotnie. Skala: h1 > h2 > tekst. */
+      .title h1 {
+        margin: 0;
+        font-size: clamp(24px, 4vw, 32px);
+        line-height: 1.1;
+        font-weight: 600;
+        letter-spacing: -0.4px;
+        color: var(--ui-text);
+      }
+      .title p { margin: 0; font-size: 13px; line-height: 1.5; color: var(--text-dim); max-width: 62ch; }
+      .top-right { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; justify-content: flex-end; }
+      #authBox { display: inline-flex; align-items: center; gap: 10px; }
+      .btn {
+        border: 0;
+        cursor: pointer;
+        border-radius: var(--ui-radius-lg);
+        padding: 12px 16px;
+        font-weight: 600;
+        font-size: 13px;
+        min-height: 44px;
+        touch-action: manipulation;
+        transition: filter 0.12s ease, transform 0.12s ease, box-shadow 0.12s ease, background 0.15s ease, border-color 0.15s ease;
+      }
+      .btn-primary {
+        background: var(--ui-accent);
+        color: var(--ui-on-accent);
+        box-shadow: none;
+      }
+      .btn-primary:hover { background: var(--ui-accent-hover); }
+      .btn-ghost { background: transparent; border: 1px solid var(--ui-line-strong); color: var(--ui-text); }
+      .btn-ghost:hover { background: var(--ui-surface-2); border-color: var(--ui-line-strong); }
+      .btn:disabled { opacity: 0.35; cursor: default; pointer-events: none; }
+      .btn:active { transform: scale(0.98); }
+      .btn--sm { padding: 8px 12px; font-size: 12px; min-height: 36px; }
+      .btn--full { width: 100%; justify-content: center; }
+      .btn-back { display: inline-flex; align-items: center; gap: 8px; }
+      .btn-back svg { width: 18px; height: 18px; display: block; }
+      .pill { display: inline-flex; align-items: center; gap: 10px; padding: 8px 10px; border-radius: var(--ui-radius-pill); border: 1px solid rgba(255, 255, 255, 0.12); background: rgba(255, 255, 255, 0.06); }
+      .avatar { width: 26px; height: 26px; border-radius: 50%; object-fit: cover; background: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255, 255, 255, 0.12); }
+      .pill b { font-weight: 600; font-size: 13px; }
+      #authBox .pill,
+      #authBox .btn {
+        height: 40px;
+        padding-top: 0;
+        padding-bottom: 0;
+        display: inline-flex;
+        align-items: center;
+      }
+      #authBox .pill { padding-left: 10px; padding-right: 12px; }
+      #authBox .btn { padding-left: 12px; padding-right: 12px; }
+      .grid { display: grid; gap: var(--gap); }
+
+      /* Nagłówek karty: powtarzał się w markupie sześć razy jako ten sam ciąg stylów
+         inline (display:flex;align-items:center;justify-content:space-between;gap:10px;
+         margin-bottom:10px), a tytuł jako <div style="font-weight:950;letter-spacing:0.2px">.
+         Stąd różnice w odstępach między kartami — teraz jedna klasa i prawdziwy <h2>. */
+      .card__head {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: var(--gap-sm);
+        margin-bottom: 12px;
+        flex-wrap: wrap;
+      }
+      .card__title {
+        margin: 0;
+        font-size: 15px;
+        font-weight: 950;
+        letter-spacing: 0.2px;
+        color: var(--text);
+      }
+      .card__title--lg { font-size: 17px; }
+      /* Pionowy rytm wewnątrz karty — zastępuje powtarzane style="margin-top:10px". */
+      .stack { display: grid; gap: var(--gap-sm); }
+      .stack > .row { margin-top: 0; }
+      .actions { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+      .actions--end { justify-content: flex-end; }
+
+      .card {
+        background: var(--surface);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        border-radius: var(--radius);
+        padding: 18px;
+        box-shadow: 0 1px 0 rgba(255, 255, 255, 0.04) inset;
+        animation: card-in 0.5s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+      }
+      @keyframes card-in {
+        from { opacity: 0; transform: translateY(10px); }
+        to { opacity: 1; transform: translateY(0); }
+      }
+      @keyframes feed-pop {
+        from { opacity: 0; transform: translateY(8px) scale(0.99); }
+        to { opacity: 1; transform: translateY(0) scale(1); }
+      }
+      .row { display: flex; gap: var(--gap-sm); align-items: flex-end; flex-wrap: wrap; }
+      .row--mt { margin-top: var(--gap-sm); }
+      label { display: block; font-size: 12px; color: rgba(237, 237, 237, 0.72); margin-bottom: 6px; }
+      input[type="text"], textarea {
+        width: 100%;
+        box-sizing: border-box;
+        border-radius: var(--ui-radius-lg);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        background: rgba(0, 0, 0, 0.22);
+        color: #fff;
+        padding: 12px 14px;
+        outline: none;
+        font-size: 16px;
+        min-height: 44px;
+        transition: border-color 0.15s ease, box-shadow 0.15s ease;
+      }
+      input[type="text"]:focus, textarea:focus {
+        border-color: rgba(215, 255, 224, 0.5);
+        box-shadow: 0 0 0 3px rgba(215, 255, 224, 0.15);
+      }
+      textarea { min-height: 110px; resize: vertical; }
+      .field { flex: 1; min-width: 200px; }
+      .field--tight { flex: 0 0 auto; min-width: 160px; }
+      /* Dwa <select> w markupie miały skopiowany ten sam blok stylów inline. */
+      .select {
+        width: 100%;
+        border-radius: var(--radius-sm);
+        border: 1px solid var(--border);
+        background: rgba(0, 0, 0, 0.22);
+        color: #fff;
+        padding: 10px 12px;
+        font-size: 14px;
+        min-height: 44px;
+      }
+      .help { font-size: 12px; color: var(--text-dim); }
+
+      /* Zachęta do dokumentacji — pierwsza rzecz nad kartami, bo najczęstsze pomyłki
+         (wpisanie ID zamiast numeru taborowego, próba dodania zdjęcia do pojazdu
+         wyliczonego) są w niej opisane. */
+      .doc-banner {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: 14px;
+        padding: 12px 14px;
+        border-radius: var(--ui-radius-lg);
+        border: 1px solid var(--ui-line-strong);
+        background: var(--ui-surface);
+      }
+      .doc-banner__ico {
+        flex: none;
+        width: 34px;
+        height: 34px;
+        display: grid;
+        place-items: center;
+        border-radius: var(--ui-radius-lg);
+        background: var(--ui-accent-fill);
+        color: var(--ui-accent);
+      }
+      .doc-banner__txt { flex: 1; min-width: 0; font-size: 13px; line-height: 1.45; }
+      .doc-banner__txt b { color: #ededed; }
+      .doc-banner .btn { flex: none; }
+      @media (max-width: 640px) {
+        .doc-banner { flex-wrap: wrap; }
+        .doc-banner .btn { width: 100%; }
+      }
+
+      /* Podpowiedź pod polem "ID z mapy" — pojawia się jeszcze w trakcie pisania. */
+      .id-hint {
+        display: none;
+        margin-top: 8px;
+        padding: 10px 12px;
+        border-radius: var(--ui-radius-lg);
+        border: 1px solid rgba(251, 191, 36, 0.3);
+        background: rgba(251, 191, 36, 0.1);
+        font-size: 12.5px;
+        line-height: 1.45;
+        color: rgba(253, 230, 138, 0.95);
+      }
+      .id-hint[data-on="1"] { display: block; }
+      .id-hint b { color: #fde68a; }
+      .id-hint a { color: #fde68a; }
+      .status { min-height: 18px; font-size: 13px; color: rgba(237, 237, 237, 0.86); }
+      .status[data-kind="err"] { color: #fca5a5; }
+      .posts { display: grid; gap: 12px; }
+      .post {
+        padding: 14px;
+        border-radius: var(--ui-radius-lg);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        background: rgba(9, 9, 9, 0.55);
+        animation: feed-pop 0.45s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+      }
+      .post-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 10px; }
+      .feed-item {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 12px;
+        border-radius: var(--ui-radius-lg);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        background: rgba(9, 9, 9, 0.55);
+        text-decoration: none;
+        color: inherit;
+        cursor: pointer;
+        animation: feed-pop 0.45s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+        transition: transform 0.16s ease, border-color 0.16s ease, background 0.16s ease, box-shadow 0.16s ease;
+      }
+      .feed-item:hover {
+        transform: translateY(-2px);
+        border-color: rgba(215, 255, 224, 0.35);
+        background: rgba(25, 25, 25, 0.7);
+        box-shadow: none;
+      }
+      .feed-item:active { transform: translateY(0) scale(0.99); }
+      .feed-item__thumb {
+        width: 64px;
+        height: 48px;
+        min-width: 64px;
+        border-radius: var(--ui-radius);
+        object-fit: cover;
+        background: rgba(255, 255, 255, 0.06);
+        border: 1px solid rgba(255, 255, 255, 0.12);
+      }
+      .feed-item__thumb--ph {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 18px;
+      }
+      .feed-item__body { flex: 1; min-width: 0; }
+      .feed-item__top { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-bottom: 3px; }
+      .feed-item__badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+        padding: 2px 9px;
+        border-radius: var(--ui-radius-pill);
+        background: rgba(215, 255, 224, 0.16);
+        border: 1px solid rgba(215, 255, 224, 0.3);
+        color: var(--ui-accent);
+        font-size: 11px;
+        font-weight: 600;
+        white-space: nowrap;
+      }
+      .feed-item__author { font-size: 12px; color: rgba(237, 237, 237, 0.65); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-top: 4px; }
+      .feed-item__title { font-weight: 600; font-size: 13.5px; margin: 0 0 2px; letter-spacing: 0.1px; }
+      .feed-item__snippet {
+        margin: 0;
+        font-size: 12.5px;
+        color: rgba(237, 237, 237, 0.72);
+        line-height: 1.4;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+      }
+      .feed-item__time { font-size: 11px; color: rgba(237, 237, 237, 0.5); white-space: nowrap; margin-left: auto; }
+      .feed-item__chev { color: rgba(237, 237, 237, 0.4); min-width: 16px; }
+      .post-author { display: inline-flex; align-items: center; gap: 10px; min-width: 0; }
+      .post-author img { width: 34px; height: 34px; border-radius: var(--ui-radius); border: 1px solid rgba(255, 255, 255, 0.12); object-fit: cover; background: rgba(255, 255, 255, 0.08); }
+      .post-author .meta { display: grid; gap: 2px; min-width: 0; }
+      .post-author .meta b { font-weight: 600; font-size: 13px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+      .post-author .meta span { font-size: 12px; color: rgba(237, 237, 237, 0.68); }
+      .post-time { font-size: 12px; color: rgba(237, 237, 237, 0.6); white-space: nowrap; }
+      .post-title { font-weight: 950; letter-spacing: 0.2px; margin: 0 0 8px; }
+      .post-body { margin: 0; color: rgba(237, 237, 237, 0.92); line-height: 1.45; white-space: pre-wrap; }
+      .gallery { margin-top: 10px; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
+      @media (max-width: 720px) { .gallery { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+      .thumb { display: block; width: 100%; aspect-ratio: 4/3; border-radius: var(--ui-radius-lg); overflow: hidden; border: 1px solid rgba(255, 255, 255, 0.12); background: rgba(255, 255, 255, 0.06); }
+      .thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+      .empty { padding: 18px; border-radius: var(--ui-radius-lg); border: 1px dashed rgba(255, 255, 255, 0.18); background: rgba(255, 255, 255, 0.04); color: rgba(237, 237, 237, 0.78); }
+      .login-note { display: inline-flex; align-items: center; gap: 10px; padding: 12px 12px; border-radius: var(--ui-radius-lg); border: 1px solid rgba(255, 255, 255, 0.1); background: rgba(255, 255, 255, 0.05); }
+      .login-note b { font-weight: 950; }
+      .btn-google { display: inline-flex; align-items: center; gap: 8px; }
+      .btn-google svg { width: 18px; height: 18px; display: block; }
+      .consent-modal { position: fixed; top: 0; right: 0; bottom: 0; left: 0; display: none; align-items: center; justify-content: center; padding: 16px; background: #0b0b0b; z-index: 10000; }
+      .consent-modal[data-open="1"] { display: flex; }
+      .consent-modal__panel { width: min(560px, 96vw); border-radius: var(--ui-radius-lg); border: 1px solid rgba(255,255,255,0.14); background: #141414; box-shadow: none; padding: 14px; display: grid; gap: 12px; }
+      .consent-modal__head { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+      .consent-modal__title { font-weight: 950; letter-spacing: 0.2px; color: var(--ui-accent); }
+      .consent-modal__close { width: 36px; height: 36px; border-radius: var(--ui-radius-lg); border: 1px solid rgba(255,255,255,0.12); background: rgba(255,255,255,0.04); color: rgba(255,255,255,0.92); cursor: pointer; font-weight: 950; }
+      .consent-modal__close:active { transform: scale(0.98); }
+      .consent-modal__body { display: grid; gap: 12px; }
+      .consent-modal__lead { line-height: 1.5; color: rgba(237, 237, 237, 0.92); }
+      .consent-modal__sec { display: grid; gap: 6px; padding: 10px 12px; border-radius: var(--ui-radius-lg); border: 1px solid rgba(255,255,255,0.10); background: rgba(0,0,0,0.18); }
+      .consent-modal__h { font-weight: 950; font-size: 12px; letter-spacing: 0.2px; color: rgba(237, 237, 237, 0.70); text-transform: uppercase; }
+      .consent-modal__p { line-height: 1.5; color: rgba(237, 237, 237, 0.9); font-size: 13px; }
+      .consent-modal__dok { line-height: 1.5; font-size: 13px; color: rgba(237, 237, 237, 0.72); text-align: center; }
+      .consent-modal__dok a { color: #bdbdbd; text-decoration: underline; text-underline-offset: 2px; }
+      .consent-modal__dok a:hover { color: #d4d4d4; }
+      .consent-modal__actions { display: grid; gap: 10px; }
+      .consent-modal__actions .btn { width: 100%; justify-content: center; }
+      .file { display: grid; gap: 6px; }
+      input[type="file"] { width: 100%; color: rgba(237, 237, 237, 0.86); }
+      .small { font-size: 12px; color: rgba(237, 237, 237, 0.65); }
+      .meta-grid { display: grid; grid-template-columns: 1fr; gap: 12px; align-items: start; }
+      .meta-grid[data-has-photo="1"] { grid-template-columns: 220px minmax(0, 1fr); gap: 16px; }
+      @media (max-width: 720px) { .meta-grid, .meta-grid[data-has-photo="1"] { grid-template-columns: 1fr; } }
+      @media (max-width: 520px) {
+        .wrap { padding-left: 12px; padding-right: 12px; padding-bottom: 56px; }
+        .top { flex-direction: column; align-items: stretch; gap: 10px; }
+        .top-right { justify-content: space-between; width: 100%; }
+        .row { flex-direction: column; align-items: stretch; }
+        .field { min-width: 0; }
+        .field--tight { width: 100%; min-width: 0; }
+        #updateCard .btn,
+        #lookupResults .btn { width: 100%; }
+        input[type="text"], textarea, select { font-size: 16px; }
+        .post-head { flex-wrap: wrap; align-items: flex-start; gap: 10px; }
+        .post-time { width: 100%; text-align: left; white-space: normal; }
+        .lookup-item { flex-direction: column; align-items: stretch; gap: 10px; }
+        .lookup-photo { align-self: flex-start; }
+        .gallery { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      }
+      .meta-photo { width: 100%; aspect-ratio: 4/3; border-radius: var(--ui-radius-lg); overflow: hidden; border: 1px solid rgba(255, 255, 255, 0.12); background: rgba(255, 255, 255, 0.06); }
+      .meta-photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
+      .meta-thumbs { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; margin-top: 8px; }
+      .meta-thumbs a { display: block; border-radius: var(--ui-radius-lg); overflow: hidden; border: 1px solid rgba(255,255,255,0.12); background: rgba(255,255,255,0.06); }
+      .meta-thumbs img { width: 100%; aspect-ratio: 4/3; object-fit: cover; display: block; }
+      .meta-kv { display: grid; gap: 8px; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      @media (max-width: 720px) { .meta-kv { grid-template-columns: 1fr; } }
+      /* Wiersz pola: nazwa i wartość w kolumnie, przycisk "Zmień" OBOK, nie pod spodem.
+         Pod spodem każdy wiersz zajmował ~116 px i sześć pól rozciągało kartę na ~700 px,
+         przez co lewa kolumna była dwa razy dłuższa od prawej. */
+      .meta-kv .kv {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) auto;
+        align-items: center;
+        gap: 2px 10px;
+        padding: 9px 12px;
+        border-radius: var(--radius-sm);
+        border: 1px solid var(--border);
+        background: var(--sunken);
+      }
+      .meta-kv .kv b { grid-column: 1; font-weight: 950; font-size: 11px; letter-spacing: 0.3px; text-transform: uppercase; color: var(--text-faint); }
+      .meta-kv .kv span { grid-column: 1; font-weight: 600; font-size: 14px; color: rgba(237, 237, 237, 0.95); word-break: break-word; }
+      .meta-kv__btn { grid-column: 2; grid-row: 1 / span 2; align-self: center; justify-self: end; padding: 5px 10px; font-size: 11px; min-height: 0; margin-top: 0; }
+      /* Karta "Dane z bazy" stoi w prawej, szerokiej kolumnie i jest w niej pierwsza — po
+         kliknięciu w autobus to po nie ktoś tu przyszedł, więc idą nad usterki i wpisy.
+         Szeroka kolumna niczego nie ściska, więc wystarczają reguły bazowe .meta-grid
+         i .meta-kv; nadpisania "per kolumna", potrzebne przy 420-pikselowym pasku z lewej,
+         zostały usunięte razem z nim. */
+      .col--main #vehMetaCard { order: -1; }
+      #fieldEditSelect {
+        width: 100%; box-sizing: border-box; border-radius: var(--ui-radius-lg); border: 1px solid rgba(255, 255, 255, 0.1);
+        background: rgba(0, 0, 0, 0.22); color: #fff; padding: 12px 14px; outline: none; font-size: 16px; min-height: 44px;
+      }
+      .lookup-results { margin-top: 10px; display: grid; gap: 8px; }
+      .lookup-item { display: flex; gap: 10px; align-items: center; justify-content: space-between; padding: 10px 12px; border-radius: var(--ui-radius-lg); border: 1px solid rgba(255,255,255,0.10); background: rgba(0,0,0,0.18); }
+      .lookup-left { display: grid; gap: 2px; min-width: 0; }
+      .lookup-left b { font-size: 13px; font-weight: 950; letter-spacing: 0.2px; }
+      .lookup-left span { font-size: 12px; color: rgba(237, 237, 237, 0.72); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+      .lookup-photo { width: 56px; height: 42px; border-radius: var(--ui-radius); border: 1px solid rgba(255,255,255,0.12); background: rgba(255,255,255,0.06); object-fit: cover; }
+      /* Podgląd zdjęcia. Poprzednia wersja była zlepkiem: obraz leżał luzem na
+         półprzezroczystym tle, zamykała go litera "X" w kółku wystającym poza róg
+         (top:-10px, right:-10px — na wąskim ekranie ucinana), strzałki stały 72 px OBOK
+         panelu i dopiero poniżej 720 px wskakiwały do środka, a opis, lokalizacja i
+         komentarze miały własne okno przewijania (max-height:260px) wewnątrz drugiego
+         okna przewijania — dwa paski scrolla jeden w drugim.
+         Teraz to jeden panel: scena ze zdjęciem po lewej, szczegóły w kolumnie obok,
+         sterowanie wewnątrz sceny, jeden obszar przewijania. */
+      .img-modal {
+        position: fixed;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        display: none;
+        align-items: center;
+        justify-content: center;
+        padding: clamp(8px, 3vw, 28px);
+        background: #0f0f0f;
+        z-index: 9999;
+      }
+      .img-modal[data-open="1"] { display: flex; }
+      .img-modal-inner {
+        position: relative;
+        width: min(1180px, 100%);
+        max-height: min(92vh, 860px);
+        display: grid;
+        grid-template-columns: minmax(0, 1fr);
+        grid-template-rows: minmax(0, 1fr) auto;
+        background: #141414;
+        border: 1px solid var(--border-strong);
+        border-radius: var(--ui-radius-lg);
+        overflow: hidden;
+        box-shadow: none;
+        animation: card-in 0.28s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+      }
+      @media (min-width: 900px) {
+        .img-modal-inner { grid-template-columns: minmax(0, 1.5fr) minmax(330px, 0.85fr); grid-template-rows: minmax(0, 1fr); }
+      }
+      .img-modal__stage {
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: #0f0f0f;
+        min-height: 0;
+        min-width: 0;
+      }
+      .img-modal-img {
+        display: block;
+        width: 100%;
+        height: 100%;
+        max-height: 60vh;
+        object-fit: contain;
+        background: transparent;
+      }
+      @media (min-width: 900px) { .img-modal-img { max-height: none; } }
+      .img-modal__side { display: flex; flex-direction: column; min-height: 0; min-width: 0; border-top: 1px solid var(--border); }
+      @media (min-width: 900px) { .img-modal__side { border-top: 0; border-left: 1px solid var(--border); } }
+      .img-modal__bar {
+        display: none;
+        align-items: center;
+        justify-content: space-between;
+        gap: var(--gap-sm);
+        flex-wrap: wrap;
+        padding: 14px 16px;
+        border-bottom: 1px solid var(--border);
+        background: rgba(255, 255, 255, 0.02);
+      }
+      .img-modal-extra {
+        display: grid;
+        gap: 10px;
+        align-content: start;
+        overflow-y: auto;
+        overscroll-behavior: contain;
+        scrollbar-width: thin;
+        padding: 16px;
+        text-align: left;
+        color: rgba(237, 237, 237, 0.92);
+        min-height: 0;
+      }
+      .img-modal-extra__akcje { display: flex; flex-wrap: wrap; gap: 6px; }
+      /* Ptaszek przy autorze: zdjęcie podpisane przez administratora jako własne
+         serwisu — odróżnia je od autorstwa odtworzonego z EXIF-u i zgłoszeń. */
+      .znak-podpisu {
+        display: inline-flex;
+        align-items: center;
+        margin-left: 5px;
+        color: #9e9e9e;
+        vertical-align: -2px;
+      }
+      .znak-podpisu svg { width: 15px; height: 15px; flex: none; display: block; }
+      .img-modal-extra__h {
+        font-weight: 950;
+        font-size: 12px;
+        letter-spacing: 0.3px;
+        text-transform: uppercase;
+        color: var(--text-faint);
+        margin-top: 4px;
+      }
+      .photo-comment { padding: 10px 12px; border-radius: var(--radius-sm); background: var(--sunken); border: 1px solid var(--border); }
+      .photo-comment--reply { margin-left: 18px; background: var(--surface-2); }
+      .photo-comment__head { font-weight: 600; font-size: 13px; }
+      .photo-comment__body { font-size: 13px; margin-top: 3px; line-height: 1.45; color: rgba(237, 237, 237, 0.88); }
+      .photo-comment__reply-btn { margin-top: 6px; padding: 3px 8px; font-size: 11px; min-height: 0; }
+      /* Sterowanie leży NA scenie, nie obok niej — nic nie wystaje poza panel i nie ma
+         potrzeby przestawiania go osobną regułą na wąskim ekranie. */
+      .img-modal-close,
+      .img-nav {
+        position: absolute;
+        border-radius: var(--ui-radius);
+        border: 1px solid rgba(255, 255, 255, 0.16);
+        background: rgba(7, 7, 7, 0.72);
+        color: rgba(255, 255, 255, 0.95);
+        cursor: pointer;
+        transition: background 0.14s ease, border-color 0.14s ease, transform 0.14s ease;
+      }
+      .img-modal-close:hover,
+      .img-nav:hover { background: #242424; border-color: var(--border-strong); }
+      .img-modal-close:active,
+      .img-nav:active { transform: scale(0.94); }
+      .img-modal-close {
+        top: 12px;
+        right: 12px;
+        width: 40px;
+        height: 40px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 2;
+      }
+      .img-nav {
+        top: 50%;
+        transform: translateY(-50%);
+        width: 46px;
+        height: 46px;
+        display: none;
+        align-items: center;
+        justify-content: center;
+        z-index: 2;
+      }
+      .img-nav:active { transform: translateY(-50%) scale(0.94); }
+      .img-modal-close svg, .img-nav svg { width: 20px; height: 20px; display: block; }
+      .img-nav--left { left: 12px; }
+      .img-nav--right { right: 12px; }
+      /* Zdjęcie otwarte bez metadanych (np. z galerii wpisu, przez openImgModal) chowa oba
+         bloki szczegółów — wtedy kolumna obok byłaby pustym prostokątem na pół panelu.
+         Dopasowujemy się do tego, co robi JS: ukrywając ustawia style.display na "none",
+         pokazując na "flex" albo "" — więc wystarczy sprawdzić, czy OBA są ukryte.
+         Celowo dopasowujemy sam wyraz "none", bez dwukropka i średnika: minifikator CSS
+         zjada spacje wokół nich i wzorzec z pełnym "display: none;" przestałby pasować. */
+      .img-modal-inner:has(#imgModalBar[style*="none"]):has(#imgModalExtra[style*="none"]) .img-modal__side { display: none; }
+      @media (min-width: 900px) {
+        .img-modal-inner:has(#imgModalBar[style*="none"]):has(#imgModalExtra[style*="none"]) { grid-template-columns: minmax(0, 1fr); }
+      }
+      /* Przycisk "Moja lokalizacja" na mapce wyboru lokalizacji zdjęcia */
+      .geo-btn { position: absolute; top: 10px; right: 10px; z-index: 1001; display: inline-flex; align-items: center; gap: 6px; padding: 8px 10px; font-size: 12px; background: #141414; border: 1px solid rgba(255,255,255,0.14); }
+      .geo-btn svg { width: 15px; height: 15px; display: block; flex: none; }
+      .geo-btn:disabled { opacity: 0.6; cursor: default; }
+      .geo-btn[data-loading="1"] svg { animation: geo-spin 0.9s linear infinite; }
+      @keyframes geo-spin { to { transform: rotate(360deg); } }
+      @media (max-width: 520px) { .geo-btn span { display: none; } .geo-btn { padding: 8px; } }
+      /* Pineski na "Mapie ze zdjęciami" rysujemy własnym SVG w divIcon zamiast
+         domyślnej ikony Leafletu — ta jest zwykłym <img> z unpkg (images/marker-icon.png)
+         i u części użytkowników (SW/cache, blokery, brak sieci do CDN) nie ładuje się,
+         więc zamiast pinesek widać puste ramki. To nic nie pobiera z zewnątrz. */
+      .photo-pin { display: block; filter: drop-shadow(0 3px 6px rgba(0,0,0,0.45)); }
+      .photo-pin svg { display: block; }
+      /* Pineska zdjęcia, z którego tu przyszliśmy — większa i z pulsem, żeby dało się
+         ją znaleźć wzrokiem wśród pozostałych. */
+      .photo-pin--cel { filter: drop-shadow(0 4px 10px rgba(255,122,30,0.55)); transform-origin: 50% 100%; animation: pinPuls 1.4s ease-in-out 3; }
+      @keyframes pinPuls { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.22); } }
+      @media (prefers-reduced-motion: reduce) { .photo-pin--cel { animation: none; transform: scale(1.15); } }
+      .photos-map-empty { position: absolute; top: 0; right: 0; bottom: 0; left: 0; display: flex; align-items: center; justify-content: center; text-align: center; padding: 16px; font-weight: 600; color: rgba(237, 237, 237, 0.92); background: rgba(9, 9, 9, 0.72); border-radius: var(--ui-radius-lg); z-index: 1200; pointer-events: none; }

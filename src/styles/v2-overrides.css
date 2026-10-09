@@ -1,0 +1,157 @@
+.maplibregl-ctrl-bottom-right .maplibregl-ctrl-attrib {
+  margin: 0;
+  padding: 2px 6px;
+  border-radius: 4px 0 0 0;
+  background: rgba(9, 9, 9, 0.4);
+  color: rgba(255, 255, 255, 0.4);
+  font: 8px/1.2 var(--font-main);
+  box-shadow: none;
+  pointer-events: none;
+  user-select: none;
+}
+
+.maplibregl-ctrl-bottom-right .maplibregl-ctrl-attrib a {
+  color: rgba(255, 255, 255, 0.5);
+  text-decoration: none;
+  pointer-events: none;
+}
+#routePanel .ui-routepanel__headrow {
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+}
+
+#routePanel[data-has-wiki="0"] .ui-routepanel__headrow {
+  grid-template-columns: minmax(0, 1fr) auto;
+}
+
+#routePanel .ui-routepanel__wiki {
+  display: inline-flex;
+  text-decoration: none;
+}
+
+#routePanel .ui-routepanel__stop-status--unknown {
+  color: var(--ui-text-3);
+  font-weight: 500;
+}
+
+#routePanel[data-expanded="1"] {
+  max-height: min(88dvh, calc(100dvh - 16px));
+}
+
+@media (max-width: 480px) {
+  #routePanel[data-expanded="1"] {
+    max-height: min(85dvh, calc(100dvh - 16px));
+  }
+}
+
+.ui-sidemenu__footer-slot {
+  margin-top: auto;
+  flex: none;
+}
+
+.ui-sidemenu__footer-slot .ui-stopka {
+  margin-top: 0;
+}
+.technical-stop-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  margin-left: 6px;
+  border: 1px solid rgba(251, 146, 60, 0.45);
+  border-radius: 4px;
+  background: rgba(194, 65, 12, 0.14);
+  color: #fb923c;
+  vertical-align: middle;
+}
+
+.technical-stop-badge svg {
+  width: 12px;
+  height: 12px;
+  flex: none;
+}
+
+
+
+.stop-panel__tracking-error {
+  margin: 4px 0 8px;
+  color: #fca5a5;
+  font: 500 12px/1.4 var(--font-main);
+}
+
+.ui-announce-modal { display: flex; flex-direction: column; overflow: hidden; }
+.ui-announce-modal__header { flex: none; }
+.ui-announce-modal__body { min-height: 0; overflow-y: auto; overflow-wrap: anywhere; overscroll-behavior: contain; }
+.ui-announce-modal__image { display: block; margin-top: 18px; color: var(--ui-accent); text-decoration: none; }
+.ui-announce-modal__image img { display: block; width: 100%; max-width: 100%; height: auto; border-radius: 8px; }
+.ui-announce-modal__image span { display: block; margin-top: 7px; font-size: 12px; }
+
+#stopPanel .ui-routepanel__headrow { display: flex; flex-wrap: wrap; gap: 12px; }
+#stopPanel .ui-routepanel__headrow > div:first-child { flex: 1; }
+.stop-panel__time-form, .stop-panel__notification-form { display: grid; gap: 12px; padding: 14px 0; border-bottom: 1px solid var(--ui-line); }
+.stop-panel__time-form label, .stop-panel__notification-form label { display: grid; gap: 6px; font-size: 13px; }
+.stop-panel__time-form input, .stop-panel__notification-form select, .stop-panel__share-status input { width: 100%; min-width: 0; min-height: 42px; padding: 8px; border: 1px solid var(--ui-line-strong); border-radius: 8px; color: var(--ui-text); background: var(--ui-surface); color-scheme: dark; font: inherit; }
+.stop-panel__time-form button, .stop-panel__notification-form button { min-height: 42px; padding: 9px 12px; border: 1px solid var(--ui-line-strong); border-radius: 8px; color: var(--ui-text); background: var(--ui-surface); font: inherit; cursor: pointer; }
+.stop-panel__notification-form > div { display: flex; flex-wrap: wrap; gap: 8px; }
+.stop-panel__notification-form button:disabled { opacity: .6; cursor: wait; }
+.stop-panel__notification-form p, .stop-panel__share-status { font-size: 13px; overflow-wrap: anywhere; }
+.stop-panel__share-status { padding: 12px 0; }
+@media (max-width: 480px) { #stopPanel .ui-routepanel__headrow > div:first-child { flex-basis: 100%; } }
+
+/* Keep the original BUSearch panel, including its compact two-stop view. */
+#routePanel { background: var(--ui-surface); backdrop-filter: none; box-shadow: var(--ui-shadow-sheet); }
+#routePanel .ui-routepanel__headrow > div:first-child { min-width: 0; }
+#routePanel .ui-routepanel__title { overflow-wrap: anywhere; }
+#routePanel .ui-routepanel__stop, #linePanel .ui-routepanel__stop { width: 100%; padding: 0; border: 0; background: transparent; color: inherit; font: inherit; text-align: left; }
+#routePanel .ui-routepanel__close[aria-pressed="true"] { background: var(--ui-accent); border-color: var(--ui-accent); color: var(--ui-on-accent); }
+#routePanel .ui-routepanel__stop:focus-visible, #linePanel .ui-routepanel__stop:focus-visible { outline: 2px solid var(--ui-accent); outline-offset: -2px; }
+@media (max-width: 600px) {
+  #routePanel .ui-routepanel__headrow { grid-template-columns: minmax(0, 1fr) auto; align-items: center; }
+  #routePanel .ui-routepanel__headrow > div:first-child { grid-column: 1 / -1; }
+  #routePanel .ui-routepanel__center { justify-self: start; }
+  #routePanel .ui-routepanel__actions { grid-column: 2; }
+}
+
+.filters-field-label { display: block; }
+
+/* The compact vehicle plaque matches the existing HTML map. */
+.vehicle-map-popup { pointer-events: none; }
+.vehicle-map-popup .maplibregl-popup-content { padding: 0; border: 1px solid var(--ui-line-strong); border-radius: var(--ui-radius-lg); background: #0b0b0b; color: var(--ui-text); box-shadow: none; }
+.vehicle-map-popup:is(.maplibregl-popup-anchor-bottom, .maplibregl-popup-anchor-bottom-left, .maplibregl-popup-anchor-bottom-right) .maplibregl-popup-tip { border-top-color: #0b0b0b; }
+.vehicle-map-popup:is(.maplibregl-popup-anchor-top, .maplibregl-popup-anchor-top-left, .maplibregl-popup-anchor-top-right) .maplibregl-popup-tip { border-bottom-color: #0b0b0b; }
+.vehicle-map-popup.maplibregl-popup-anchor-left .maplibregl-popup-tip { border-right-color: #0b0b0b; }
+.vehicle-map-popup.maplibregl-popup-anchor-right .maplibregl-popup-tip { border-left-color: #0b0b0b; }
+.vehicle-map-card { padding: 12px 14px; font: 500 13px/1.35 var(--font-main); }
+.vehicle-map-card__updated { margin-top: 4px; color: var(--ui-text-3); font-size: .9em; }
+.veh-marker:focus-visible { outline: 2px solid var(--ui-accent); outline-offset: 4px; }
+.veh-marker__tether { position: absolute; left: 50%; top: 50%; height: 2px; background: var(--veh-color); opacity: .65; transform-origin: 0 50%; pointer-events: none; z-index: -1; }
+.veh-marker__tether::after { content: ""; position: absolute; right: -3px; top: -2px; width: 6px; height: 6px; border-radius: 50%; background: var(--veh-color); }
+
+.veh-marker__fleet { position: absolute; left: 50%; top: calc(100% + 3px); transform: translateX(-50%); padding: 2px 5px; border: 1px solid var(--ui-line-strong); border-radius: 5px; background: var(--ui-surface); color: var(--ui-text); font: 600 10px/1.25 var(--font-main); white-space: nowrap; pointer-events: none; }
+
+
+.timetable-panel__actions { display: flex; gap: 8px; flex: none; }
+.timetable-panel__date { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-bottom: 12px; }
+.timetable-panel__date label { font-size: 12px; color: var(--ui-text-2); }
+.timetable-panel__date input { color-scheme: dark; background: var(--ui-surface); color: var(--ui-text); border: 1px solid var(--ui-line-strong); border-radius: var(--ui-radius); padding: 7px; min-width: 0; font: inherit; }
+.timetable-panel .line-tabs { margin-bottom: 10px; }
+.timetable-panel .line-tt__min { cursor: pointer; font: inherit; color: inherit; }
+.timetable-panel [hidden] { display: none; }
+.timetable-panel .line-tt__min:focus-visible { outline: 2px solid #a855f7; outline-offset: 2px; }
+@media (max-width: 480px) { .timetable-panel .ui-routepanel__headrow { flex-wrap: wrap; } .timetable-panel__actions { margin-left: auto; } }
+
+#searchLineLista button.ui-ac__item { width: 100%; text-align: left; border: 0; background: transparent; font: inherit; color: var(--ui-text); }
+#searchLineLista .ui-ac__item[aria-selected="true"] { background: var(--ui-accent-soft, rgba(168, 85, 247, .18)); }
+#searchLineLista .ui-ac__empty { padding: 14px 12px; color: var(--ui-text-2); font-size: 13px; }
+.planner-form, .planner-stop-input, .planner-date, .planner-results, .planner-legs, .planner-leg { display: grid; gap: 8px; }
+.planner-form .ui-input { width: 100%; min-width: 0; padding: 10px 12px; color: var(--ui-text); border: 1px solid var(--ui-line-strong); border-radius: var(--ui-radius); background: var(--ui-surface-2, #242424); font: inherit; }
+.planner-stop-input__meta, .planner-option > span, .planner-leg > span { color: var(--ui-text-2); font-size: 12px; }
+.planner-stop-input__options { max-height: 230px; overflow-y: auto; border: 1px solid var(--ui-line); border-radius: var(--ui-radius); }
+.planner-stop-input__options button, .planner-option { display: grid; gap: 5px; width: 100%; padding: 10px; text-align: left; color: var(--ui-text); background: var(--ui-surface-2, #242424); border: 0; font: inherit; cursor: pointer; }
+.planner-stop-input__options button span { color: var(--ui-text-2); font-size: 11px; }
+.planner-stop-input__options button[aria-selected="true"], .planner-option[aria-expanded="true"] { background: rgba(168,85,247,.18); }
+.planner-results { margin-top: 14px; }
+.planner-option, .planner-legs { border: 1px solid var(--ui-line); border-radius: var(--ui-radius); }
+.planner-legs { padding: 10px; margin-top: 6px; }
+.planner-leg { padding: 7px 0; border-bottom: 1px solid var(--ui-line); }
+.planner-leg:last-child { border-bottom: 0; }

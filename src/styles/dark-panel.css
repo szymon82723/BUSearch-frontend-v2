@@ -1,0 +1,22 @@
+/* Role names used by webapp.html, api.html, wiki.html and the /baza panel. The values
+   come from the one service palette (theme.css) — this file only maps the tokens onto
+   the names those pages have always used, so they do not have to be rewritten rule by
+   rule.
+
+   Surfaces are OPAQUE, not white-with-alpha. White at 4.5% looks the same as #1a1a1a
+   until something underneath moves by a pixel — and then the card starts glowing with
+   whatever happens to lie beneath it. */
+:root {
+  --font-main: 'Inter', -apple-system, Segoe UI, Roboto, sans-serif;
+  --bg: var(--ui-canvas);
+  --surface: var(--ui-surface);
+  --surface-2: var(--ui-surface-2);
+  --border: var(--ui-line);
+  --border-strong: var(--ui-line-strong);
+  --text: var(--ui-text);
+  --text-dim: var(--ui-text-2);
+  --text-faint: var(--ui-text-3);
+  --accent: var(--ui-accent);
+  --accent-soft: var(--ui-accent-fill);
+  --on-accent: var(--ui-on-accent);
+}

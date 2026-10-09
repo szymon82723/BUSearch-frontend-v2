@@ -1,0 +1,171 @@
+<!doctype html>
+<html lang="pl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Dokumentacja BUSearch — instrukcja wersji v3</title>
+<meta name="description" content="Dokumentacja BUSearch v3: mapa pojazdów na żywo, przystanki i odjazdy, wyszukiwarka połączeń, rozkłady jazdy, wiki pojazdów i pozostałe funkcje. Pełna instrukcja z ilustracjami.">
+<link rel="canonical" href="https://busearch.pl/dokumentacja">
+<meta name="robots" content="index,follow">
+<meta property="og:title" content="Dokumentacja BUSearch — instrukcja wersji v3">
+<meta property="og:description" content="Jak działa mapa BUSearch: przystanki, odjazdy, wyszukiwarka połączeń, rozkłady, wiki pojazdów.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://busearch.pl/dokumentacja">
+<style>*{box-sizing:border-box}
+:root{color-scheme:dark}
+body{margin:0;background:#101010;color:#ededed;
+  font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;font-size:17px;line-height:1.6}
+.strona{max-width:44rem;margin:0 auto;padding:24px 16px 64px}
+header{border-bottom:1px solid #2a2a2a;padding-bottom:20px;margin-bottom:28px}
+header a{color:#D7FFE0}
+h1{font-size:clamp(28px,7vw,40px);line-height:1.15;margin:12px 0 8px;letter-spacing:-0.01em}
+.wstep{color:#9a9a9a;margin:0 0 16px}
+.odnosniki{display:flex;gap:16px;flex-wrap:wrap;margin:0;padding:0;list-style:none;font-size:15px}
+h2{font-size:clamp(21px,5vw,27px);line-height:1.25;margin:44px 0 12px;letter-spacing:-0.01em}
+h3{font-size:clamp(17px,4vw,20px);margin:32px 0 8px;color:#D7FFE0}
+p{margin:0 0 14px}
+.spis{margin:0 0 18px;padding:0;list-style:none}
+.spis li{padding:9px 12px;margin-bottom:6px;border:1px solid #2a2a2a;border-radius:10px;background:#161616}
+figure{margin:20px 0 26px;padding:10px;border:1px solid #2a2a2a;border-radius:14px;background:#161616}
+figure img{display:block;width:100%;height:auto;border-radius:8px}
+footer{margin-top:56px;padding-top:20px;border-top:1px solid #2a2a2a;color:#9a9a9a;font-size:15px}
+footer a{color:#D7FFE0}
+@media print{body{background:#fff;color:#000}figure,.spis li{border-color:#ccc;background:#fff}}</style>
+</head>
+<body>
+<div class="strona">
+<header>
+<p class="odnosniki"><a href="/">← BUSearch</a></p>
+<h1>Dokumentacja BUSearch</h1>
+<p class="wstep">Instrukcja wersji v3, wydanie z <time datetime="2026-08-25">25.08.2026</time>. Ta sama treść co w PDF-ie, złożona do czytania w przeglądarce.</p>
+<ul class="odnosniki"><li><a href="/public/BUSearch-instrukcja.pdf">Oryginalna instrukcja w PDF</a></li></ul>
+</header>
+<main>
+<figure><img src="/public/documents/dokumentacja/fig-1-1.webp" alt="Okładka dokumentacji BUSearch, wersja v3" width="1784" height="2525" loading="lazy" decoding="async"></figure>
+<h2 id="busearch-podstawowe-elementy">BUSearch - podstawowe elementy</h2>
+<ul class="spis">
+<li>1. Przystanki na żywo</li>
+<li>2. Informacje o danym pojeździe</li>
+<li>3. Wyszukiwarka połączeń</li>
+<li>4. Rozkłady jazdy</li>
+<li>5. Pojazdy offline</li>
+<li>6. Powrót mapy do pozycji domyślnej</li>
+<li>7. Ulubione przystanki</li>
+<li>8. Warstwy mapy</li>
+<li>9. Powiadomienia</li>
+<li>10. Twoja lokalizacja</li>
+<li>11. Więcej opcji</li>
+<li>19. pasek wyszukiwania linii i przystanków</li>
+<li>20. Filtry</li>
+</ul>
+<figure><img src="/public/documents/dokumentacja/fig-2-1.webp" alt="Ilustracja do: BUSearch - podstawowe elementy" width="1004" height="1854" loading="lazy" decoding="async"></figure>
+<figure><img src="/public/documents/dokumentacja/fig-3-1.webp" alt="Ilustracja do: BUSearch - podstawowe elementy" width="900" height="1737" loading="lazy" decoding="async"></figure>
+<h2 id="1-przystanki-na-zywo">1. Przystanki na żywo</h2>
+<p>Po kliknięciu na przystanek (A) otwiera się menu w którym widać informacje o odjazdach z tego miejsca. Widoczny jest (B) kierunek oraz opóźnienie danego pojazdu. Jeżeli przy informacji “za ile odjedzie” widnieje zielone kółko (C), to oznacza, że dana informacja o odjeździe opiera się na GPS pojazdu, zaś gdy nie ma zielonego kółka (D), to znaczy, że pojazd zgubił lokalizacje i informacja ta jest zgodna z rozkładem, nie z rzeczywistością</p>
+<h2 id="funkcje-zaawansowane-przystanku">Funkcje zaawansowane przystanku</h2>
+<figure><img src="/public/documents/dokumentacja/fig-4-1.webp" alt="Ilustracja do: Funkcje zaawansowane przystanku" width="1494" height="392" loading="lazy" decoding="async"></figure>
+<ul class="spis">
+<li>E. Dodawanie przystanków do ulubionych (Warto dodać te, z których się najczęściej korzysta) Przystanki te można później znaleźć pod gwiazdką na dolnym pasku.</li>
+</ul>
+<figure><img src="/public/documents/dokumentacja/fig-4-2.webp" alt="Ilustracja do: Funkcje zaawansowane przystanku" width="756" height="194" loading="lazy" decoding="async"></figure>
+<ul class="spis">
+<li>F. Wyszukiwanie połączeń z tego przystanku (W tym przypadku z Ronda Jagiellonów) Więcej informacji o wyszukiwarce w dalszej części poradnika.</li>
+<li>G. Udostępnienie przystanku (np. do znajomego, który nie wie skąd ma wyruszyć w trasę).</li>
+<li>H. Ustawianie przypomnienia przed odjazdem autobusu/tramwaju z przystanku.</li>
+</ul>
+<figure><img src="/public/documents/dokumentacja/fig-4-3.webp" alt="Ilustracja do: Funkcje zaawansowane przystanku" width="1069" height="592" loading="lazy" decoding="async"></figure>
+<h2 id="2-informacje-o-danym-pojezdzie">2. Informacje o danym pojeździe</h2>
+<figure><img src="/public/documents/dokumentacja/fig-5-1.webp" alt="Ilustracja do: 2. Informacje o danym pojeździe" width="1465" height="1049" loading="lazy" decoding="async"></figure>
+<p>System A/B System ISKA Po kliknięciu na wybrany pojazd użytkownikowi wyświetlą się dolna informacja o kursie (A) oraz okienko z informacją o pojeździe (B)</p>
+<figure><img src="/public/documents/dokumentacja/fig-5-2.webp" alt="Ilustracja do: 2. Informacje o danym pojeździe" width="140" height="137" loading="lazy" decoding="async"></figure>
+<p>Okienko Aby rozwinąć listę przystanku należy kliknąć “wszystkie przystanki” (C). Aby udostępnić pojazd którym jedzie użytkownik np. do znajomego należy kliknąć przycisk D. Aby wyświetlić więcej informacji o danym pojeździe należy kliknąć przycisk Wiki (E) (działa to tylko w systemie A i B, w systemie ISKA (F) ta funkcja nie jest dostępna. Więcej o systemach w dalszej części dokumentacji)</p>
+<figure><img src="/public/documents/dokumentacja/fig-6-1.webp" alt="Ilustracja do: 2. Informacje o danym pojeździe" width="180" height="180" loading="lazy" decoding="async"></figure>
+<h2 id="informacje-o-danym-pojezdzie">Informacje o danym pojeździe</h2>
+<p>dzielą się na 3 systemy. Każdy system ma inne funkcje opisane poniżej</p>
+<figure><img src="/public/documents/dokumentacja/fig-6-2.webp" alt="Ilustracja do: Informacje o danym pojeździe" width="890" height="912" loading="lazy" decoding="async"></figure>
+<h3 id="system-a">System A</h3>
+<p>Realna lokalizacja pojazdu</p>
+<p>Działa w Trójmieście i Warszawie</p>
+<h3 id="system-b">System B</h3>
+<p>Realna lokalizacja pojazdu</p>
+<p>Działa w Bydgoszczy i Toruniu</p>
+<h3 id="system-iska">System ISKA</h3>
+<p>Inteligentny system kalkulacji autobusów</p>
+<p>Lokalizacja wyliczana przez system za pomocą informacji z tablic live</p>
+<p>Działa we wszystkich miastach w razie awarii systemów</p>
+<h3 id="system-a">System A</h3>
+<p>Każdy pojazd na mapie ma przypisany numer taborowy</p>
+<h3 id="system-iska">System ISKA</h3>
+<p>Inteligentny system kalkulacji autobusów</p>
+<h3 id="system-b">System B</h3>
+<p>Każdy pojazd ma przypisane ID (identyfikator przypisany do konkretnego pojazdu). Jeśli znasz prawdziwy numer taborowy tego pojazdu możesz go dodać przez wiki.</p>
+<p>Każdy pojazd ma losowy numer ID, jest on przypisany do kursu, nie do autobusu, więc nie jest możliwe przypisanie do niego numeru taborowego.</p>
+<ul class="spis">
+<li>4.Po zatwierdzeniu zgłoszenia przez administratora na mapie pojawi się informacja o numerze taborowym danego autobusu</li>
+</ul>
+<h3 id="dodawanie-numeru-taborowego-w-systemie-b-po-id">Dodawanie numeru taborowego w systemie B po ID:</h3>
+<ul class="spis">
+<li>1. Po zobaczeniu autobusu z danym numerem id należy znaleźć go na mapie i zapamiętać ID</li>
+<li>2. Po wejściu w wiki należy wpisać numer taborowy, kliknąć szukaj po numerze a następnie przy rubryce ID z mapy kliknąć zmień</li>
+<li>3. Po kliknięciu zmień pojawi się okienko służące do zmiany ID</li>
+</ul>
+<figure><img src="/public/documents/dokumentacja/fig-7-2.webp" alt="Ilustracja do: Dodawanie numeru taborowego w systemie B po ID:" width="865" height="648" loading="lazy" decoding="async"></figure>
+<h2 id="3-wyszukiwarka-polaczen">3. Wyszukiwarka połączeń</h2>
+<figure><img src="/public/documents/dokumentacja/fig-8-1.webp" alt="Ilustracja do: 3. Wyszukiwarka połączeń" width="1683" height="1366" loading="lazy" decoding="async"></figure>
+<p>Aby wyszukać połączenie należy wybrać przystanek, z którego chce się jechać lub kliknąć ikonę lokalizacji, która sprawi, że połączenie zostanie wyszukane z miejsca w którym znajduje się użytkownik. Następnie należy wybrać miejsce do którego się zmierza. Opcjonalnie można wybrać godzinę, jeśli szuka się połączenia na później. Następnie należy kliknąć “szukaj”, co spowoduje pokazanie się listy kilku połączeń. Po wybraniu przez użytkownika jednego połączenia wyświetli się mapka z przebiegiem przejazdu.</p>
+<h2 id="4-rozklady-jazdy">4. Rozkłady jazdy</h2>
+<figure><img src="/public/documents/dokumentacja/fig-9-1.webp" alt="Ilustracja do: 4. Rozkłady jazdy" width="1710" height="1037" loading="lazy" decoding="async"></figure>
+<p>Po kliknięciu przycisku rozkłady należy wybrać linię Następnie można zmienić kierunek (A) oraz wybrać przystanek, dla którego użytkownik chce sprawdzić odjazdy Po wykonaniu tych kroków widoczne są rozkłady jazdy.</p>
+<figure><img src="/public/documents/dokumentacja/fig-9-2.webp" alt="Ilustracja do: 4. Rozkłady jazdy" width="153" height="151" loading="lazy" decoding="async"></figure>
+<h2 id="5-pojazdy-offline">5. Pojazdy offline</h2>
+<p>Są to autobusy/tramwaje, które zgubiły lokalizację. Funkcja ta dostępna jest tylko w systemie A oraz B</p>
+<h2 id="8-motywy-mapy">8. Motywy mapy</h2>
+<h3 id="dostepne-sa-4-motywy">Dostępne są 4 motywy:</h3>
+<figure><img src="/public/documents/dokumentacja/fig-10-1.webp" alt="Ilustracja do: Dostępne są 4 motywy:" width="1690" height="817" loading="lazy" decoding="async"></figure>
+<p>Podstawowy jasny</p>
+<p>Podstawowy ciemny</p>
+<p>Open Street Map</p>
+<p>Satelita</p>
+<h2 id="9-powiadomienia">9. Powiadomienia</h2>
+<p>Np. informują o zaakceptowaniu zgłoszenia do wiki, lub wysyłają przypomnienie przed przyjazdem danej linii (opisane w 1H).</p>
+<h2 id="10-twoja-lokalizacja">10. Twoja lokalizacja</h2>
+<p>Funkcja ta pomaga znaleźć miejsce, w którym znajduje się użytkownik. Lokalizacja jest sprawdzana lokalnie, więc jako zespół BUSearch nie mamy do niej dostępu.</p>
+<figure><img src="/public/documents/dokumentacja/fig-11-1.webp" alt="Ilustracja do: 10. Twoja lokalizacja" width="945" height="1611" loading="lazy" decoding="async"></figure>
+<h2 id="11-wiecej-opcji">11. Więcej opcji</h2>
+<ul class="spis">
+<li>12. Ogłoszenia</li>
+<li>14. Wiki pojazdów</li>
+<li>13. Zmiana miasta</li>
+<li>15. Instrukcja instalacji aplikacji</li>
+<li>16. Formularz służący do zgłaszania błędów w działaniu aplikacji</li>
+<li>17. Informacje o aplikacji, autorach oraz sponsorach</li>
+<li>18. Media społecznościowe oraz regulaminy</li>
+</ul>
+<figure><img src="/public/documents/dokumentacja/fig-12-1.webp" alt="Ilustracja do: 11. Więcej opcji" width="845" height="1136" loading="lazy" decoding="async"></figure>
+<h2 id="12-ogloszenia">12. Ogłoszenia</h2>
+<p>Ogłoszenia mówiące o zmianach w komunikacji oraz w aplikacji. Można tam znaleźć aktualne i archiwalne ogłoszenia</p>
+<h2 id="13-zmiana-miasta">13. Zmiana miasta</h2>
+<p>Za pomocą tej funkcji można przełączać się między miastami obsługiwanymi przez BUSearch. Można tam też włączyć mapę z pociągami.</p>
+<figure><img src="/public/documents/dokumentacja/fig-13-1.webp" alt="Ilustracja do: 13. Zmiana miasta" width="1071" height="952" loading="lazy" decoding="async"></figure>
+<h2 id="14-wiki-pojazdow">14. Wiki pojazdów</h2>
+<p>Po otwarciu Wiki wyświetli się menu (1). Aby wyświetlić kartę wybranego pojazdu należy wybrać go z listy (A) sortując według swoich potrzeb (B), albo sortować po modelach (C), lub wyszukać numer taborowy (D).</p>
+<figure><img src="/public/documents/dokumentacja/fig-13-2.webp" alt="Ilustracja do: 14. Wiki pojazdów" width="1053" height="1031" loading="lazy" decoding="async"></figure>
+<p>Po otwarciu karty pojazdu można obejrzeć zdjęcia (E), zmienić nieprawidłowe dane (F) lub dodać swoje zdjęcie (G) (aby zmienić dane lub dodać zdjęcie należy zalogować się przez Google). Podczas dodawania zdjęcia można dodać opis oraz lokalizację wykonania.</p>
+<figure><img src="/public/documents/dokumentacja/fig-14-1.webp" alt="Ilustracja do: 14. Wiki pojazdów" width="893" height="791" loading="lazy" decoding="async"></figure>
+<p>Po otwarciu mapy ze zdjęciami (1) wyświetli się mapa (J) z zaznaczonymi lokalizacjami wykonania części zdjęć. Gdy użytkownik zaznaczy lokalizację zdjęcia na mapie, wyświetli się ono właśnie tutaj.</p>
+<p>Po kliknięciu na zdjęcie można dodać do niego komentarze (H) i prowadzić dyskusje</p>
+<figure><img src="/public/documents/dokumentacja/fig-14-2.webp" alt="Ilustracja do: 14. Wiki pojazdów" width="850" height="441" loading="lazy" decoding="async"></figure>
+<p>Instrukcja instalacji aplikacji</p>
+<p>Formularz służący do zgłaszania błędów w działaniu aplikacji</p>
+<p>Informacje o projekcie</p>
+<p>Aby zgłosić błąd należy wybrać temat błędu oraz go opisać. Można podać także swojego maila, aby zespół BUSearch mógł zadać dodatkowe pytania.</p>
+<h2 id="20-filtry">20. Filtry</h2>
+<figure><img src="/public/documents/dokumentacja/fig-15-1.webp" alt="Ilustracja do: 20. Filtry" width="1692" height="1564" loading="lazy" decoding="async"></figure>
+<p>Można filtrować według rodzaju pojazdu (autobus, tramwaj), według modeli, wyświetlić tylko pojazdy ze zdjęciem, lub wyszukać numer taborowy/brygadę na pasku wyszukiwania.</p>
+</main>
+<footer>
+<p>BUSearch — mapa komunikacji miejskiej. <a href="/">Wróć na mapę</a> · <a href="/public/BUSearch-instrukcja.pdf">instrukcja w PDF</a></p>
+</footer>
+</div>
+</body>
+</html>

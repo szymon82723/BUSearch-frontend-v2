@@ -1,0 +1,186 @@
+/* BUSearch palette — one for the whole service.
+ *
+ * Two colours and nothing else: near-black as the canvas and mint #D7FFE0 as the
+ * accent. Everything in between is a neutral grey taken from a single scale, so that
+ * the map, the Wiki, the admin panel and the error pages read as one service instead
+ * of four similar-looking sites.
+ *
+ * Every page used to carry its own navy, its own blue accent, its own glows and its
+ * own glass. That is exactly what an interface assembled from stock parts looks like:
+ * a gradient on the heading, a blur under every panel, a 34px shadow under a 46px
+ * tall box. None of it is here, and none of it should come back — depth comes from a
+ * hairline and a difference in surface lightness, not from blur.
+ *
+ * Rules for the accent:
+ *   • one accent per screen — what the user is meant to do, or what is switched on now,
+ *   • text on a mint fill is always black (--ui-on-accent); mint is light, so white on
+ *     it does not exist,
+ *   • the accent is never background decoration or a border "for looks",
+ *   • nothing drawn ON THE MAP uses it. The basemap can be light (OSM) or satellite,
+ *     and mint disappears on both — route lines, stop pins and vehicle colours are
+ *     data, and they keep their own colours.
+ *
+ * The --ui- prefix is not cosmetic. dark-panel.css and baza.css declare their own
+ * --surface/--text/--accent, so a token of the same name here would turn their
+ * declarations into a cycle (--surface: var(--surface)) and silently kill the theme.
+ */
+:root {
+  color-scheme: dark;
+  --font-main: 'Inter', -apple-system, Segoe UI, Roboto, sans-serif;
+
+  /* Surfaces, from the canvas upwards. The step between neighbours is deliberately
+     small: this should read as one black with layers, not as a chequerboard of greys.
+
+     The floor used to sit at #050505 and that was too low: at full screen such a black
+     eats the edges of panels (everything is the same floor) and white text starts to
+     buzz on it. So the canvas sits at #101010 — still black, but with air in it. */
+  --ui-canvas: #101010;
+  --ui-surface: #171717;
+  --ui-surface-2: #1f1f1f;
+  --ui-surface-3: #282828;
+
+  /* Lines. The hairline separates; the strong one outlines what can be clicked. */
+  --ui-line: #2a2a2a;
+  --ui-line-strong: #3a3a3a;
+
+  /* Type. Three steps, not eight — a fourth shade of grey says nothing any more. */
+  --ui-text: #ededed;
+  --ui-text-2: #9a9a9a;
+  --ui-text-3: #6a6a6a;
+
+  /* Accent. */
+  --ui-accent: #D7FFE0;
+  --ui-accent-hover: #bff0cd;
+  --ui-accent-muted: #9dc7a9;
+  --ui-accent-fill: rgba(215, 255, 224, 0.1);
+  --ui-accent-fill-strong: rgba(215, 255, 224, 0.18);
+  --ui-accent-line: rgba(215, 255, 224, 0.32);
+  --ui-on-accent: #080808;
+
+  /* States. Red and amber stay, because they carry meaning, but they are toned down
+     to the level of everything else — a warning has to be legible, not loud. */
+  --ui-danger: #ff8a8a;
+  --ui-danger-fill: rgba(255, 138, 138, 0.12);
+  --ui-warning: #e8c98a;
+  --ui-warning-fill: rgba(232, 201, 138, 0.12);
+  --ui-live: #7ee0a0;
+
+  /* Radii. Two steps: controls and large surfaces. Sharp corners on elements that
+     FLOAT above the map looked cut out with a knife — a soft corner is information
+     here: this is a separate layer, not part of the background. */
+  --ui-radius: 12px;
+  --ui-radius-lg: 20px;
+  --ui-radius-pill: 999px;
+  --ui-radius-chrome: 16px;
+
+  /* The only shadow in the service. Vehicle and stop badges lie on the map, that is,
+     on a background whose lightness we do not know — there a short shadow genuinely
+     separates instead of faking depth. Panels and dialogs lie on black and have a
+     line for that. */
+  --ui-shadow-map: 0 1px 3px rgba(0, 0, 0, 0.55);
+  --ui-shadow-sheet: none;
+}
+
+/* Selection and scrollbar — the small things that give an unfinished theme away,
+   because they stay in the browser's own colours. */
+::selection {
+  background: var(--ui-accent);
+  color: var(--ui-on-accent);
+}
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--ui-line-strong) transparent;
+}
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--ui-line-strong);
+  border: 3px solid transparent;
+  background-clip: content-box;
+  border-radius: var(--ui-radius-pill);
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #4a4a4a;
+  background-clip: content-box;
+}
+
+/* One focus ring across the whole service. Mint, because it is the only colour that
+   is visible on this black immediately — and keyboard focus has to be immediate. */
+:where(a, button, input, select, textarea, [tabindex]):focus-visible {
+  outline: 2px solid var(--ui-accent);
+  outline-offset: 2px;
+  border-radius: var(--ui-radius);
+}
+
+/* Form controls do not inherit the typeface on their own. Without this rule a button
+   is drawn in the browser's system font — which is exactly why the close crosses and
+   the search fields used to look different from the text next to them on every OS. */
+button,
+input,
+select,
+textarea {
+  font-family: inherit;
+}
+
+/* CLOSE — one glyph in the whole service.
+ *
+ * Every dialog used to close with something different: a keyboard "×" in a grey circle
+ * here, a "✕" there, an arrow somewhere else. A keyboard glyph is not an icon — its
+ * weight and its position on the baseline differ in every typeface, so it sat in the
+ * middle of the circle in one place and slightly above it in another. Here there is
+ * one cross, drawn with the same stroke width as the rest of the icons (see
+ * components/close-icon.js), with no background, and with a 44px hit area — the
+ * minimum for a finger.
+ */
+.ui-close {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+  width: 44px;
+  min-width: 44px;
+  height: 44px;
+  padding: 0;
+  border: 0;
+  border-radius: var(--ui-radius);
+  background: transparent;
+  color: var(--ui-text-2);
+  box-shadow: none;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  transform: none;
+  cursor: pointer;
+  transition: color 0.12s, background 0.12s;
+}
+.ui-close:hover {
+  color: var(--ui-accent);
+  background: var(--ui-surface-2);
+}
+.ui-close:active {
+  background: var(--ui-surface-3);
+}
+.ui-close[hidden] {
+  display: none;
+}
+.ui-close__icon {
+  pointer-events: none;
+  flex: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ui-close {
+    transition: none;
+  }
+}
+
+/* Navigation arrows from components/arrow-icon.js — one size across the service. */
+.ui-arrow {
+  flex: none;
+  display: block;
+}

@@ -1,0 +1,439 @@
+* { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+      /* Wysokość natywnego paska aplikacji, który leży NAD WebView. Wszystko, co siedzi
+         przy dolnej krawędzi — przycisk wysyłki w arkuszu, koniec listy, szczegóły —
+         musi się o tyle podnieść, bo inaczej chowa się pod paskiem i nie da się w nie
+         trafić palcem.
+         Domyślne 96 px odpowiada typowemu paskowi Material (80 px + margines); aplikacja
+         może podać swoją prawdziwą wysokość adresem ?dol=<piksele>. */
+      :root { --dol: 96px; }
+
+      /* Bez powiększania dwoma palcami. To ekran aplikacji, nie strona: w natywnej liście
+         też się nie szczypie, a przypadkowe rozjechanie układu w połowie wypełniania
+         formularza jest wyłącznie uciążliwe.
+         Sam "user-scalable=no" w viewport bywa ignorowany, więc dokładamy touch-action.
+         "pan-x pan-y", a NIE "none": przewijanie w pionie i poziomy pasek chipów muszą
+         działać dalej — blokujemy tylko gest szczypania i podwójne stuknięcie. */
+      html {
+        touch-action: pan-x pan-y;
+        -webkit-text-size-adjust: 100%;
+        text-size-adjust: 100%;
+      }
+      html, body { margin: 0; padding: 0; }
+
+      body {
+        background: var(--surface);
+        color: var(--on-surface);
+        font: 400 15px/1.45 var(--font-main);
+        min-height: 100vh;
+        /* Płynne przewijanie długiej listy na telefonie. */
+        overscroll-behavior-y: contain;
+      }
+
+      /* ===== Górny pasek: przykleja się, bo lista jest długa ===== */
+      .pasek {
+        position: sticky;
+        top: 0;
+        z-index: 20;
+        background: var(--surface);
+        padding: calc(12px + env(safe-area-inset-top, 0px)) 16px 10px;
+        border-bottom: 1px solid transparent;
+        transition: border-color 0.15s, background 0.15s;
+      }
+      .pasek[data-przewiniete="1"] {
+        background: var(--surface-container);
+        border-bottom-color: var(--outline-variant);
+      }
+
+      .tytul { margin: 0; font: 500 22px/1.25 Roboto, sans-serif; }
+      .podtytul { display: block; margin-top: 2px; font: 400 13px/1.3 Roboto, sans-serif; color: var(--on-surface-variant); }
+
+      /* Wypełnione pole wyszukiwania Material 3 */
+      .szukaj {
+        margin-top: 12px;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        background: var(--surface-container-high);
+        border-radius: var(--ui-radius-pill);
+        padding: 10px 16px;
+      }
+      .szukaj svg { flex: none; color: var(--on-surface-variant); }
+      .szukaj input {
+        flex: 1 1 auto;
+        min-width: 0;
+        border: 0;
+        background: transparent;
+        color: var(--on-surface);
+        font: 400 16px/1.4 Roboto, sans-serif;
+        outline: none;
+      }
+      .szukaj input::placeholder { color: var(--outline); }
+      .szukaj button {
+        flex: none; width: 28px; height: 28px; border: 0; border-radius: var(--ui-radius-pill);
+        background: transparent; color: var(--on-surface-variant); display: grid; place-items: center; cursor: pointer;
+      }
+      .szukaj button:active { background: var(--surface-container-highest); }
+
+      /* Chipy filtrów — przewijane w poziomie, jak w aplikacjach Google */
+      .chipy {
+        margin-top: 10px;
+        display: flex;
+        gap: 8px;
+        overflow-x: auto;
+        scrollbar-width: none;
+        padding-bottom: 2px;
+      }
+      .chipy::-webkit-scrollbar { display: none; }
+      .chip {
+        flex: none;
+        border: 1px solid var(--outline-variant);
+        background: transparent;
+        color: var(--on-surface);
+        border-radius: var(--ui-radius-pill);
+        padding: 7px 14px;
+        font: 500 14px/1.2 Roboto, sans-serif;
+        cursor: pointer;
+        white-space: nowrap;
+      }
+      .chip[aria-pressed="true"] {
+        background: var(--secondary-container);
+        color: var(--on-secondary-container);
+        border-color: transparent;
+      }
+
+      .licznik {
+        padding: 10px 16px 0;
+        font: 400 13px/1.4 Roboto, sans-serif;
+        color: var(--on-surface-variant);
+        font-variant-numeric: tabular-nums;
+      }
+
+      /* ===== Lista ===== */
+      .lista { padding: 8px 16px calc(28px + var(--dol) + env(safe-area-inset-bottom, 0px)); display: flex; flex-direction: column; gap: 12px; }
+
+      .kafel {
+        background: var(--surface-container);
+        border-radius: var(--ui-radius-lg);
+        overflow: hidden;
+        cursor: pointer;
+        /* Przeglądarka pomija renderowanie kafelków poza ekranem. Wysokość zastępcza
+           musi być podana, inaczej pasek przewijania skakałby przy każdym wejściu
+           kafelka w widok. */
+        content-visibility: auto;
+        contain-intrinsic-size: auto 320px;
+      }
+      .kafel:active { background: var(--surface-container-high); }
+
+      /* Miejsce na zdjęcie zarezerwowane PRZED jego pobraniem — bez tego lista skakałaby
+         przy każdym doładowanym zdjęciu. */
+      .kafel__foto {
+        position: relative;
+        aspect-ratio: 16 / 9;
+        background: var(--surface-container-high);
+        overflow: hidden;
+      }
+      .kafel__foto img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+        opacity: 0;
+        transition: opacity 0.25s;
+      }
+      .kafel__foto img.gotowe { opacity: 1; }
+      .kafel__foto--brak { display: grid; place-items: center; color: var(--outline-variant); }
+
+      .kafel__tresc { padding: 14px 16px 16px; }
+      .kafel__glowa { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+      .numer {
+        background: var(--primary-container);
+        color: var(--on-primary-container);
+        border-radius: var(--ui-radius);
+        padding: 4px 10px;
+        font: 700 15px/1.3 Roboto, sans-serif;
+        font-variant-numeric: tabular-nums;
+      }
+      .znacznik {
+        border-radius: var(--ui-radius);
+        padding: 3px 9px;
+        font: 500 11.5px/1.35 Roboto, sans-serif;
+        background: var(--surface-container-highest);
+        color: var(--on-surface-variant);
+      }
+      .znacznik--elektryk { background: #0f3f2a; color: #9ff0c4; }
+      .model { margin-top: 8px; font: 500 15px/1.35 Roboto, sans-serif; }
+      .drobne { margin-top: 4px; font: 400 13px/1.45 Roboto, sans-serif; color: var(--on-surface-variant); }
+
+      /* ===== Szczegóły — pełny ekran, jak natywny ===== */
+      .szczegoly {
+        position: fixed;
+        inset: 0;
+        z-index: 40;
+        background: var(--surface);
+        overflow-y: auto;
+        overscroll-behavior: contain;
+        transform: translateY(12px);
+        opacity: 0;
+        transition: opacity 0.18s, transform 0.18s;
+      }
+      .szczegoly[hidden] { display: none; }
+      .szczegoly[data-otwarte="1"] { transform: none; opacity: 1; }
+      .szczegoly__foto { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; display: block; background: var(--surface-container-high); }
+      .szczegoly__zamknij {
+        position: fixed;
+        top: calc(12px + env(safe-area-inset-top, 0px));
+        left: 12px;
+        width: 44px; height: 44px;
+        border: 0; border-radius: var(--ui-radius);
+        background: rgba(0,0,0,0.55);
+        color: #fff;
+        display: grid; place-items: center;
+        cursor: pointer;
+      }
+      .szczegoly__tresc { padding: 18px 16px calc(32px + var(--dol) + env(safe-area-inset-bottom, 0px)); }
+      .wiersz { display: flex; gap: 12px; padding: 12px 0; border-top: 1px solid var(--outline-variant); }
+      .wiersz:first-of-type { border-top: 0; }
+      .wiersz__etykieta { flex: none; width: 116px; color: var(--on-surface-variant); font: 400 13px/1.5 Roboto, sans-serif; }
+      .wiersz__wartosc { flex: 1 1 auto; min-width: 0; font: 500 14px/1.5 Roboto, sans-serif; overflow-wrap: anywhere; }
+      .wiersz__wartosc--brak { color: var(--outline); font-weight: 400; }
+      .wiersz__zmien {
+        flex: none; border: 0; background: transparent; color: var(--primary);
+        font: 500 13px/1.2 Roboto, sans-serif; padding: 6px 8px; cursor: pointer;
+      }
+      .wiersz__zmien:active { opacity: 0.7; }
+
+      /* Odznaka przy polu, ktore czeka na zatwierdzenie administratora — patrz komentarz
+         u gory pliku o dwoch mechanizmach zapisu. */
+      .oczekuje {
+        display: inline-flex; align-items: center; gap: 5px; margin-top: 4px;
+        font: 400 12px/1.3 Roboto, sans-serif; color: var(--primary);
+      }
+
+      /* ===== Pasek konta ===== */
+      .konto {
+        margin-top: 10px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        min-height: 36px;
+      }
+      .konto__awatar { width: 28px; height: 28px; border-radius: 50%; flex: none; background: var(--surface-container-highest); }
+      .konto__nazwa {
+        flex: 1 1 auto; min-width: 0; font: 500 13px/1.3 Roboto, sans-serif;
+        overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+      }
+      .konto__akcja {
+        flex: none; border: 1px solid var(--outline-variant); background: transparent; color: var(--on-surface);
+        border-radius: var(--ui-radius-pill); padding: 7px 16px; font: 500 13px/1.2 Roboto, sans-serif; cursor: pointer;
+        display: inline-flex; align-items: center; gap: 8px;
+      }
+      .konto__akcja--glowna { background: var(--primary); color: var(--on-primary); border-color: transparent; }
+      .konto__akcja:active { opacity: 0.85; }
+
+/* ===== Formularz dodawania (arkusz od dołu) ===== */
+      .arkusz {
+        position: fixed; inset: 0; z-index: 60;
+        background: rgba(0,0,0,0.55);
+        display: flex; align-items: flex-end;
+        opacity: 0; transition: opacity 0.18s;
+      }
+      .arkusz[hidden] { display: none; }
+      .arkusz[data-otwarte="1"] { opacity: 1; }
+      .arkusz__panel {
+        width: 100%; max-height: calc(92vh - var(--dol)); overflow-y: auto; overscroll-behavior: contain;
+        background: var(--surface-container);
+        border-radius: var(--ui-radius-lg) var(--ui-radius-lg) 0 0;
+        padding: 8px 20px calc(24px + var(--dol) + env(safe-area-inset-bottom, 0px));
+        transform: translateY(100%);
+        transition: transform 0.22s cubic-bezier(0.2, 0, 0, 1);
+      }
+      .arkusz[data-otwarte="1"] .arkusz__panel { transform: none; }
+      .arkusz__uchwyt { width: 32px; height: 4px; border-radius: 999px; background: var(--outline-variant); margin: 8px auto 14px; }
+      .arkusz__tytul { margin: 0 0 4px; font: 500 20px/1.3 Roboto, sans-serif; }
+      .arkusz__opis { margin: 0 0 16px; font: 400 13px/1.5 Roboto, sans-serif; color: var(--on-surface-variant); }
+
+      .pole {
+        display: flex; flex-direction: column; gap: 6px; margin-bottom: 12px;
+        font: 400 12px/1.2 Roboto, sans-serif; color: var(--on-surface-variant);
+      }
+      .pole input, .pole textarea, .pole select {
+        width: 100%; padding: 13px 14px; border-radius: var(--ui-radius-lg);
+        border: 1px solid var(--outline-variant); background: var(--surface-container-high);
+        color: var(--on-surface); font: 400 16px/1.4 Roboto, sans-serif; outline: none;
+      }
+      .pole input:focus, .pole textarea:focus { border-color: var(--primary); }
+      .pole textarea { resize: vertical; min-height: 72px; }
+      .para { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+
+      .wybierz-foto {
+        display: flex; align-items: center; gap: 12px; width: 100%;
+        border: 1px dashed var(--outline); background: transparent; color: var(--on-surface);
+        border-radius: var(--ui-radius-lg); padding: 16px; cursor: pointer; margin-bottom: 12px;
+        font: 500 14px/1.3 Roboto, sans-serif; text-align: left;
+      }
+      .wybierz-foto svg { flex: none; color: var(--primary); }
+      .podglad { position: relative; margin-bottom: 12px; }
+      .podglad img { width: 100%; border-radius: var(--ui-radius-lg); display: block; }
+      .podglad__usun {
+        position: absolute; top: 8px; right: 8px; width: 36px; height: 36px;
+        border: 0; border-radius: var(--ui-radius); background: rgba(0,0,0,0.6); color: #fff;
+        display: grid; place-items: center; cursor: pointer;
+      }
+      .podglad__waga { margin-top: 6px; font: 400 12px/1.4 Roboto, sans-serif; color: var(--on-surface-variant); }
+
+      .checkline {
+        display: flex; align-items: center; gap: 10px; margin: 4px 0 14px;
+        font: 400 14px/1.4 Roboto, sans-serif; color: var(--on-surface);
+      }
+      .checkline input { width: 20px; height: 20px; accent-color: var(--primary); }
+
+      .wyslij {
+        width: 100%; border: 0; border-radius: var(--ui-radius-pill); padding: 16px;
+        background: var(--primary); color: var(--on-primary);
+        font: 500 15px/1.2 Roboto, sans-serif; cursor: pointer;
+      }
+      .wyslij:disabled { background: var(--surface-container-highest); color: var(--outline); cursor: default; }
+      .komunikat { margin-top: 12px; font: 500 13px/1.5 Roboto, sans-serif; min-height: 20px; }
+      .komunikat[data-rodzaj="blad"] { color: var(--error); }
+      .komunikat[data-rodzaj="ok"] { color: #9ff0c4; }
+
+      /* Propozycja założenia wpisu, gdy szukany numer nie istnieje w Wiki. */
+      .brak {
+        margin: 4px 16px calc(var(--dol) + 16px);
+        background: var(--surface-container);
+        border-radius: var(--ui-radius-lg);
+        padding: 20px;
+        text-align: center;
+      }
+      .brak__numer {
+        display: inline-block;
+        background: var(--primary-container); color: var(--on-primary-container);
+        border-radius: var(--ui-radius); padding: 5px 12px;
+        font: 700 17px/1.3 Roboto, sans-serif; font-variant-numeric: tabular-nums;
+        margin-bottom: 10px;
+      }
+      .brak__tekst { font: 400 14px/1.55 Roboto, sans-serif; color: var(--on-surface-variant); margin: 0 0 16px; }
+      .brak__akcja {
+        width: 100%; border: 0; border-radius: var(--ui-radius-pill); padding: 15px 20px;
+        background: var(--primary); color: var(--on-primary);
+        font: 500 14px/1.2 Roboto, sans-serif; cursor: pointer;
+        display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+      }
+      .brak__akcja:active { opacity: 0.85; }
+
+      /* ===== Galeria zdjęć w szczegółach ===== */
+      .galeria {
+        display: flex;
+        overflow-x: auto;
+        scroll-snap-type: x mandatory;
+        scrollbar-width: none;
+        background: var(--surface-container-high);
+      }
+      .galeria::-webkit-scrollbar { display: none; }
+      .galeria__kadr { flex: 0 0 100%; scroll-snap-align: center; aspect-ratio: 4 / 3; }
+      .galeria__kadr img { width: 100%; height: 100%; object-fit: cover; display: block; }
+      .kropki {
+        display: flex; justify-content: center; gap: 7px;
+        padding: 12px 0 4px;
+      }
+      .kropka { width: 7px; height: 7px; border-radius: 50%; background: var(--outline-variant); transition: background 0.15s, width 0.15s; }
+      .kropka[data-aktywna="1"] { background: var(--primary); width: 20px; }
+      .podpis-foto {
+        padding: 4px 16px 0; text-align: center;
+        font: 400 12.5px/1.5 Roboto, sans-serif; color: var(--on-surface-variant);
+      }
+
+      /* Pojazd bez zdjęcia. Zajmujemy dokładnie tyle miejsca, ile zajęłaby galeria,
+         i stawiamy w środku to, czego tu brakuje — zaproszenie do dodania fotografii.
+         Wcześniej przycisk lądował tuż pod krawędzią ekranu i wyglądał na zabłąkany. */
+      .bez-zdjecia {
+        aspect-ratio: 4 / 3;
+        background: var(--surface-container-high);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 14px;
+        padding: 24px;
+        text-align: center;
+      }
+      .bez-zdjecia__ikona { color: var(--outline-variant); }
+      .bez-zdjecia__tekst { font: 400 14px/1.5 Roboto, sans-serif; color: var(--on-surface-variant); margin: 0; }
+      /* Wewnątrz pustego miejsca przycisk nie rozpycha się na całą szerokość — ma być
+         przyciskiem na środku, nie paskiem. */
+      .akcje { display: flex; gap: 10px; margin-top: 14px; }
+      .bez-zdjecia .akcje { margin: 0; justify-content: center; }
+      .bez-zdjecia .akcje button { flex: 0 1 auto; min-width: 0; }
+
+      /* ===== Komentarze ===== */
+      .komentarze { margin-top: 18px; }
+      .komentarze__tytul { font: 500 15px/1.3 Roboto, sans-serif; margin-bottom: 10px; display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+      .komentarze__dodaj {
+        flex: none; border: 0; background: transparent; color: var(--primary);
+        font: 500 13px/1.2 Roboto, sans-serif; padding: 6px 4px; cursor: pointer;
+      }
+
+      /* Skrot dodawania wpisu wpiety pod lista — otwiera arkusz zamiast pisania na miejscu,
+         zeby nie walczyc z klawiatura wewnatrz przewijanego pelnoekranowego widoku. */
+      .kompozytor {
+        margin-top: 12px; display: flex; align-items: center; gap: 10px; cursor: pointer;
+      }
+      .kompozytor__awatar {
+        flex: none; width: 32px; height: 32px; border-radius: 50%; object-fit: cover;
+        background: var(--surface-container-highest);
+      }
+      .kompozytor__pole {
+        flex: 1 1 auto; min-width: 0; background: var(--surface-container-high);
+        border-radius: var(--ui-radius-lg); padding: 10px 14px; display: flex; align-items: center;
+        gap: 10px; color: var(--outline); font: 400 14px/1.4 Roboto, sans-serif;
+      }
+      .kompozytor__pole svg { flex: none; color: var(--outline-variant); }
+      .komentarz {
+        background: var(--surface-container);
+        border-radius: var(--ui-radius-lg);
+        padding: 12px 14px;
+        margin-bottom: 8px;
+      }
+      .komentarz--odpowiedz { margin-left: 24px; background: var(--surface-container-high); }
+      .komentarz__autor { font: 500 12.5px/1.3 Roboto, sans-serif; color: var(--primary); margin-bottom: 3px; }
+      .komentarz__tresc { font: 400 14px/1.5 Roboto, sans-serif; overflow-wrap: anywhere; }
+      /* Numer, którego nie znamy jako taborowego — pokazywany jako ID, wyraźnie inaczej. */
+      .numer--id {
+        background: var(--surface-container-highest);
+        color: var(--on-surface-variant);
+        font-weight: 500;
+      }
+      .numer__etykieta { font: 500 10px/1 Roboto, sans-serif; opacity: 0.75; margin-right: 5px; letter-spacing: 0.04em; }
+
+      /* Pasek informacyjny: ten ekran jest tylko do czytania, a dodawanie odbywa się
+         w Wiki w przeglądarce. Bez tego użytkownik szuka przycisku, którego tu nie ma. */
+      .info-dodaj {
+        display: flex; align-items: flex-start; gap: 12px;
+        background: var(--surface-container-high);
+        border-radius: var(--ui-radius-lg);
+        padding: 14px 16px;
+        margin: 0 0 16px;
+        font: 400 13px/1.55 Roboto, sans-serif;
+        color: var(--on-surface-variant);
+      }
+      .info-dodaj svg { flex: none; color: var(--primary); margin-top: 1px; }
+      .info-dodaj strong { color: var(--on-surface); font-weight: 500; }
+      .info-dodaj--lista { margin: 0 16px 12px; }
+
+      .stan { padding: 48px 24px; text-align: center; color: var(--on-surface-variant); font: 400 14px/1.55 Roboto, sans-serif; }
+      .stan--blad { color: var(--error); }
+
+      .pasek-ladowania { height: 4px; background: var(--surface-container-high); overflow: hidden; position: relative; }
+      .pasek-ladowania::after {
+        content: ""; position: absolute; inset: 0; width: 40%;
+        background: var(--primary); animation: przesuw 1.1s infinite ease-in-out;
+      }
+      @keyframes przesuw { 0% { transform: translateX(-100%); } 100% { transform: translateX(350%); } }
+      @media (prefers-reduced-motion: reduce) {
+        .pasek-ladowania::after { animation: none; width: 100%; opacity: 0.6; }
+        .kafel__foto img, .szczegoly { transition: none; }
+      }
+
+      [hidden] { display: none !important; }
+      :focus-visible { outline: 2px solid var(--primary); outline-offset: 2px; }

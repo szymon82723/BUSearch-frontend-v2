@@ -1,0 +1,38 @@
+body:has(.head) { padding: 0 20px; background: #101412; }
+body:has(.head) #root { width: 100%; min-height: 100dvh; display: flex; flex-direction: column; align-items: center; padding: 0 0 26px; }
+body:has(.head) .bg { display: none; }
+.picker-nav { width: min(1040px, 100%); display: flex; align-items: center; justify-content: space-between; gap: 16px; min-height: 84px; border-bottom: 1px solid #ffffff12; margin-bottom: clamp(36px, 7vh, 78px); }
+.picker-nav a { display: inline-flex; align-items: center; gap: 9px; color: #e5ede7; text-decoration: none; font-size: 13px; }
+.picker-nav .picker-brand { font-weight: 700; font-size: 19px; }
+.picker-brand img { border-radius: 7px; }
+.picker-badge { background: #d7ffe0; color: #193923; font-size: 10px; font-weight: 700; border-radius: 20px; padding: 4px 8px; }
+.head { text-align: center; margin-bottom: 28px; }
+.head__logo-wrap { width: 68px; height: 68px; border-radius: 20px; margin-bottom: 20px; }
+.head__logo { width: 58px; height: 58px; }
+.picker-eyebrow { display: flex; align-items: center; gap: 7px; color: #b1d7b9; font-size: 12px; margin: 0 0 14px; }
+.head__brand { font-size: clamp(27px, 5vw, 38px); letter-spacing: -.035em; line-height: 1.18; }
+.head__tagline { max-width: 350px; font-size: 14px; font-weight: 400; line-height: 1.6; margin-top: 12px; color: #a5b4aa; }
+.panel { max-width: 460px; max-height: none; border-radius: 22px; background: #191f1b; border-color: #ffffff14; }
+.search { margin: 16px; }
+.search__input { min-height: 48px; border-radius: 13px; font-weight: 400; }
+.list { padding: 0 10px 10px; }
+.row { padding: 16px 14px; min-height: 76px; border-radius: 13px; }
+.row + .row { margin-top: 4px; }
+.row__body { display: flex; flex-direction: column; gap: 5px; }
+.row__name { font-size: 17px; }
+.row__note { font-weight: 400; font-size: 12px; color: #98a79c; white-space: normal; }
+.row__chevron { color: #b1d7b9; }
+.row.is-current { background: #d7ffe012; }
+.picker-app { width: min(460px, 100%); display: flex; align-items: center; gap: 14px; margin-top: 18px; padding: 17px; border: 1px solid #d7ffe024; border-radius: 18px; color: #eef8f0; text-decoration: none; background: #d7ffe008; }
+.picker-app-icon { flex: none; display: grid; place-items: center; width: 44px; height: 44px; border-radius: 13px; background: #d7ffe012; color: #d7ffe0; }
+.picker-app > span:nth-child(2) { flex: 1; }
+.picker-app strong { display: block; font-size: 14px; font-weight: 600; }
+.picker-app small { display: block; color: #98a79c; font-size: 12px; line-height: 1.5; margin-top: 5px; }
+.picker-app > svg { flex: none; color: #b1d7b9; }
+.picker-app:hover { background: #d7ffe014; }
+.picker-hint { font-size: 11px; color: #8b9c91; margin: 20px 0 36px; text-align: center; }
+.credit { position: static; margin-top: auto; font-size: 11px; line-height: 1.5; color: #83948a; letter-spacing: 0; }
+.credit__links { margin-bottom: 12px; }
+.picker-nav a:focus-visible, .picker-app:focus-visible { outline: 2px solid #d7ffe0; outline-offset: 5px; }
+@media (max-width: 480px) { .picker-nav { min-height: 72px; margin-bottom: 32px; } .picker-nav a { font-size: 12px; gap: 6px; } .picker-nav .picker-brand { font-size: 17px; } .picker-badge { padding: 3px 6px; } .picker-nav a > svg { display: none; } }
+@media (max-height: 740px) { .picker-nav { margin-bottom: 24px; } .head__logo-wrap { display: none; } .head { margin-bottom: 20px; } }

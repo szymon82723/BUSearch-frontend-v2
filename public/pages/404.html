@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="pl">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>404 - nie ma takiego przystanku | BUSearch</title>
+    <meta name="robots" content="noindex" />
+    <link rel="icon" href="/logo/logo.ico" sizes="any" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&display=swap" rel="stylesheet">
+      <!-- Analytics: our own Rybbit at statistics.busearch.pl. Data stays on this server,
+         no cookies and nothing sent externally. The address is under /api/, so the
+         service worker doesn't touch it — its handler passes /api/ through without
+         caching (sw.js), otherwise beacons would end up in the cache or the offline queue. -->
+    <script src="https://statistics.busearch.pl/api/script.js" data-site-id="{{ANALYTICS_ID}}" defer></script>
+</head>
+  <body>
+    <div class="error-card">
+      <svg class="bus-scene" viewBox="0 0 300 170" role="img" aria-label="Rozpadnięty, smutny autobus">
+        <!-- road -->
+        <line x1="10" y1="146" x2="290" y2="146" stroke="rgba(255,255,255,0.16)" stroke-width="3" stroke-linecap="round" stroke-dasharray="14 10"></line>
+
+        <!-- smoke from the broken engine -->
+        <g fill="rgba(255,255,255,0.35)">
+          <circle class="puff" cx="148" cy="52" r="6"></circle>
+          <circle class="puff p2" cx="154" cy="56" r="4.5"></circle>
+          <circle class="puff p3" cx="144" cy="58" r="5"></circle>
+        </g>
+
+        <!-- front of the bus (with a sad face) -->
+        <g class="bus-front">
+          <g stroke="#1e66ff" stroke-width="3" fill="rgba(30,102,255,0.10)" stroke-linejoin="round" stroke-linecap="round">
+            <path d="M22 70 q0 -10 10 -10 h100 l8 8 v52 q0 8 -8 8 h-110 q-10 0 -10 -10 z"></path>
+            <line x1="22" y1="96" x2="140" y2="96"></line>
+            <rect x="36" y="70" width="24" height="16" rx="4"></rect>
+            <rect x="70" y="70" width="24" height="16" rx="4"></rect>
+            <rect x="104" y="70" width="24" height="16" rx="4"></rect>
+          </g>
+          <!-- front wheels -->
+          <circle cx="52" cy="130" r="12" fill="#0c1016" stroke="#1e66ff" stroke-width="3"></circle>
+          <circle cx="52" cy="130" r="4" fill="none" stroke="#1e66ff" stroke-width="2"></circle>
+          <!-- sad face -->
+          <g stroke="rgba(255,255,255,0.9)" stroke-width="2.4" stroke-linecap="round" fill="none">
+            <circle cx="64" cy="108" r="1.4" fill="rgba(255,255,255,0.9)" stroke="none"></circle>
+            <circle cx="92" cy="108" r="1.4" fill="rgba(255,255,255,0.9)" stroke="none"></circle>
+            <path d="M66 122 q12 -9 24 0"></path>
+          </g>
+          <!-- tear -->
+          <path class="tear" d="M64 113 q3.6 5.4 0 8 q-3.6 -2.6 0 -8" fill="#38bdf8"></path>
+        </g>
+
+        <!-- crack -->
+        <path d="M150 56 l-7 16 l9 12 l-8 14 l9 12 l-6 14" fill="none" stroke="#ef4444" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"></path>
+
+        <!-- torn-off back of the bus -->
+        <g class="bus-back">
+          <g stroke="#8b5cf6" stroke-width="3" fill="rgba(139,92,246,0.10)" stroke-linejoin="round" stroke-linecap="round">
+            <path d="M162 64 l10 -4 h44 q10 0 10 10 v48 q0 10 -10 10 h-52 q-8 0 -6 -8 z"></path>
+            <line x1="160" y1="98" x2="226" y2="98"></line>
+            <rect x="176" y="72" width="22" height="16" rx="4"></rect>
+            <rect x="206" y="72" width="12" height="16" rx="4"></rect>
+          </g>
+          <!-- rear wheel still holding -->
+          <circle cx="188" cy="132" r="12" fill="#0c1016" stroke="#8b5cf6" stroke-width="3"></circle>
+          <circle cx="188" cy="132" r="4" fill="none" stroke="#8b5cf6" stroke-width="2"></circle>
+          <!-- bolts flew out -->
+          <circle cx="234" cy="118" r="2.2" fill="rgba(255,255,255,0.5)"></circle>
+          <circle cx="242" cy="128" r="1.8" fill="rgba(255,255,255,0.4)"></circle>
+        </g>
+
+        <!-- a lost wheel rolls away -->
+        <g class="lost-wheel">
+          <circle cx="250" cy="132" r="13" fill="#0c1016" stroke="rgba(255,255,255,0.55)" stroke-width="3"></circle>
+          <line x1="250" y1="122" x2="250" y2="142" stroke="rgba(255,255,255,0.55)" stroke-width="2.4"></line>
+          <line x1="240" y1="132" x2="260" y2="132" stroke="rgba(255,255,255,0.55)" stroke-width="2.4"></line>
+        </g>
+      </svg>
+
+      <div class="code">404</div>
+      <h1>Ups! Ten przystanek nie istnieje</h1>
+      <p>Autobus rozpadł się ze smutku, bo strona, której szukasz, nie została znaleziona. Sprawdź adres albo wróć na mapę — tam wszystko jeździ jak należy.</p>
+      <a class="btn-home" href="/">Wróć na mapę</a>
+    </div>
+    <script type="module" src="/src/pages/404.js"></script>
+  </body>
+</html>

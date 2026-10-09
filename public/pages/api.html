@@ -1,0 +1,413 @@
+<!doctype html>
+<html lang="pl">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>BUSearch — Dokumentacja API</title>
+    <!-- Jak przy /webapp: trzy miasta, jedna dokumentacja, jeden adres kanoniczny. -->
+    <link rel="canonical" href="https://busearch.pl/api-docs" />
+    <link rel="icon" href="/logo/logo.ico" sizes="any" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+    <!-- Analytics: our own Rybbit at statistics.busearch.pl. -->
+    <script src="https://statistics.busearch.pl/api/script.js" data-site-id="{{ANALYTICS_ID}}" defer></script>
+  </head>
+  <body>
+    <div class="wrap">
+      <header class="top">
+        <h1>BUSearch — Dokumentacja API</h1>
+        <a class="back" href="/"><svg class="ui-arrow" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" aria-hidden="true"><path d="M19 12H5m0 0 6-6m-6 6 6 6"/></svg><span>Mapa</span></a>
+      </header>
+
+      <div class="intro">
+        Publiczne endpointy API używane przez aplikację webową oraz aplikacje mobilne BUSearch (pozycje pojazdów na żywo, rozkłady, tablice przystankowe, planer podróży, wersjonowanie aplikacji mobilnej oraz bazę taboru Wiki).
+        <div class="base-url" id="apiBaseUrl">https://api.busearch.pl/v1</div>
+      </div>
+      <!-- ================= 0. GLOBAL / MOBILE V1 ================= -->
+      <h2 style="font-size:18px; font-weight:800; margin:32px 0 16px; color:#93c5fd;">0. Endpointy globalne i Aplikacja Mobilna (REST API v1)</h2>
+      <!-- ================= 1. LIVE VEHICLES ================= -->
+      <h2 style="font-size:18px; font-weight:800; margin:32px 0 16px; color:#93c5fd;">1. Pojazdy i pozycje na żywo</h2>
+
+      <div class="endpoint">
+        <div class="endpoint__head">
+          <span class="method method--get">GET</span>
+          <span class="path">https://api.busearch.pl/{city}/api/vehicles</span> &nbsp; (lub: <span class="path">https://api.busearch.pl/v1/cities/{city}/vehicles/live</span>)
+        </div>
+        <p class="desc">Żywe pozycje wszystkich pojazdów aktualnie widocznych na mapie (autobusy i tramwaje) wraz z kursem, azymutem i estymowanym opóźnieniem.</p>
+        <h4>Parametry (query string)</h4>
+        <table class="params">
+          <tr><th>Parametr</th><th>Typ</th><th>Opis</th></tr>
+          <tr><td><code>lines</code></td><td>string</td><td>Opcjonalny filtr linii po przecinku, np. <code>?lines=69,3,52</code></td></tr>
+          <tr><td><code>thin</code></td><td>number</td><td>Opcjonalne przerzedzanie gęstości markerów (dla widoków o małym zoomie)</td></tr>
+        </table>
+        <h4>Przykład</h4>
+        <pre>curl "https://api.busearch.pl/bydgoszcz/api/vehicles?lines=69,3"</pre>
+        <h4>Odpowiedź (fragment)</h4>
+        <pre>[
+  {
+    "linia": "69",
+    "nr_boczny": "384",
+    "lat": 53.12462,
+    "lon": 18.00265,
+    "predkosc": 34,
+    "cel": "Tatrzańskie",
+    "kierunek_deg": 65,
+    "opoznienie_s": 120,
+    "electric": true,
+    "model": "Solaris Urbino 18 IV",
+    "ts": "14:13:07"
+  }
+]</pre>
+      </div>
+
+      <div class="endpoint">
+        <div class="endpoint__head">
+          <span class="method method--get">GET</span>
+          <span class="path">https://api.busearch.pl/{city}/api/buses</span> &nbsp; / &nbsp; <span class="path">https://api.busearch.pl/{city}/api/trams</span>
+        </div>
+        <p class="desc">Wygodne aliasy zwracające wyłącznie autobusy lub wyłącznie tramwaje.</p>
+      </div>
+
+      <div class="endpoint">
+        <div class="endpoint__head">
+          <span class="method method--get">GET</span>
+          <span class="path">https://api.busearch.pl/{city}/api/vehicle/:id/etas</span>
+        </div>
+        <p class="desc">
+          Lista przystanków pozostałych na trasie danego pojazdu wraz z szacowanym czasem przyjazdu (ETA w minutach), łącząca dane z tablic
+          przystankowych z geometrią trasy. <code>:id</code> to <code>nr_boczny</code> pojazdu.
+        </p>
+        <h4>Przykład</h4>
+        <pre>curl https://api.busearch.pl/bydgoszcz/api/vehicle/384/etas</pre>
+        <h4>Odpowiedź (fragment)</h4>
+        <pre>{
+  "ok": true,
+  "line": "69",
+  "nextIndex": 4,
+  "delayMin": 2,
+  "stops": [
+    { "id": 1042, "name": "Rondo Fordońskie", "passed": false, "etaMin": 1, "plannedTime": "11:42", "actualTime": "11:44" },
+    { "id": 1043, "name": "Most Kazimierza Wielkiego", "passed": false, "etaMin": 4, "plannedTime": "11:45", "actualTime": "11:47" }
+  ],
+  "liveAnchor": true
+}</pre>
+      </div>
+
+      <div class="endpoint">
+        <div class="endpoint__head">
+          <span class="method method--get">GET</span>
+          <span class="path">https://api.busearch.pl/{city}/api/other-cities</span>
+        </div>
+        <p class="desc">Poglądowe pozycje pojazdów w sąsiednich miastach (np. Toruń, Trójmiasto) odświeżane w interwałach 5 minut.</p>
+      </div>
+
+      <!-- ================= 2. STOPS AND TIMETABLES ================= -->
+      <h2 style="font-size:18px; font-weight:800; margin:32px 0 16px; color:#93c5fd;">2. Przystanki i tablice odjazdów</h2>
+
+      <div class="endpoint">
+        <div class="endpoint__head">
+          <span class="method method--get">GET</span>
+          <span class="path">https://api.busearch.pl/{city}/api/stops</span> &nbsp; (lub: <span class="path">https://api.busearch.pl/v1/cities/{city}/stops</span>)
+        </div>
+        <p class="desc">Lista wszystkich przystanków w mieście lub wyszukiwarka po nazwie / identyfikatorze słupka (ID).</p>
+        <h4>Parametry (query string)</h4>
+        <table class="params">
+          <tr><th>Parametr</th><th>Typ</th><th>Opis</th></tr>
+          <tr><td><code>q</code></td><td>string</td><td>Fraza wyszukiwania (nazwa lub ID przystanku), np. <code>?q=336</code> lub <code>?q=rondo</code></td></tr>
+          <tr><td><code>limit</code></td><td>number</td><td>Maksymalna liczba wyników przy wyszukiwaniu (domyślnie 10, max 50)</td></tr>
+        </table>
+        <h4>Przykład</h4>
+        <pre>curl "https://api.busearch.pl/bydgoszcz/api/stops?q=jagiellon&limit=5"</pre>
+        <h4>Odpowiedź (fragment)</h4>
+        <pre>[
+  {
+    "id": 9,
+    "nazwa": "Rondo Jagiellonów",
+    "lat": 53.12357,
+    "lon": 18.00704,
+    "lines": ["2", "3", "4", "5", "8", "9", "11"],
+    "tram": true
+  },
+  {
+    "id": 336,
+    "nazwa": "Nakielska - Wrzesińska",
+    "lat": 53.127035,
+    "lon": 17.970427,
+    "lines": ["36N", "56", "90"],
+    "tram": false
+  }
+]</pre>
+      </div>
+
+      <div class="endpoint">
+        <div class="endpoint__head">
+          <span class="method method--get">GET</span>
+          <span class="path">https://api.busearch.pl/{city}/api/stop/:id/departures</span>
+        </div>
+        <p class="desc">Tablica odjazdów live dla konkretnego słupka przystankowego. <code>:id</code> to identyfikator przystanku.</p>
+        <h4>Parametry (query string)</h4>
+        <table class="params">
+          <tr><th>Parametr</th><th>Typ</th><th>Opis</th></tr>
+          <tr><td><code>line</code></td><td>string</td><td>Opcjonalnie ogranicza odjazdy do jednej linii, np. <code>?line=8</code></td></tr>
+          <tr><td><code>after</code></td><td>number</td><td>Opcjonalnie znacznik czasu ms — zwraca odjazdy po danej godzinie</td></tr>
+          <tr><td><code>schedule</code></td><td>1 | 0</td><td><code>1</code> = zwraca wyłącznie godziny rozkładowe GTFS (bez korekt GPS)</td></tr>
+        </table>
+        <h4>Przykład</h4>
+        <pre>curl "https://api.busearch.pl/bydgoszcz/api/stop/9/departures?line=3"</pre>
+        <h4>Odpowiedź</h4>
+        <pre>[
+  {
+    "linia": "3",
+    "cel": "Łoskoń",
+    "czas": "3min",
+    "niskopodlogowy": true,
+    "source": "live",
+    "vehicleId": "ISKA5462"
+  },
+  { "linia": "3", "cel": "Wilczak", "czas": "14min", "niskopodlogowy": true }
+]</pre>
+        <h4><code>vehicleId</code> — przejście do właściwego pojazdu</h4>
+        <p class="desc">
+          Pole <code>vehicleId</code> pojawia się wyłącznie przy odjeździe live, gdy API jednoznacznie powiązało go z pojazdem na mapie.
+          Jest to identyfikator z pola <code>nr_boczny</code>: może być numerem taborowym (np. <code>384</code>) albo identyfikatorem wyliczonego kursu ISKA (np. <code>ISKA5462</code>).
+          Jeśli pola nie ma, aplikacja nie powinna zgadywać ani wybierać najbliższego autobusu.
+        </p>
+        <pre>const departures = await fetch(
+  "https://api.busearch.pl/bydgoszcz/api/stop/9/departures"
+).then((r) =&gt; r.json());
+
+const id = departures[0].vehicleId;
+if (id) {
+  const vehicle = await fetch(
+    `https://api.busearch.pl/bydgoszcz/api/vehicles?lines=${departures[0].linia}`
+  ).then((r) =&gt; r.json()).then((vehicles) =&gt;
+    vehicles.find((v) =&gt; v.nr_boczny === id)
+  );
+  // Otwórz marker / szczegóły dokładnie tego pojazdu.
+}</pre>
+      </div>
+
+      <!-- ================= 3. LINES AND ROUTES ================= -->
+      <h2 style="font-size:18px; font-weight:800; margin:32px 0 16px; color:#93c5fd;">3. Linie, trasy i rozkłady</h2>
+
+      <div class="endpoint">
+        <div class="endpoint__head">
+          <span class="method method--get">GET</span>
+          <span class="path">https://api.busearch.pl/{city}/api/lines</span>
+        </div>
+        <p class="desc">Kompletny wykaz wszystkich linii komunikacyjnych w mieście z przypisaniem do rodzaju i grupy rozkładowej.</p>
+        <h4>Odpowiedź (fragment)</h4>
+        <pre>[
+  {
+    "id": "3",
+    "number": "3",
+    "type": "TRAM",
+    "grupa": "Linie tramwajowe",
+    "przystanki": "https://api.busearch.pl/bydgoszcz/api/line/3/stops"
+  },
+  {
+    "id": "69",
+    "number": "69",
+    "type": "BUS",
+    "grupa": "Linie autobusowe miejskie",
+    "przystanki": "https://api.busearch.pl/bydgoszcz/api/line/69/stops"
+  }
+]</pre>
+      </div>
+
+      <div class="endpoint">
+        <div class="endpoint__head">
+          <span class="method method--get">GET</span>
+          <span class="path">https://api.busearch.pl/{city}/api/line/:linia/stops</span>
+        </div>
+        <p class="desc">Lista przystanków dla linii w podziale na kierunki jazdy (warianty tras).</p>
+      </div>
+
+      <div class="endpoint">
+        <div class="endpoint__head">
+          <span class="method method--get">GET</span>
+          <span class="path">https://api.busearch.pl/{city}/api/line/:linia/route</span>
+        </div>
+        <p class="desc">Geometria trasy (współrzędne łamanych polilinii dla mapy) oraz przystanki dla wszystkich wariantów.</p>
+      </div>
+
+      <div class="endpoint">
+        <div class="endpoint__head">
+          <span class="method method--get">GET</span>
+          <span class="path">https://api.busearch.pl/{city}/api/line/:linia/timetable</span>
+        </div>
+        <p class="desc">Rozkład jazdy danej linii dla wybranego słupka przystankowego (warianty + tabele Dni powszednie / Soboty / Niedziele i święta).</p>
+        <h4>Parametry</h4>
+        <table class="params">
+          <tr><th>Parametr</th><th>Wymagany</th><th>Opis</th></tr>
+          <tr><td><code>stop</code></td><td>Tak</td><td>ID słupka przystankowego, np. <code>?stop=9</code></td></tr>
+        </table>
+      </div>
+
+      <!-- ================= 4. TRIP PLANNER AND GEOCODING ================= -->
+      <!-- ================= 4. PLANER PODRÓŻY ================= -->
+      <h2 style="font-size:18px; font-weight:800; margin:32px 0 16px; color:#93c5fd;">4. Planer podróży i geokodowanie</h2>
+
+      <div class="endpoint">
+        <div class="endpoint__head">
+          <span class="method method--post">POST</span>
+          <span class="path">https://api.busearch.pl/{city}/api/polaczenia</span> &nbsp; (lub: <span class="path">https://api.busearch.pl/v1/cities/{city}/planner/journey</span>)
+        </div>
+        <p class="desc">Wyszukiwarka połączeń komunikacji miejskiej i kolejowej z uwzględnieniem przesiadek i dojść pieszych.</p>
+        <h4>Treść żądania (JSON)</h4>
+        <pre>{
+  "from": { "stopId": 9 },
+  "to": { "lat": 53.1450, "lon": 18.0650 },
+  "maxPrzesiadki": 2,
+  "ksztalt": false
+}</pre>
+        <p class="desc" style="margin-top:10px;">
+          Parametr <code>ksztalt: false</code> pozwala pominąć szczegółową geometrię łamanych tras, redukując rozmiar odpowiedzi o ponad 80%.
+        </p>
+      </div>
+
+      <div class="endpoint">
+        <div class="endpoint__head">
+          <span class="method method--get">GET</span>
+          <span class="path">https://api.busearch.pl/{city}/api/geocode</span> &nbsp; / &nbsp; <span class="path">https://api.busearch.pl/v1/geocoding/search</span>
+        </div>
+        <p class="desc">Geokodowanie adresów w obszarze aglomeracji (OpenStreetMap Nominatim) oraz geokodowanie odwrotne.</p>
+        <h4>Przykład</h4>
+        <pre>curl "https://api.busearch.pl/bydgoszcz/api/geocode?q=Gdańska+10"</pre>
+      </div>
+
+      <!-- ================= 5. MOBILE APP ================= -->
+      <h2 style="font-size:18px; font-weight:800; margin:32px 0 16px; color:#93c5fd;">5. Aplikacja mobilna, Radar, Trasy i Przystanki</h2>
+
+      <div class="endpoint">
+        <div class="endpoint__head">
+          <span class="method method--get">GET</span>
+          <span class="path">https://api.busearch.pl/{city}/api/app/live/vehicles</span> &nbsp; / &nbsp; <span class="path">https://api.busearch.pl/{city}/api/app/vehicles/precise</span>
+        </div>
+        <p class="desc">Niefiltrowany, pełny strumień telemetryczny o wysokiej precyzji GPS dla aplikacji natywnej (azymut, prędkość, stan ruchu, metadane taboru i linki do trybu stalkera).</p>
+      </div>
+
+      <div class="endpoint">
+        <div class="endpoint__head">
+          <span class="method method--get">GET</span>
+          <span class="path">https://api.busearch.pl/{city}/api/app/radar</span> &nbsp; (lub: <span class="path">https://api.busearch.pl/v1/cities/{city}/vehicles/radar</span>)
+        </div>
+        <p class="desc">Radar pojazdów w pobliżu użytkownika („Co koło mnie jedzie?”). Wylicza odległość w metrach (<code>dystans_m</code>), czas dojścia pieszego (<code>czas_dojscia_pieszego_min</code>) oraz czy pojazd zbliża się pod kątem do użytkownika (<code>kierunek_do_mnie</code>).</p>
+      </div>
+
+      <div class="endpoint">
+        <div class="endpoint__head">
+          <span class="method method--get">GET</span>
+          <span class="path">https://api.busearch.pl/{city}/api/app/trasa/:linia</span> &nbsp; / &nbsp; <span class="path">https://api.busearch.pl/{city}/api/app/line/:linia/route</span>
+        </div>
+        <p class="desc">Geometria trasy i polilinie dla mobilnej mapy (MapLibre / Google Maps / Mapbox). Zwraca warianty kierunkowe, współrzędne łamanych <code>ksztalt_trasy: [[lat, lon], ...]</code>, uporządkowaną sekwencję przystanków oraz pozycje autobusów jadących obecnie na tej trasie.</p>
+        <h4>Przykład</h4>
+        <pre>curl "https://api.busearch.pl/bydgoszcz/api/app/trasa/69"</pre>
+      </div>
+
+      <div class="endpoint">
+        <div class="endpoint__head">
+          <span class="method method--get">GET</span>
+          <span class="path">https://api.busearch.pl/{city}/api/app/pojazd/:id/trasa</span> &nbsp; / &nbsp; <span class="path">https://api.busearch.pl/{city}/api/app/vehicle/:id/route</span>
+        </div>
+        <p class="desc">Trasa konkretnego autobusu/tramwaju ze statusem miniętych vs nadchodzących przystanków, aktualnym postępem procentowym kursu i szacunkiem czasu ETA.</p>
+      </div>
+
+      <div class="endpoint">
+        <div class="endpoint__head">
+          <span class="method method--get">GET</span>
+          <span class="path">https://api.busearch.pl/{city}/api/app/przystanki</span> &nbsp; / &nbsp; <span class="path">https://api.busearch.pl/{city}/api/app/stops</span>
+        </div>
+        <p class="desc">Lista przystanków z obsługą wyszukiwania tekstowego (<code>?q=Jagiellon</code> lub ID <code>?q=336</code>), geolokalizacji w promieniu (<code>?lat=...&lon=...&promien=800</code>) oraz filtrowania po liniach i typach transportu.</p>
+      </div>
+
+      <div class="endpoint">
+        <div class="endpoint__head">
+          <span class="method method--get">GET</span>
+          <span class="path">https://api.busearch.pl/{city}/api/app/przystanek/:id/odjazdy</span> &nbsp; / &nbsp; <span class="path">https://api.busearch.pl/{city}/api/app/stop/:id/departures</span>
+        </div>
+        <p class="desc">Wirtualna tablica LCD dla wybranego słupka przystankowego. Zwraca dynamiczne odliczanie w sekundach (<code>odjazd_za_sekund</code>), opóźnienie, wskaźnik pozycji live oraz linki do śledzenia nadjeżdżającego taboru.</p>
+        <h4>Przykład</h4>
+        <pre>curl "https://api.busearch.pl/bydgoszcz/api/app/przystanek/9/odjazdy"</pre>
+      </div>
+
+      <div class="endpoint">
+        <div class="endpoint__head">
+          <span class="method method--get">GET</span>
+          <span class="path">https://api.busearch.pl/{city}/api/app/stalk/:id</span>
+        </div>
+        <p class="desc">Tryb stalkera dla wybranego numeru bocznego (pełna telemetria, postęp kursu, minięte/kolejne przystanki, ETA do pętli i dane techniczne taboru z Wiki).</p>
+      </div>
+
+      <div class="endpoint">
+        <div class="endpoint__head">
+          <span class="method method--get">GET</span>
+          <span class="path">https://api.busearch.pl/{city}/api/app/statystyki-live</span> &nbsp; / &nbsp; <span class="path">https://api.busearch.pl/{city}/api/app/widget/podsumowanie</span>
+        </div>
+        <p class="desc">Globalne statystyki punktualności i prędkości floty w czasie rzeczywistym oraz lekki feed dla widgetów Android / iOS.</p>
+      </div>
+
+      <div class="endpoint">
+        <div class="endpoint__head">
+          <span class="method method--get">GET</span> &nbsp; <span class="method method--post">POST</span> &nbsp; <span class="method method--put">PUT</span>
+          <span class="path">https://api.busearch.pl/{city}/api/app/ulubione</span>
+        </div>
+        <p class="desc">Synchronizacja ulubionych przystanków dla widgetów pulpitu i aplikacji mobilnej na podstawie identyfikatora klienta (bez logowania).</p>
+      </div>
+
+      <!-- ================= 6. FLEET WIKI ================= -->
+      <h2 style="font-size:18px; font-weight:800; margin:32px 0 16px; color:#93c5fd;">6. Wiki taboru i baza wiedzy</h2>
+
+      <div class="endpoint">
+        <div class="endpoint__head">
+          <span class="method method--get">GET</span>
+          <span class="path">https://api.busearch.pl/{city}/api/wiki/lookup</span>
+        </div>
+        <p class="desc">Szybkie wyszukiwanie pojazdu po numerze bocznym, ID lub tablicy rejestracyjnej (np. <code>?q=384</code>).</p>
+      </div>
+
+      <div class="endpoint">
+        <div class="endpoint__head">
+          <span class="method method--get">GET</span>
+          <span class="path">https://api.busearch.pl/{city}/api/wiki/:id</span>
+        </div>
+        <p class="desc">Szczegółowa karta pojazdu: model, rok produkcji, patron, notatki, galeria zdjęć z koordynatami, usterki oraz pełna historia edycji.</p>
+      </div>
+
+      <div class="endpoint">
+        <div class="endpoint__head">
+          <span class="method method--get">GET</span>
+          <span class="path">https://api.busearch.pl/{city}/api/wiki/recent</span>
+        </div>
+        <p class="desc">Feed 500 ostatnich zmian w taborze (nowe zdjęcia, edycje numerów, patroni, opisy).</p>
+      </div>
+
+      <div class="endpoint">
+        <div class="endpoint__head">
+          <span class="method method--get">GET</span>
+          <span class="path">https://api.busearch.pl/{city}/api/wiki/photos-map</span>
+        </div>
+        <p class="desc">Lista wszystkich zdjęć taboru posiadających współrzędne GPS - do wyrysowania na mapie punktów fotograficznych.</p>
+      </div>
+
+      <!-- ================= 7. ANNOUNCEMENTS ================= -->
+      <h2 style="font-size:18px; font-weight:800; margin:32px 0 16px; color:#93c5fd;">7. Komunikaty i ogłoszenia</h2>
+
+      <div class="endpoint">
+        <div class="endpoint__head">
+          <span class="method method--get">GET</span>
+          <span class="path">https://api.busearch.pl/{city}/api/announcements</span>
+        </div>
+        <p class="desc">Aktualne komunikaty dyspozytorskie, ostrzeżenia o utrudnieniach w ruchu i zmianach tras.</p>
+      </div>
+
+      <div class="note">
+        To jest publiczne API aplikacji BUSearch — udostępniane bezpłatnie do użytku niekomercyjnego. W przypadku integracji zewnętrznych prosimy o stosowanie nagłówka <code>User-Agent</code> identyfikującego Twoją aplikację. Pytania i kontakt: <a href="mailto:kontakt@busearch.pl">kontakt@busearch.pl</a>.
+      </div>
+
+      <footer>BUSearch.pl — {{CITY_NAME}} na żywo</footer>
+    </div>
+    <script type="module" src="/src/pages/api.js"></script>
+  </body>
+</html>

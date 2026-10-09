@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="pl">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Tryb awaryjny - ta funkcja chwilowo nie działa | BUSearch</title>
+    <meta name="robots" content="noindex" />
+    <link rel="icon" href="/logo/logo.ico" sizes="any" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&display=swap" rel="stylesheet">
+  </head>
+  <body>
+    <div class="error-card">
+      <svg class="bus-scene" viewBox="0 0 300 170" role="img" aria-label="Autobus na lawecie z migającym kogutem">
+        <g class="rig">
+          <!-- tow truck cab -->
+          <g stroke="#f59e0b" stroke-width="3" fill="rgba(245,158,11,0.10)" stroke-linejoin="round" stroke-linecap="round">
+            <path d="M18 96 q0 -8 8 -8 h26 l10 12 v20 q0 6 -6 6 h-30 q-8 0 -8 -8 z"></path>
+            <rect x="28" y="94" width="16" height="12" rx="3"></rect>
+          </g>
+          <!-- warning beacon -->
+          <g class="beacon">
+            <rect x="30" y="80" width="12" height="7" rx="3" fill="#f59e0b"></rect>
+            <path d="M24 76 l-6 -5 M48 76 l6 -5 M36 74 v-7" stroke="#f59e0b" stroke-width="2.4" stroke-linecap="round"></path>
+          </g>
+          <!-- tow truck bed -->
+          <g stroke="rgba(255,255,255,0.45)" stroke-width="3" fill="none" stroke-linecap="round">
+            <path d="M62 122 h180"></path>
+            <path d="M244 122 l10 -10"></path>
+          </g>
+          <!-- the carried bus, whole and healthy, just not on the road -->
+          <g stroke="#1e66ff" stroke-width="3" fill="rgba(30,102,255,0.10)" stroke-linejoin="round" stroke-linecap="round">
+            <path d="M78 68 q0 -10 10 -10 h130 q10 0 10 10 v46 q0 8 -8 8 h-134 q-8 0 -8 -8 z"></path>
+            <line x1="78" y1="96" x2="228" y2="96"></line>
+            <rect x="92" y="70" width="30" height="18" rx="4"></rect>
+            <rect x="132" y="70" width="30" height="18" rx="4"></rect>
+            <rect x="172" y="70" width="30" height="18" rx="4"></rect>
+          </g>
+          <!-- the bus wheels hang above the bed, not touching the road -->
+          <circle cx="110" cy="122" r="9" fill="#0c1016" stroke="#1e66ff" stroke-width="3"></circle>
+          <circle cx="196" cy="122" r="9" fill="#0c1016" stroke="#1e66ff" stroke-width="3"></circle>
+          <!-- tow truck wheels -->
+          <circle cx="40" cy="130" r="12" fill="#0c1016" stroke="#f59e0b" stroke-width="3"></circle>
+          <circle cx="152" cy="130" r="12" fill="#0c1016" stroke="rgba(255,255,255,0.45)" stroke-width="3"></circle>
+          <circle cx="226" cy="130" r="12" fill="#0c1016" stroke="rgba(255,255,255,0.45)" stroke-width="3"></circle>
+        </g>
+        <!-- road -->
+        <line x1="0" y1="148" x2="300" y2="148" stroke="rgba(255,255,255,0.18)" stroke-width="2"></line>
+        <g class="road-dash" stroke="rgba(255,255,255,0.28)" stroke-width="3" stroke-linecap="round">
+          <line x1="0" y1="158" x2="20" y2="158"></line>
+          <line x1="40" y1="158" x2="60" y2="158"></line>
+          <line x1="80" y1="158" x2="100" y2="158"></line>
+          <line x1="120" y1="158" x2="140" y2="158"></line>
+          <line x1="160" y1="158" x2="180" y2="158"></line>
+          <line x1="200" y1="158" x2="220" y2="158"></line>
+          <line x1="240" y1="158" x2="260" y2="158"></line>
+          <line x1="280" y1="158" x2="300" y2="158"></line>
+        </g>
+      </svg>
+
+      <div class="code">Tryb awaryjny</div>
+      <h1>Ta funkcja chwilowo nie działa</h1>
+      <p>Główny serwer BUSearch jest niedostępny, więc serwis jedzie z zapasowego. Ten potrafi pokazywać, ale nie zapisywać — dlatego nie przyjmie teraz zmiany.</p>
+
+      <div class="co-dziala">
+        <div class="tak"><strong>Działa:</strong> mapa i pozycje pojazdów na żywo, rozkłady, odjazdy z przystanku</div>
+        <div class="tak"><strong>Do czytania:</strong> wiki i ogłoszenia — w wersji sprzed ostatniej nocy</div>
+        <div class="nie"><strong>Nie działa:</strong> logowanie, dodawanie wpisów i zdjęć, zgłoszenia, panel</div>
+      </div>
+
+      <p>Nic nie przepadło — wszystko wróci samo, gdy główny serwer wstanie. Spróbuj wtedy jeszcze raz.</p>
+      <a class="btn-home" href="/">Wróć na mapę</a>
+    </div>
+    <script type="module" src="/src/pages/awaria.js"></script>
+  </body>
+</html>

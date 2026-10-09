@@ -1,0 +1,61 @@
+@page { size: A4; margin: 18mm 16mm 20mm 16mm; }
+body { font: 10.5pt/1.55 "DejaVu Sans", system-ui, sans-serif; color: #111; }
+h1 { font-size: 19pt; margin: 0 0 2mm; }
+h2 { font-size: 12.5pt; margin: 7mm 0 2mm; border-bottom: 1px solid #ccc; padding-bottom: 1mm; }
+h3 { font-size: 11pt; margin: 4mm 0 1mm; }
+p, li { margin: 0 0 2mm; }
+ul { margin: 0 0 3mm 5mm; padding: 0; }
+table { border-collapse: collapse; width: 100%; margin: 2mm 0 4mm; font-size: 9.5pt; }
+th, td { border: 1px solid #bbb; padding: 1.6mm 2mm; text-align: left; vertical-align: top; }
+th { background: #f0f0f0; }
+.lead { color: #444; }
+.meta { color: #666; font-size: 9pt; margin-bottom: 5mm; }
+.uwaga { background: #f6f6f6; border-left: 3px solid #888; padding: 2mm 3mm; margin: 3mm 0; font-size: 9.5pt; }
+
+/* ——— Ekran ———
+   Ten arkusz powstał do DRUKU: milimetry, punkty, format A4. Od kiedy /polityka-prywatnosci
+   i /regulamin są stronami, a nie PDF-ami, ten sam plik trafia też do przeglądarki — a tam
+   punkty i brak ograniczenia szerokości dają wiersze przez cały monitor i mikroskopijny
+   tekst na telefonie. Reguły poniżej dotyczą wyłącznie ekranu, więc konwerter PDF ich nie
+   widzi i wydruk zostaje dokładnie taki, jaki był. */
+@media screen {
+  body {
+    font-size: 17px;
+    line-height: 1.65;
+    max-width: 46rem;
+    margin: 0 auto;
+    padding: 32px 16px 64px;
+    color: #1a1a1a;
+    background: #fff;
+    -webkit-text-size-adjust: 100%;
+  }
+  h1 { font-size: 1.9rem; line-height: 1.2; margin-bottom: 8px; }
+  h2 { font-size: 1.25rem; margin: 40px 0 10px; padding-bottom: 6px; }
+  h3 { font-size: 1.05rem; margin: 24px 0 6px; }
+  p, li { margin: 0 0 12px; }
+  ul { margin: 0 0 16px 20px; }
+  .meta { font-size: 0.9rem; margin-bottom: 28px; }
+  .uwaga { padding: 12px 16px; margin: 20px 0; font-size: 0.95rem; }
+  a { color: #0b5d3b; }
+  /* Tabela z §3 ma cztery wiersze opisu i nie zmieści się w 360 px — zamiast rozpychać
+     stronę w bok, przewija się sama. */
+  table { display: block; overflow-x: auto; font-size: 0.95rem; }
+  th, td { padding: 8px 10px; }
+  .stopka-web {
+    margin-top: 48px;
+    padding-top: 16px;
+    border-top: 1px solid #ddd;
+    font-size: 0.95rem;
+  }
+  @media (prefers-color-scheme: dark) {
+    body { color: #e8e8e8; background: #141414; }
+    h2 { border-bottom-color: #333; }
+    th, td { border-color: #383838; }
+    th { background: #1e1e1e; }
+    .lead { color: #bdbdbd; }
+    .meta { color: #9a9a9a; }
+    .uwaga { background: #1c1c1c; border-left-color: #666; }
+    a { color: #7fd4a6; }
+    .stopka-web { border-top-color: #333; }
+  }
+}

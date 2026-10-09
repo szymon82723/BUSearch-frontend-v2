@@ -1,0 +1,65 @@
+{
+  "id": "pl.bydgoszcz.busearch",
+  "name": "BUSearch - Bydgoszcz na żywo",
+  "short_name": "BUSearch",
+  "description": "Mapa autobusów i tramwajów w Bydgoszczy (na żywo).",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "display_override": [
+    "window-controls-overlay",
+    "standalone",
+    "minimal-ui"
+  ],
+  "orientation": "portrait-primary",
+  "background_color": "#0c1016",
+  "theme_color": "#0c1016",
+  "lang": "pl",
+  "categories": [
+    "transport",
+    "navigation"
+  ],
+  "prefer_related_applications": false,
+  "shortcuts": [
+    {
+      "name": "Mapa autobusów",
+      "url": "/?type=buses",
+      "icons": [
+        {
+          "src": "/logo/logo512.png",
+          "sizes": "192x192"
+        }
+      ]
+    },
+    {
+      "name": "Mapa tramwajów",
+      "url": "/?type=trams",
+      "icons": [
+        {
+          "src": "/logo/logo512.png",
+          "sizes": "192x192"
+        }
+      ]
+    }
+  ],
+  "icons": [
+    {
+      "src": "/logo/logo.png",
+      "sizes": "462x222",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/logo/logo512.png",
+      "sizes": "192x192 512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/logo/logo512.png",
+      "sizes": "192x192 512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ]
+}

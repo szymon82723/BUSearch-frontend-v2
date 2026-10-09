@@ -1,0 +1,96 @@
+.static-page--404 {
+        font-family: var(--font-main);
+        background: var(--bg-color);
+        color: var(--ui-text);
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+        box-sizing: border-box;
+      }
+
+      .error-card {
+        background: var(--glass-bg);
+        border: 1px solid var(--glass-border);
+        border-radius: var(--ui-radius-lg);
+        padding: 36px 30px;
+        width: 100%;
+        max-width: 460px;
+        text-align: center;
+        box-shadow: none;
+      }
+
+      .bus-scene { width: 100%; max-width: 320px; margin: 0 auto 18px; display: block; }
+
+      /* przód autobusu kiwa się smutno */
+      .bus-front { animation: tilt 3.2s ease-in-out infinite; transform-origin: 60px 118px; }
+      @keyframes tilt {
+        0%, 100% { transform: rotate(-2.2deg); }
+        50% { transform: rotate(-0.6deg); }
+      }
+
+      /* tył odpadł i lekko dygocze */
+      .bus-back { animation: wobble 2.6s ease-in-out infinite; transform-origin: 200px 122px; }
+      @keyframes wobble {
+        0%, 100% { transform: rotate(3.4deg); }
+        50% { transform: rotate(2.2deg); }
+      }
+
+      /* łezka kapie */
+      .tear { animation: tear-drop 2.4s ease-in infinite; transform-origin: center; }
+      @keyframes tear-drop {
+        0% { transform: translateY(0); opacity: 0; }
+        18% { opacity: 1; }
+        70% { transform: translateY(16px); opacity: 1; }
+        100% { transform: translateY(26px); opacity: 0; }
+      }
+
+      /* zgubione kółko toczy się w miejscu */
+      .lost-wheel { animation: roll 4s linear infinite; transform-origin: 250px 132px; }
+      @keyframes roll { to { transform: rotate(360deg); } }
+
+      /* dymek z silnika */
+      .puff { animation: puff 3s ease-out infinite; opacity: 0; }
+      .puff.p2 { animation-delay: 1s; }
+      .puff.p3 { animation-delay: 2s; }
+      @keyframes puff {
+        0% { transform: translate(0, 0) scale(0.6); opacity: 0; }
+        20% { opacity: 0.55; }
+        100% { transform: translate(10px, -22px) scale(1.25); opacity: 0; }
+      }
+
+      .code {
+        font-size: 44px;
+        font-weight: 600;
+        letter-spacing: 2px;
+        color: var(--ui-text);
+        margin-bottom: 4px;
+      }
+
+      h1 { font-size: 20px; font-weight: 600; margin-bottom: 10px; letter-spacing: -0.02em; }
+
+      p {
+        font-size: 14.5px;
+        color: rgba(255, 255, 255, 0.62);
+        line-height: 1.6;
+        margin-bottom: 28px;
+      }
+
+      .btn-home {
+        display: inline-block;
+        background: var(--ui-accent);
+        color: var(--ui-on-accent);
+        text-decoration: none;
+        padding: 14px 28px;
+        border-radius: var(--ui-radius-lg);
+        font-weight: 600;
+        font-size: 14px;
+        box-shadow: none;
+        transition: transform 0.2s, filter 0.2s;
+      }
+
+      .btn-home:hover { filter: brightness(1.08); }
+      .btn-home:active { transform: scale(0.96); }
+
+      @media (max-width: 480px) { .error-card { padding: 30px 22px; } }

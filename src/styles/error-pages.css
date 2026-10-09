@@ -1,0 +1,9 @@
+/* Shared by the error and outage pages (404, error, awaria). The three share the
+   palette and the reset; each one adds only its own content. */
+:root {
+  --bg-color: var(--ui-canvas);
+  --glass-bg: var(--ui-surface);
+  --glass-border: var(--ui-line);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }

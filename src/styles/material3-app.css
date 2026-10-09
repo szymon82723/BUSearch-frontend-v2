@@ -1,0 +1,24 @@
+/* The map-less mobile app screens (app-wk.html, app-wiki.html) describe their surfaces
+   with Material role names. The names stay, because the code of those pages uses them,
+   but the values now come from the service palette — so the view inside the app and the
+   same content in a browser are one service, not two different themes.
+
+   "primary" is mint, so "on-primary" MUST be black: mint is light and white text on it
+   does not exist. */
+:root {
+  --surface: var(--ui-canvas);
+  --surface-container: var(--ui-surface);
+  --surface-container-high: var(--ui-surface-2);
+  --surface-container-highest: var(--ui-surface-3);
+  --on-surface: var(--ui-text);
+  --on-surface-variant: var(--ui-text-2);
+  --outline: var(--ui-text-3);
+  --outline-variant: var(--ui-line-strong);
+  --primary: var(--ui-accent);
+  --on-primary: var(--ui-on-accent);
+  --primary-container: var(--ui-accent-fill);
+  --on-primary-container: var(--ui-accent);
+  --secondary-container: var(--ui-surface-2);
+  --on-secondary-container: var(--ui-text);
+  --error: var(--ui-danger);
+}

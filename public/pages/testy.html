@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="pl">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>Testujemy aplikację - BUSearch</title>
+    <meta name="description" content="Szukamy testerów aplikacji BUSearch w Google Play. Dołącz do grupy testerów i zainstaluj aplikację ze sklepu." />
+    <link rel="icon" href="/logo/logo.ico" sizes="any" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+    <script src="https://statistics.busearch.pl/api/script.js" data-site-id="{{ANALYTICS_ID}}" defer></script>
+  </head>
+  <body>
+    <div class="wrap">
+      <a class="back" href="/"><svg class="ui-arrow" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" aria-hidden="true"><path d="M19 12H5m0 0 6-6m-6 6 6 6"/></svg><span>Mapa</span></a>
+
+      <header>
+        <div class="logo-wrap"><img src="/logo/logo.png" alt="BUSearch" /></div>
+        <h1>Testujemy aplikację</h1>
+        <p class="subtitle">Szukamy testerów BUSearch w Google Play</p>
+      </header>
+
+      <div class="note">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="M12 16v-5"></path><path d="M12 8h.01"></path></svg>
+        <span>Aplikacja jest w testach zamkniętych — nie znajdziesz jej wyszukiwarką w sklepie. Wchodzi się przez linki poniżej i przez cały czas tym samym kontem Google.</span>
+      </div>
+
+      <div class="section-card">
+        <div class="section-header">
+          <span class="os-name os-name--testy"><span class="dot"></span>Jak dołączyć</span>
+          <span class="section-count">3 kroki</span>
+        </div>
+
+        <div class="step">
+          <div class="step-header">
+            <div class="step-num">1</div>
+            <div class="step-title">Dołącz do grupy testerów</div>
+          </div>
+          <div class="step-desc">Otwórz grupę i kliknij <span class="highlight">Dołącz do grupy</span>. Zaloguj się tym kontem Google, którego używasz w sklepie Play.</div>
+          <a class="btn-krok btn-krok--glowny" href="https://groups.google.com/g/busearch-testerzy" target="_blank" rel="noopener noreferrer">
+            Otwórz grupę testerów
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 4h6v6"></path><path d="M20 4 11 13"></path><path d="M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"></path></svg>
+          </a>
+        </div>
+
+        <div class="step">
+          <div class="step-header">
+            <div class="step-num">2</div>
+            <div class="step-title">Otwórz BUSearch w Google Play</div>
+          </div>
+          <div class="step-desc">Dopiero po dołączeniu do grupy ten link pokaże aplikację. Jeśli sklep mówi, że takiej strony nie ma — odczekaj chwilę i odśwież.</div>
+          <a class="btn-krok" href="https://play.google.com/store/apps/details?id=com.szymoxyz.busearch" target="_blank" rel="noopener noreferrer">
+            Otwórz w Google Play
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 4h6v6"></path><path d="M20 4 11 13"></path><path d="M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"></path></svg>
+          </a>
+        </div>
+
+        <div class="step">
+          <div class="step-header">
+            <div class="step-num">3</div>
+            <div class="step-title">Zainstaluj</div>
+          </div>
+          <div class="step-desc step-desc--ostatni">Dalej to zwykła instalacja ze sklepu — klikasz <span class="highlight">Zainstaluj</span> i gotowe.</div>
+        </div>
+      </div>
+
+      <a href="/" class="btn-back"><svg class="ui-arrow" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" aria-hidden="true"><path d="M19 12H5m0 0 6-6m-6 6 6 6"/></svg><span>Wróć na mapę</span></a>
+    </div>
+    <script type="module" src="/src/pages/testy.js"></script>
+  </body>
+</html>

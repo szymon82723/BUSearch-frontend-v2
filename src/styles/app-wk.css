@@ -1,0 +1,1027 @@
+:root {
+        --r-pole: var(--ui-radius);
+        --r-karta: var(--ui-radius-lg);
+        --r-chip: var(--ui-radius);
+        --r-pigulka: var(--ui-radius);
+      }
+
+      * {
+        box-sizing: border-box;
+        -webkit-tap-highlight-color: transparent;
+      }
+
+      /* Natywny pasek aplikacji leży NAD WebView — patrz ten sam komentarz w app-wiki.html.
+         Domyślnie 96 px, aplikacja może podać swoją wysokość przez ?dol=<piksele>. */
+      :root { --dol: 96px; }
+
+      /* Bez powiększania dwoma palcami. To ekran aplikacji, nie strona: w natywnej liście
+         też się nie szczypie, a przypadkowe rozjechanie układu w połowie wypełniania
+         formularza jest wyłącznie uciążliwe.
+         Sam "user-scalable=no" w viewport bywa ignorowany, więc dokładamy touch-action.
+         "pan-x pan-y", a NIE "none": przewijanie w pionie i poziomy pasek chipów muszą
+         działać dalej — blokujemy tylko gest szczypania i podwójne stuknięcie. */
+      html {
+        touch-action: pan-x pan-y;
+        -webkit-text-size-adjust: 100%;
+        text-size-adjust: 100%;
+      }
+
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+      }
+
+      body {
+        background: var(--surface);
+        color: var(--on-surface);
+        font: 400 15px/1.45 var(--font-main);
+        /* Bezpieczne marginesy telefonu — pasek stanu u góry, gesty u dołu. */
+        padding: calc(12px + env(safe-area-inset-top, 0px)) 0 calc(24px + var(--dol) + env(safe-area-inset-bottom, 0px));
+        min-height: 100vh;
+      }
+
+      .ekran {
+        max-width: 640px;
+        margin: 0 auto;
+        padding: 0 16px;
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+      }
+
+      /* ===== Nagłówek ===== */
+      .naglowek {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        min-height: 48px;
+      }
+
+      .naglowek__tytul {
+        font: 500 22px/1.25 Roboto, sans-serif;
+        letter-spacing: 0;
+        margin: 0;
+      }
+
+      .naglowek__miasto {
+        display: block;
+        font: 400 13px/1.3 Roboto, sans-serif;
+        color: var(--on-surface-variant);
+        margin-top: 2px;
+      }
+
+      .naglowek__wyczysc {
+        margin-left: auto;
+        flex: none;
+        width: 40px;
+        height: 40px;
+        border: 0;
+        border-radius: var(--r-pigulka);
+        background: var(--surface-container-high);
+        color: var(--on-surface-variant);
+        display: grid;
+        place-items: center;
+        cursor: pointer;
+      }
+
+      .naglowek__wyczysc:active {
+        background: var(--surface-container-highest);
+      }
+
+      /* ===== Karta z polami ===== */
+      .karta-pol {
+        background: var(--surface-container);
+        border-radius: var(--r-karta);
+        padding: 8px;
+        display: grid;
+        grid-template-columns: 1fr auto;
+        gap: 8px;
+        align-items: center;
+      }
+
+      .pola {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        min-width: 0;
+      }
+
+      /* Wypełnione pole tekstowe Material 3: tło, zaokrąglenie u góry, kreska u dołu,
+         która grubieje i zmienia kolor przy aktywnym polu. */
+      .pole {
+        position: relative;
+        background: var(--surface-container-high);
+        border-radius: var(--r-pole) var(--r-pole) 4px 4px;
+        border-bottom: 1px solid var(--outline);
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 8px 12px;
+        transition: border-color 0.15s, background 0.15s;
+      }
+
+      .pole:focus-within {
+        border-bottom: 2px solid var(--primary);
+        padding-bottom: 7px;
+      }
+
+      .pole__ikona {
+        flex: none;
+        width: 24px;
+        height: 24px;
+        color: var(--on-surface-variant);
+        display: grid;
+        place-items: center;
+      }
+
+      .pole__wnetrze {
+        flex: 1 1 auto;
+        min-width: 0;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+      }
+
+      .pole__etykieta {
+        font: 400 12px/1.2 Roboto, sans-serif;
+        color: var(--on-surface-variant);
+      }
+
+      .pole:focus-within .pole__etykieta {
+        color: var(--primary);
+      }
+
+      .pole input {
+        width: 100%;
+        border: 0;
+        background: transparent;
+        color: var(--on-surface);
+        font: 400 16px/1.4 Roboto, sans-serif;
+        padding: 0;
+        outline: none;
+      }
+
+      .pole input::placeholder {
+        color: var(--outline);
+      }
+
+      .pole__czysc {
+        flex: none;
+        width: 32px;
+        height: 32px;
+        border: 0;
+        border-radius: var(--r-pigulka);
+        background: transparent;
+        color: var(--on-surface-variant);
+        display: grid;
+        place-items: center;
+        cursor: pointer;
+      }
+
+      .pole__czysc:active {
+        background: var(--surface-container-highest);
+      }
+
+      /* Zamiana miejscami — okrągły przycisk ikonowy, jak w Mapach Google. */
+      .zamien {
+        flex: none;
+        width: 40px;
+        height: 40px;
+        border: 0;
+        border-radius: var(--r-pigulka);
+        background: var(--surface-container-high);
+        color: var(--on-surface-variant);
+        display: grid;
+        place-items: center;
+        cursor: pointer;
+      }
+
+      .zamien:active {
+        background: var(--surface-container-highest);
+      }
+
+      /* ===== Chipy czasu ===== */
+      .chipy {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+      }
+
+      .chip {
+        border: 1px solid var(--outline-variant);
+        background: transparent;
+        color: var(--on-surface);
+        border-radius: var(--r-chip);
+        padding: 7px 14px;
+        font: 500 14px/1.2 Roboto, sans-serif;
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+      }
+
+      .chip[aria-pressed="true"] {
+        background: var(--secondary-container);
+        color: var(--on-secondary-container);
+        border-color: transparent;
+      }
+
+      .chip input[type="time"],
+      .chip input[type="date"] {
+        border: 0;
+        background: transparent;
+        color: transparent;
+        font: inherit;
+        padding: 0;
+        outline: none;
+        width: 1px;
+        transition: width 0.15s ease;
+      }
+      /* Dopóki nic nie wybrano, chip ma być mały — sam SVG — nie szeroki pusty prostokąt
+         z przezroczystym placeholderem przeglądarki ("--:--", "mm/dd/yyyy", czasem w
+         obcym formacie US). Rozszerza się i dostaje kolor DOPIERO po realnym wyborze —
+         przełącza to JS (patrz "ma-wartosc" niżej), bo atrybut [value] NIE reaguje na
+         wybór w natywnym pickerze. */
+      .chip input[type="time"].ma-wartosc,
+      .chip input[type="date"].ma-wartosc {
+        color: inherit;
+      }
+      .chip input[type="time"].ma-wartosc {
+        width: 62px;
+      }
+      .chip input[type="date"].ma-wartosc {
+        width: 118px;
+      }
+      .chip input[type="time"]::-webkit-calendar-picker-indicator,
+      .chip input[type="date"]::-webkit-calendar-picker-indicator {
+        /* Wlasna ikonka w SVG jest juz przed polem — systemowa dublowalaby ja. */
+        display: none;
+      }
+
+      /* ===== Ostatnie przystanki ===== */
+      .ostatnie { margin-top: 4px; }
+      .ostatnie__tytul {
+        font: 500 12px/1.2 Roboto, sans-serif;
+        color: var(--on-surface-variant);
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+        margin: 6px 4px 6px;
+      }
+      .ostatnie__item {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        width: 100%;
+        border: 0;
+        background: transparent;
+        color: var(--on-surface);
+        padding: 12px 6px;
+        cursor: pointer;
+        text-align: left;
+        font: 400 15px/1.3 Roboto, sans-serif;
+        border-bottom: 1px solid var(--outline-variant);
+      }
+      .ostatnie__item:last-child { border-bottom: 0; }
+      .ostatnie__item:active { background: var(--surface-container-high); border-radius: var(--ui-radius-lg); }
+      .ostatnie__ikona {
+        flex: none; width: 40px; height: 40px; border-radius: 50%;
+        background: var(--surface-container-high); color: var(--on-surface-variant);
+        display: grid; place-items: center;
+      }
+      .ostatnie__tekst { min-width: 0; }
+      .ostatnie__nazwa { display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+      .ostatnie__opis {
+        display: block; margin-top: 1px;
+        font: 400 12px/1.3 Roboto, sans-serif; color: var(--on-surface-variant);
+        overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+      }
+      .ostatnie__usun {
+        flex: none; margin-left: auto; width: 32px; height: 32px; border: 0; border-radius: var(--ui-radius);
+        background: transparent; color: var(--on-surface-variant); display: grid; place-items: center; cursor: pointer;
+      }
+      .ostatnie__usun:active { background: var(--surface-container-highest); }
+
+      /* ===== Zapisane miejsca (Dom/Praca/…) — kafle na ekranie głównym ===== */
+      .miejsca {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 12px;
+      }
+      .miejsca[hidden] { display: none; }
+      .miejsce {
+        position: relative;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        text-align: left;
+        border: 0;
+        background: var(--surface-container);
+        border-radius: var(--ui-radius-lg);
+        padding: 12px;
+        color: var(--on-surface);
+        cursor: pointer;
+        min-width: 0;
+      }
+      .miejsce:active { background: var(--surface-container-high); }
+      .miejsce__ikona {
+        flex: none; width: 40px; height: 40px; border-radius: 50%;
+        display: grid; place-items: center; color: #fff;
+      }
+      .miejsce__ikona--dom { background: var(--primary-container); color: var(--on-primary-container); }
+      .miejsce__ikona--praca { background: var(--secondary-container); color: var(--on-secondary-container); }
+      .miejsce__ikona--uczelnia { background: var(--surface-container-highest); color: var(--on-surface-variant); }
+      .miejsce__ikona--inne { background: var(--surface-container-highest); color: var(--on-surface-variant); }
+      .miejsce__tekst { min-width: 0; }
+      .miejsce__nazwa {
+        display: block; font: 500 14px/1.25 Roboto, sans-serif;
+        overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+      }
+      .miejsce__opis {
+        display: block; margin-top: 1px;
+        font: 400 12px/1.25 Roboto, sans-serif; color: var(--on-surface-variant);
+        overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+      }
+      .miejsce__usun {
+        position: absolute; top: 4px; right: 4px;
+        width: 26px; height: 26px; border: 0; border-radius: var(--ui-radius);
+        background: transparent; color: var(--on-surface-variant);
+        display: grid; place-items: center; cursor: pointer;
+      }
+      .miejsce__usun:active { background: var(--surface-container-highest); }
+      .miejsce--dodaj {
+        justify-content: center;
+        background: transparent;
+        border: 1px dashed var(--outline-variant);
+        color: var(--on-surface-variant);
+        font: 500 14px/1.2 Roboto, sans-serif;
+        gap: 8px;
+      }
+      .miejsce--dodaj:active { background: var(--surface-container); }
+
+      /* Arkusz wyboru typu miejsca (Dom/Praca/Uczelnia/Inne) — wjeżdża z dołu. */
+      .wybor-typ {
+        position: fixed;
+        inset: 0;
+        z-index: 74;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+        background: rgba(0,0,0,0.45);
+        opacity: 0;
+        transition: opacity 0.18s;
+      }
+      .wybor-typ[hidden] { display: none; }
+      .wybor-typ[data-otwarte="1"] { opacity: 1; }
+      .wybor-typ__panel {
+        background: var(--surface-container);
+        border-radius: var(--ui-radius-lg) var(--ui-radius-lg) 0 0;
+        padding: 8px 12px calc(16px + var(--dol, 0px) + env(safe-area-inset-bottom, 0px));
+        transform: translateY(100%);
+        transition: transform 0.24s cubic-bezier(0.05,0.7,0.1,1);
+      }
+      .wybor-typ[data-otwarte="1"] .wybor-typ__panel { transform: none; }
+      .wybor-typ__uchwyt { width: 32px; height: 4px; border-radius: 999px; background: var(--outline-variant); margin: 8px auto 6px; }
+      .wybor-typ__tytul {
+        font: 500 12px/1.2 Roboto, sans-serif; color: var(--on-surface-variant);
+        letter-spacing: 0.04em; text-transform: uppercase; margin: 6px 8px 8px;
+      }
+      .wybor-typ__opcja {
+        display: flex; align-items: center; gap: 14px; width: 100%;
+        border: 0; background: transparent; color: var(--on-surface);
+        padding: 13px 8px; cursor: pointer; text-align: left;
+        font: 400 15px/1.3 Roboto, sans-serif; border-radius: var(--ui-radius-lg);
+      }
+      .wybor-typ__opcja:active { background: var(--surface-container-high); }
+      .wybor-typ__opcja[disabled] { opacity: 0.4; cursor: default; }
+      .wybor-typ__ikona {
+        flex: none; width: 40px; height: 40px; border-radius: 50%;
+        background: var(--surface-container-high); color: var(--on-surface-variant);
+        display: grid; place-items: center;
+      }
+      @media (prefers-reduced-motion: reduce) {
+        .wybor-typ__panel { transition: none; transform: none; }
+      }
+
+      /* ===== Przycisk główny ===== */
+      .szukaj {
+        width: 100%;
+        border: 0;
+        border-radius: var(--r-pigulka);
+        background: var(--primary);
+        color: var(--on-primary);
+        font: 500 15px/1 Roboto, sans-serif;
+        padding: 17px 24px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+      }
+
+      .szukaj:disabled {
+        background: var(--surface-container-highest);
+        color: var(--outline);
+        cursor: default;
+      }
+
+      .szukaj:not(:disabled):active {
+        background: var(--on-primary-container);
+      }
+
+      /* ===== Podpowiedzi ===== */
+      .podpowiedzi {
+        position: fixed;
+        z-index: 40;
+        background: var(--surface-container-high);
+        border-radius: var(--ui-radius-lg);
+        box-shadow: none;
+        overflow-y: auto;
+        max-height: 300px;
+        padding: 8px 0;
+      }
+
+      .podpowiedzi[hidden] {
+        display: none;
+      }
+
+      .podpowiedz {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        padding: 10px 16px;
+        cursor: pointer;
+        border: 0;
+        background: transparent;
+        color: var(--on-surface);
+        width: 100%;
+        text-align: left;
+        font: 400 15px/1.3 Roboto, sans-serif;
+      }
+
+      .podpowiedz:active {
+        background: var(--surface-container-highest);
+      }
+
+      .podpowiedz__ikona {
+        flex: none;
+        width: 36px;
+        height: 36px;
+        border-radius: var(--r-pigulka);
+        background: var(--surface-container-highest);
+        color: var(--on-surface-variant);
+        display: grid;
+        place-items: center;
+      }
+
+      .podpowiedz__tekst {
+        min-width: 0;
+      }
+
+      .podpowiedz__nazwa {
+        display: block;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+
+      .podpowiedz__opis {
+        display: block;
+        font: 400 12px/1.3 Roboto, sans-serif;
+        color: var(--on-surface-variant);
+        margin-top: 1px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+
+      /* ===== Wyniki ===== */
+      .wyniki {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+      }
+
+      .wynik {
+        background: var(--surface-container);
+        border-radius: var(--r-karta);
+        overflow: hidden;
+      }
+
+      .wynik__glowa {
+        display: grid;
+        grid-template-columns: 1fr auto;
+        gap: 12px;
+        align-items: start;
+        padding: 16px;
+        cursor: pointer;
+      }
+
+      .wynik__godziny {
+        font: 500 20px/1.2 Roboto, sans-serif;
+        font-variant-numeric: tabular-nums;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .wynik__strzalka {
+        color: var(--on-surface-variant);
+        font-size: 16px;
+      }
+
+      .wynik__meta {
+        margin-top: 4px;
+        font: 400 13px/1.35 Roboto, sans-serif;
+        color: var(--on-surface-variant);
+      }
+
+      .wynik__za {
+        flex: none;
+        background: var(--secondary-container);
+        color: var(--on-secondary-container);
+        border-radius: var(--r-chip);
+        padding: 6px 10px;
+        font: 500 13px/1.2 Roboto, sans-serif;
+        font-variant-numeric: tabular-nums;
+        white-space: nowrap;
+      }
+
+      .linie {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 6px;
+        margin-top: 10px;
+      }
+
+      .linia {
+        background: var(--primary-container);
+        color: var(--on-primary-container);
+        border-radius: var(--r-chip);
+        padding: 4px 10px;
+        font: 700 14px/1.3 Roboto, sans-serif;
+        font-variant-numeric: tabular-nums;
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+      }
+
+      .linia--tram {
+        background: #7d2f1f;
+        color: #ffdad3;
+      }
+
+      .linia--noc {
+        background: #4e4e4e;
+        color: #efefef;
+      }
+
+      .linia--pieszo {
+        background: transparent;
+        color: var(--on-surface-variant);
+        padding: 4px 2px;
+        font-weight: 400;
+      }
+
+
+      /* ===== Rozwinięcie: kolejne odcinki ===== */
+      .odcinki {
+        border-top: 1px solid var(--outline-variant);
+        padding: 8px 16px 16px;
+        display: none;
+        flex-direction: column;
+      }
+
+      .wynik[data-otwarty="1"] .odcinki {
+        display: flex;
+      }
+
+      .odcinek {
+        display: grid;
+        grid-template-columns: 52px 20px 1fr;
+        gap: 12px;
+        padding: 10px 0;
+      }
+
+      .odcinek__czas {
+        font: 500 14px/1.4 Roboto, sans-serif;
+        font-variant-numeric: tabular-nums;
+        color: var(--on-surface);
+        text-align: right;
+      }
+
+      .odcinek__czas span {
+        display: block;
+        font-weight: 400;
+        color: var(--on-surface-variant);
+      }
+
+      /* Oś czasu: kropka i pionowa kreska prowadząca do następnego odcinka. */
+      .odcinek__os {
+        position: relative;
+        display: flex;
+        justify-content: center;
+      }
+
+      .odcinek__os::before {
+        content: "";
+        width: 11px;
+        height: 11px;
+        border-radius: var(--r-pigulka);
+        border: 2px solid var(--primary);
+        background: var(--surface-container);
+        margin-top: 4px;
+        z-index: 1;
+      }
+
+      .odcinek__os::after {
+        content: "";
+        position: absolute;
+        top: 12px;
+        bottom: -12px;
+        width: 2px;
+        background: var(--outline-variant);
+      }
+
+      .odcinek:last-child .odcinek__os::after {
+        display: none;
+      }
+
+      .odcinek--pieszo .odcinek__os::after {
+        /* Odcinek pieszy kreską przerywaną — tak samo jak w rozkładach Google. */
+        background: repeating-linear-gradient(
+          to bottom,
+          var(--outline-variant) 0 4px,
+          transparent 4px 8px
+        );
+      }
+
+      .odcinek__tresc {
+        min-width: 0;
+      }
+
+      .odcinek__skad {
+        font: 500 15px/1.35 Roboto, sans-serif;
+      }
+
+      .odcinek__opis {
+        font: 400 13px/1.4 Roboto, sans-serif;
+        color: var(--on-surface-variant);
+        margin-top: 3px;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        flex-wrap: wrap;
+      }
+
+      /* ===== Stany ===== */
+      .stan {
+        text-align: center;
+        padding: 40px 16px;
+        color: var(--on-surface-variant);
+        font: 400 14px/1.5 Roboto, sans-serif;
+      }
+
+      .stan__ikona {
+        display: block;
+        margin: 0 auto 12px;
+        color: var(--outline-variant);
+      }
+
+      .stan--blad {
+        color: var(--error);
+      }
+
+      /* Wskaźnik ładowania Material: kreska przebiegająca w kółko. */
+      .pasek {
+        height: 4px;
+        border-radius: var(--r-pigulka);
+        background: var(--surface-container-high);
+        overflow: hidden;
+        position: relative;
+      }
+
+      .pasek::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        width: 40%;
+        background: var(--primary);
+        border-radius: inherit;
+        animation: przesuw 1.1s infinite ease-in-out;
+      }
+
+      @keyframes przesuw {
+        0% { transform: translateX(-100%); }
+        100% { transform: translateX(350%); }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        .pasek::after { animation: none; width: 100%; opacity: 0.6; }
+      }
+
+      /* ===== Pełnoekranowy podgląd trasy z mapą ===== */
+      .trasa {
+        position: fixed;
+        inset: 0;
+        z-index: 70;
+        background: var(--surface);
+        display: flex;
+        flex-direction: column;
+        opacity: 0;
+        transition: opacity 0.18s;
+      }
+      .trasa[hidden] { display: none; }
+      .trasa[data-otwarte="1"] { opacity: 1; }
+
+      /* Dwa widoki jednego okna: NAJPIERW przebieg (oś czasu), mapa dopiero po
+         stuknięciu paska „Zobacz na mapie". Kolejność jest celowa — po wybraniu
+         połączenia najpierw chce się wiedzieć KIEDY i GDZIE się przesiąść, a nie
+         oglądać kafelki. Dzięki temu MapLibre i kafelki ładują się dopiero wtedy,
+         gdy ktoś naprawdę chce mapę (patrz pokazMapeTrasy). */
+      /* Oba widoki są ELEMENTAMI FLEKSA, a nie warstwami `position: absolute`.
+         Powód jest konkretny: MapLibre dogrywa własny arkusz (maplibre-gl.css) do
+         <head> DOPIERO przy pierwszym otwarciu mapy, a jest w nim
+         `.maplibregl-map { position: relative }`. Ta reguła ma tę samą wagę co
+         `.trasa__mapa`, ale leży PÓŹNIEJ w dokumencie, więc wygrywa i kasuje
+         `position: absolute`. Kontener przestawał być pozycjonowany, stawał się
+         elementem fleksa o wysokości treści — a że wszystko w środku jest absolutne,
+         wychodziło z tego 0 pikseli wysokości i CZARNY EKRAN (mapa działała, tylko
+         rysowała w pojemnik bez wysokości). `flex: 1 1 auto` + `min-height: 0`
+         wypełnia okno niezależnie od tego, co MapLibre zrobi z `position` — tak samo
+         działa od początku kontener wyboru punktu (.mapa-wybor__mapa). */
+      .trasa__przebieg,
+      .trasa__mapa { flex: 1 1 auto; min-height: 0; position: relative; }
+      .trasa[data-widok="mapa"] .trasa__przebieg { display: none; }
+      .trasa[data-widok="przebieg"] .trasa__mapa { display: none; }
+
+      .trasa__przebieg { display: flex; flex-direction: column; }
+
+      .trasa__gora {
+        flex: none;
+        display: flex; align-items: center; gap: 4px;
+        padding: calc(8px + env(safe-area-inset-top, 0px)) 8px 6px;
+      }
+      .trasa__gora-tytul { font: 500 20px/1.25 Roboto, sans-serif; }
+
+      .trasa__tresc {
+        flex: 1 1 auto;
+        min-height: 0;
+        overflow-y: auto;
+        overscroll-behavior: contain;
+        display: flex;
+        flex-direction: column;
+        /* var(--dol) = wysokość natywnego paska aplikacji nad WebView — bez tego
+           miniaturka mapy chowałaby się za wyspą. */
+        padding: 0 18px calc(16px + var(--dol, 0px) + env(safe-area-inset-bottom, 0px));
+      }
+
+      /* Miniaturka: schemat trasy rysowany inline SVG z prawdziwych kształtów
+         odcinków — bez silnika map i bez kafelków, więc jest natychmiastowa. */
+      .trasa__mini {
+        margin-top: auto;
+        flex: none;
+        position: relative;
+        width: 100%;
+        border: 0;
+        padding: 0;
+        height: 116px;
+        border-radius: var(--ui-radius-lg);
+        overflow: hidden;
+        background: #1b241d;
+        cursor: pointer;
+      }
+      .trasa__mini svg { display: block; width: 100%; height: 100%; }
+      .trasa__mini-pill {
+        position: absolute; inset: 0;
+        display: flex; align-items: center; justify-content: center;
+        pointer-events: none;
+      }
+      .trasa__mini-pill span {
+        display: inline-flex; align-items: center; gap: 9px;
+        padding: 11px 20px; border-radius: var(--ui-radius);
+        background: #1e1e1f;
+        color: var(--on-surface);
+        font: 500 14px/1.2 Roboto, sans-serif;
+      }
+      .trasa__mini:active .trasa__mini-pill span { background: #1e1e1f; }
+
+      /* Pigułka powrotu do przebiegu — leży NAD natywnym paskiem aplikacji. */
+      .trasa__pill {
+        position: absolute;
+        left: 50%;
+        bottom: calc(16px + var(--dol, 0px) + env(safe-area-inset-bottom, 0px));
+        transform: translateX(-50%);
+        z-index: 5;
+        display: inline-flex; align-items: center; gap: 9px;
+        border: 0; border-radius: var(--ui-radius-pill);
+        padding: 13px 22px;
+        background: var(--primary); color: var(--on-primary);
+        font: 500 14px/1.2 Roboto, sans-serif;
+        cursor: pointer;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.45);
+        white-space: nowrap;
+      }
+      .trasa__pill:active { background: var(--on-primary-container); }
+
+      .trasa__blad {
+        position: absolute;
+        inset: 0;
+        z-index: 4;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 12px;
+        padding: 24px;
+        text-align: center;
+        background: var(--surface);
+        color: var(--on-surface-variant);
+        font: 400 14px/1.5 Roboto, sans-serif;
+      }
+
+      .trasa__mapa .maplibregl-canvas { outline: none; }
+      /* Znak wodny/atrybucja MapLibre — zostawiamy licencyjną, ale kompaktujemy. */
+      .trasa__mapa .maplibregl-ctrl-attrib { font-size: 10px; }
+
+      .trasa__attr {
+        position: absolute;
+        right: 8px;
+        bottom: 8px;
+        z-index: 3;
+        padding: 3px 8px;
+        border-radius: var(--ui-radius);
+        background: rgba(0, 0, 0, 0.5);
+        color: rgba(255, 255, 255, 0.7);
+        font: 400 10px/1.3 Roboto, var(--font-main);
+        pointer-events: none;
+      }
+
+      .trasa__wstecz {
+        position: absolute;
+        top: calc(12px + env(safe-area-inset-top, 0px));
+        left: 12px;
+        z-index: 5;
+        width: 44px; height: 44px;
+        border: 0; border-radius: var(--ui-radius);
+        background: var(--surface);
+        color: var(--on-surface);
+        display: grid; place-items: center;
+        cursor: pointer;
+        box-shadow: 0 2px 6px rgba(0,0,0,0.5);
+      }
+
+      /* Podsumowanie nad osią czasu (godziny, linie, czas przejazdu). */
+      .trasa__naglowek {
+        display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-bottom: 4px;
+      }
+      .trasa__godziny { font: 500 24px/1.2 Roboto, sans-serif; font-variant-numeric: tabular-nums; }
+      .trasa__meta { font: 400 13px/1.4 Roboto, sans-serif; color: var(--on-surface-variant); margin-bottom: 12px; }
+
+      /* Znaczniki na mapie */
+      .m-punkt { width: 16px; height: 16px; border-radius: 50%; border: 3px solid var(--surface); box-shadow: 0 1px 4px rgba(0,0,0,0.6); }
+      .m-start { background: #7ee0a0; }
+      .m-koniec { background: #f2b8b5; width: 18px; height: 18px; }
+      .m-przesiadka { background: var(--on-surface); width: 12px; height: 12px; }
+
+      /* ===== Wybierz na mapie — pełnoekranowy wybór punktu pinezką ===== */
+      .mapa-wybor {
+        position: fixed;
+        inset: 0;
+        z-index: 72;
+        background: var(--surface);
+        display: flex;
+        flex-direction: column;
+        opacity: 0;
+        transition: opacity 0.18s;
+      }
+      .mapa-wybor[hidden] { display: none; }
+      .mapa-wybor[data-otwarte="1"] { opacity: 1; }
+
+      .mapa-wybor__mapa { flex: 1 1 auto; min-height: 0; position: relative; }
+      .mapa-wybor__mapa .maplibregl-canvas { outline: none; }
+      .mapa-wybor__mapa .maplibregl-ctrl-attrib { font-size: 10px; }
+
+      .mapa-wybor__attr {
+        position: absolute;
+        right: 8px;
+        bottom: 8px;
+        z-index: 3;
+        padding: 3px 8px;
+        border-radius: var(--ui-radius);
+        background: rgba(0, 0, 0, 0.5);
+        color: rgba(255, 255, 255, 0.7);
+        font: 400 10px/1.3 Roboto, var(--font-main);
+        pointer-events: none;
+      }
+
+      .mapa-wybor__wstecz {
+        position: absolute;
+        top: calc(12px + env(safe-area-inset-top, 0px));
+        left: 12px;
+        z-index: 5;
+        width: 44px; height: 44px;
+        border: 0; border-radius: var(--ui-radius);
+        background: var(--surface);
+        color: var(--on-surface);
+        display: grid; place-items: center;
+        cursor: pointer;
+        box-shadow: 0 2px 6px rgba(0,0,0,0.5);
+      }
+
+      .mapa-wybor__hint {
+        position: absolute;
+        top: calc(16px + env(safe-area-inset-top, 0px));
+        left: 50%;
+        transform: translateX(-50%);
+        z-index: 4;
+        padding: 8px 16px;
+        border-radius: var(--ui-radius);
+        background: rgba(0, 0, 0, 0.55);
+        color: #fff;
+        font: 400 13px/1.3 Roboto, sans-serif;
+        white-space: nowrap;
+        pointer-events: none;
+      }
+
+      /* Pinezka „przyklejona" do środka OBSZARU MAPY (nie całego ekranu), bo panel na
+         dole zabiera część wysokości. Liczymy ją w JS przez --mapa-h. Cień pod spodem
+         pulsuje, a przy przeciąganiu mapy pinezka lekko „podskakuje" (klasa .rusza). */
+      .mapa-wybor__pin {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        z-index: 4;
+        transform: translate(-50%, -100%);
+        pointer-events: none;
+        transition: transform 0.12s ease;
+      }
+      .mapa-wybor__pin.rusza { transform: translate(-50%, -112%); }
+      .mapa-wybor__pin svg { display: block; filter: drop-shadow(0 2px 3px rgba(0,0,0,0.5)); }
+      .mapa-wybor__cien {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        z-index: 3;
+        width: 12px; height: 5px;
+        border-radius: var(--ui-radius);
+        background: rgba(0,0,0,0.5);
+        transform: translateX(-50%);
+        pointer-events: none;
+        animation: cienPuls 1.6s ease-in-out infinite;
+      }
+      @keyframes cienPuls {
+        0%,100% { transform: translateX(-50%) scale(1); opacity: 0.5; }
+        50% { transform: translateX(-50%) scale(0.7); opacity: 0.3; }
+      }
+
+      .mapa-wybor__panel {
+        flex: none;
+        background: var(--surface-container);
+        border-radius: var(--ui-radius-lg) var(--ui-radius-lg) 0 0;
+        padding: 18px 16px calc(18px + var(--dol, 0px) + env(safe-area-inset-bottom, 0px));
+        box-shadow: none;
+      }
+      .mapa-wybor__adres { display: flex; align-items: center; gap: 12px; min-height: 40px; }
+      .mapa-wybor__adres-ikona {
+        flex: none; width: 40px; height: 40px; border-radius: 50%;
+        background: var(--surface-container-high); color: var(--on-surface-variant);
+        display: grid; place-items: center;
+      }
+      .mapa-wybor__adres-tekst { min-width: 0; }
+      .mapa-wybor__adres-nazwa {
+        display: block; font: 500 15px/1.3 Roboto, sans-serif;
+        overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+      }
+      .mapa-wybor__adres-opis {
+        display: block; margin-top: 1px;
+        font: 400 12px/1.3 Roboto, sans-serif; color: var(--on-surface-variant);
+        overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+      }
+      .mapa-wybor__ok {
+        width: 100%; margin-top: 14px;
+        border: 0; border-radius: var(--ui-radius-pill);
+        background: var(--primary); color: var(--on-primary);
+        font: 500 15px/1 Roboto, sans-serif;
+        padding: 16px 24px; cursor: pointer;
+      }
+      .mapa-wybor__ok:active { background: var(--on-primary-container); }
+
+      /* ===== Animacje wejścia ekranu ===== */
+      @keyframes wjazd { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: none; } }
+      .wjazd { animation: wjazd 0.42s cubic-bezier(0.05,0.7,0.1,1) both; }
+      @keyframes wjazdDol { from { transform: translateY(100%); } to { transform: none; } }
+      @media (prefers-reduced-motion: reduce) {
+        .wjazd { animation: none; }
+        .mapa-wybor__cien { animation: none; opacity: 0.4; }
+        .mapa-wybor__pin { transition: none; }
+        .mapa-wybor__panel { animation: none !important; }
+      }
+
+      [hidden] { display: none !important; }
+
+      :focus-visible {
+        outline: 2px solid var(--primary);
+        outline-offset: 2px;
+      }
