@@ -9,6 +9,28 @@ nie dowodzą kompletnej zgodności ani braku wszystkich błędów.
 działające API produkcyjne na tym serwerze oraz testy Chromium.
 V1 nadal obsługuje produkcję; v2 działa na `beta-testy.busearch.pl`.
 
+## Poprawki mapy — 10 października 2026
+
+- Plakietki słupków pokazują `nazwa`, również dla przystanków bez opisu
+  kierunku i słupków dostępnych tylko w odpowiedzi trasy. Zaznaczony słupek
+  zastępuje pinezkę trasy, aby nazwa nie była narysowana dwukrotnie.
+- Punkty pojazdów przy zoomie poniżej 13 pozostają w pozycji GPS. Rozsuwanie
+  działa dla plakietek pojazdów po przybliżeniu; oddalenie zeruje przesunięcia
+  i usuwa łączniki, także dla ponownie wykorzystanych markerów.
+- Usunięto przycisk przełączania śledzenia z panelu pojazdu. Wybór pojazdu
+  uruchamia śledzenie automatycznie; otwarcie przystanku je wstrzymuje,
+  a zamknięcie wznawia. Test obejmuje ruch pojazdu po wznowieniu.
+- Dodano `bun run check` i GitHub Actions z instalacją zależności według
+  `bun.lock`, kontrolą TypeScriptu i budowaniem aplikacji. README opisuje
+  wymagania testów, a odznaka build korzysta z wyniku workflow.
+
+Weryfikacja lokalna: instalacja z `--frozen-lockfile`, `check`, `build`,
+`test:vehicle`, `test:vehicle:overlap`, `test:map` i `test:line`.
+Testy pojazdów i mapy obejmują telefon i komputer; nakładające się pojazdy
+sprawdzono również na telefonie w poziomie. Testy przeglądarkowe sprawdzają
+błędy wykonania JavaScriptu. Workflow wymaga wysłania zmian na GitHuba,
+aby wykonać te kontrole również w CI.
+
 ## Stan sprawdzenia — 4 października 2026
 
 | Obszar | Ustalenia i dowody | Co pozostaje |

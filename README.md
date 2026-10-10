@@ -7,7 +7,7 @@
 **Komunikacja miejska na żywo: śledzenie pojazdów, tablice przystankowe, rozkłady jazdy i planer podróży.**
 
 [![Wydanie](https://img.shields.io/badge/wersja-v0.1.0-orange)](https://github.com/szymon82723/BUSearch-frontend-v2/releases)
-[![Build](https://img.shields.io/badge/build-passing-brightgreen)](https://github.com/szymon82723/BUSearch-frontend-v2)
+[![Build](https://github.com/szymon82723/BUSearch-frontend-v2/actions/workflows/check.yml/badge.svg)](https://github.com/szymon82723/BUSearch-frontend-v2/actions/workflows/check.yml)
 [![Licencja: GPL v3](https://img.shields.io/badge/licencja-GPL--3.0-blue)](LICENSE)
 ![React 19](https://img.shields.io/badge/React-19-61DAFB?logo=react&logoColor=black)
 ![TypeScript](https://img.shields.io/badge/TypeScript-5.7-3178C6?logo=typescript&logoColor=white)
@@ -27,7 +27,8 @@ Projekt tworzy **Szymon Czaja** ([szymo.xyz](https://szymo.xyz)). Kod powstaje w
 ## Funkcje
 
 - **Śledzenie pojazdów na żywo:** pozycje autobusów i tramwajów w czasie rzeczywistym na mapie wektorowej, estymowane opóźnienia (ETA), stan odświeżenia danych oraz numer taborowy prezentowany pod znacznikiem pojazdu.
-- **Przebieg trasy i śledzenie kursu:** panel pojazdu z listą kolejnych przystanków, godzinami rozkładowymi i prognozowanymi oraz automatycznym prowadzeniem kamery mapy za pojazdem.
+- **Przebieg trasy i śledzenie kursu:** wybór pojazdu automatycznie włącza prowadzenie kamery. Panel pokazuje kolejne przystanki oraz godziny rozkładowe i prognozowane. Otwarcie przystanku wstrzymuje prowadzenie kamery, a zamknięcie przywraca śledzenie.
+- **Znaczniki mapy:** punkty pojazdów na oddalonej mapie pozostają w pozycji GPS; nakładające się plakietki pojazdów są rozsuwane po przybliżeniu. Plakietki przystanków pokazują ich nazwy, także gdy API nie podaje opisu kierunku.
 - **Tablice odjazdów z przystanków:** rzeczywiste i rozkładowe godziny odjazdów, oznaczenia słupków, kierunki, wyróżnienia linii tramwajowych i autobusowych oraz obsługa przystanków współdzielonych.
 - **Wyszukiwarka połączeń:** planer podróży door-to-door z wyborem słupków, czasem wyjazdu w strefie czasowej Polski, limitem przesiadek, preferowanym tempem marszu i prezentacją trasy na mapie.
 - **Rozkłady jazdy:** pełne tablice rozkładów dla linii i słupków, z podziałem na kierunki, typy dni, legendę i wybór konkretnej daty z kalendarza.
@@ -42,13 +43,14 @@ Projekt tworzy **Szymon Czaja** ([szymo.xyz](https://szymo.xyz)). Kod powstaje w
 Do uruchomienia projektu wymagany jest [Bun](https://bun.sh) (zalecany) lub Node.js 20+.
 
 ```sh
-# Instalacja zależności
-bun install
+# Instalacja zależności zgodnych z plikiem bun.lock
+bun install --frozen-lockfile
 
 # Uruchomienie serwera deweloperskiego (port 1500, proxy do API na porcie 47821)
 bun run dev
 
 # Kompilacja TypeScriptu i budowanie produkcyjne
+bun run check
 bun run build
 
 # Podgląd wersji produkcyjnej
@@ -61,7 +63,12 @@ Strony prezentacyjne korzystają ze zoptymalizowanych plików `public/videos/*-w
 
 ## Testy
 
-Projekt posiada zestaw testów automatycznych uruchamianych w Chromium:
+GitHub Actions sprawdza TypeScript i budowanie przy pushu oraz pull requeście.
+Testy przeglądarkowe wymagają uruchomionego serwera (`bun run dev`) i Chromium.
+Domyślna ścieżka przeglądarki to `/snap/bin/chromium`; można ją zmienić
+przez `CHROMIUM_PATH`. Adres serwera ustawia `TEST_BASE_URL`
+(domyślnie `http://127.0.0.1:1500`). Testy `test:map` korzystają również
+z lokalnego API; testy pojazdów używają kontrolowanych danych.
 
 ```sh
 bun run test:map              # Testy mapy, paneli i akcji

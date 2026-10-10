@@ -441,8 +441,6 @@ export function App() {
           key={selectedVehicle.nr_boczny}
           vehicle={selectedVehicle}
           isVisible={!highlightedStop}
-          isTracking={trackedVehicleId === selectedVehicle.nr_boczny}
-          onToggleTracking={() => setTrackedVehicleId(trackedVehicleId === selectedVehicle.nr_boczny ? null : selectedVehicle.nr_boczny)}
           onStopsChange={handleRouteStops}
           routeName={currentRouteGeometry?.trayectos.find((route) => String(route.trayecto_id) === String(selectedVehicle.trayecto))?.nazwa}
           onClose={() => handleSelectVehicle(null)}

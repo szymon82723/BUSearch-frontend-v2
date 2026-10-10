@@ -1,6 +1,6 @@
 import { formatFleetNumber } from "../config/vehicle-filters";
 import { useState, useEffect } from "react";
-import { BusFront, TramFront, LocateFixed, Locate, X, Share2, BookOpen } from "lucide-react";
+import { BusFront, TramFront, X, Share2, BookOpen } from "lucide-react";
 import { tramLines } from "../config/city";
 import type { Vehicle, VehicleEtaStop } from "../types/transit";
 import { fetchVehicleEtas } from "../services/api";
@@ -14,8 +14,6 @@ interface RoutePanelProps {
   onClose: () => void;
   onSelectStop: (stop: VehicleEtaStop) => void;
   routeName?: string;
-  isTracking: boolean;
-  onToggleTracking: () => void;
   onStopsChange: (vehicleId: string, stops: VehicleEtaStop[]) => void;
 }
 
@@ -25,8 +23,6 @@ export function RoutePanel({
   onClose,
   onSelectStop,
   routeName,
-  isTracking,
-  onToggleTracking,
   onStopsChange,
 }: RoutePanelProps) {
   const [stops, setStops] = useState<VehicleEtaStop[]>([]);
@@ -124,7 +120,6 @@ export function RoutePanel({
             <a className="ui-routepanel__wiki ui-anim" id="routePanelWiki" href={wikiHref} aria-label="Wiki pojazdu"><BookOpen size={18} aria-hidden="true" /><span>Wiki</span></a>
           </div>}
           <div className="ui-routepanel__actions">
-            <button className="ui-routepanel__close ui-anim" type="button" aria-label={isTracking ? "Wyłącz śledzenie pojazdu" : "Śledź pojazd"} aria-pressed={isTracking} onClick={onToggleTracking}>{isTracking ? <LocateFixed size={18} /> : <Locate size={18} />}</button>
             <button className="ui-routepanel__close ui-anim" type="button" aria-label="Udostępnij pojazd" onClick={shareVehicle}><Share2 size={18} /></button>
             <button className="ui-routepanel__close ui-anim ui-close" id="routePanelClose" type="button" aria-label="Zamknij" onClick={onClose}><X size={18} /></button>
           </div>

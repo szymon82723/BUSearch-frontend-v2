@@ -103,7 +103,6 @@
 #routePanel .ui-routepanel__headrow > div:first-child { min-width: 0; }
 #routePanel .ui-routepanel__title { overflow-wrap: anywhere; }
 #routePanel .ui-routepanel__stop, #linePanel .ui-routepanel__stop { width: 100%; padding: 0; border: 0; background: transparent; color: inherit; font: inherit; text-align: left; }
-#routePanel .ui-routepanel__close[aria-pressed="true"] { background: var(--ui-accent); border-color: var(--ui-accent); color: var(--ui-on-accent); }
 #routePanel .ui-routepanel__stop:focus-visible, #linePanel .ui-routepanel__stop:focus-visible { outline: 2px solid var(--ui-accent); outline-offset: -2px; }
 @media (max-width: 600px) {
   #routePanel .ui-routepanel__headrow { grid-template-columns: minmax(0, 1fr) auto; align-items: center; }
