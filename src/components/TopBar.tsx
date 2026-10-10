@@ -4,6 +4,7 @@ import { apiPath, citySlug, tramLines } from "../config/city";
 import { searchLines, searchStops, searchText, searchStopDirection } from "../config/search";
 import { linesAtStop } from "../config/shared-stop-lines";
 import { showMenuRipple } from "./menu-ripple";
+import { DevelopmentNotice } from "./DevelopmentNotice";
 
 const PLAY_STORE_URL = "https://play.google.com/store/apps/details?id=com.szymoxyz.busearch&pcampaignid=web_share";
 
@@ -105,7 +106,7 @@ export function TopBar({
 
   return (
     <div
-      className={`ui-topbar ${showAnnounceBanner || showPlayStoreBanner ? "ui-topbar--z-listwa" : ""} ${isFiltersOpen ? "ui-topbar--filtry" : ""}`}
+      className={`ui-topbar ui-topbar--z-listwa ${isFiltersOpen ? "ui-topbar--filtry" : ""}`}
       id="topbar"
       ref={containerRef}
     >
@@ -242,7 +243,7 @@ export function TopBar({
       </div>
 
       {showAnnounceBanner && (
-        <div className={`ui-announce ${showPlayStoreBanner ? "ui-listwa--nie-ostatnia" : ""}`} id="announceBanner" style={{ display: "flex" }} onClick={() => onOpenAnnouncement(latestAnnouncement)}>
+        <div className="ui-announce ui-listwa--nie-ostatnia" id="announceBanner" style={{ display: "flex" }} onClick={() => onOpenAnnouncement(latestAnnouncement)}>
           <span className="ui-announce__dot" aria-hidden="true">
             <svg viewBox="0 0 4 16" width="4" height="16" fill="none">
               <path d="M2 1.4V9.6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
@@ -277,7 +278,7 @@ export function TopBar({
       )}
 
       {showPlayStoreBanner && (
-        <div className="ui-play-store" id="playStoreBanner" onClick={openPlayStore}>
+        <div className="ui-play-store ui-listwa--nie-ostatnia" id="playStoreBanner" onClick={openPlayStore}>
           <span className="ui-play-store__icon" aria-hidden="true">
             <svg viewBox="0 0 28.99 31.99" width="18" height="20">
               <path d="M13.54 15.28.12 29.34a3.66 3.66 0 0 0 5.33 2.16l15.1-8.6Z" fill="#ea4335" />
@@ -295,6 +296,7 @@ export function TopBar({
           }}>✕</button>
         </div>
       )}
+      <DevelopmentNotice />
     </div>
   );
 }

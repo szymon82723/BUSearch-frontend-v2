@@ -7,6 +7,7 @@ import "./home-page.css";
 import { homeDescription, homeTitle } from "./home-content";
 import { HomeInformation } from "./HomeInformation";
 import { HomeUsage } from "./HomeUsage";
+import { DevelopmentNotice } from "../components/DevelopmentNotice";
 
 const PLAY_STORE = "https://play.google.com/store/apps/details?id=com.szymoxyz.busearch&pcampaignid=web_share";
 
@@ -323,6 +324,7 @@ export function HomePage() {
             <h1 id="home-title">BUSearch<span>Autobusy i tramwaje.
 W aplikacji i przeglądarce.</span></h1>
             <p className="home-lead">Sprawdź odjazdy, znajdź swój autobus lub tramwaj i zaplanuj przejazd. Pobierz aplikację albo korzystaj z mapy bez instalacji. Bydgoszcz, Toruń i Trójmiasto.</p>
+            <DevelopmentNotice home />
             <div className="home-actions"><a className="home-hero-primary" href="#miasta"><MapPinned size={19} /> Korzystaj w przeglądarce</a><a className="home-hero-download" href="#pobierz"><Smartphone size={19} /> Pobierz aplikację</a></div>
             <ul className="home-hero-points" aria-label="Najważniejsze cechy"><li><Check size={15} /> Bez rejestracji</li><li><Check size={15} /> Działa w przeglądarce</li><li><Check size={15} /> Pozycje pojazdów na żywo</li></ul>
           </div>

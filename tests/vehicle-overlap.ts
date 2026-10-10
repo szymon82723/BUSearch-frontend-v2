@@ -13,7 +13,7 @@ for (const a of boxes) for (const b of boxes) {
 }
 assert.deepEqual(layoutVehicleMarkers([boxes[0]]).get('0'), [0, 0]);
 
-const browser = await puppeteer.launch({executablePath: '/snap/bin/chromium', headless: true, args: ['--no-sandbox', '--disable-dev-shm-usage', '--enable-unsafe-swiftshader']});
+const browser = await puppeteer.launch({executablePath: process.env.CHROMIUM_PATH || '/snap/bin/chromium', headless: true, args: ['--no-sandbox', '--disable-dev-shm-usage', '--enable-unsafe-swiftshader']});
 try {
   for (const [width, height] of [[390,844], [844,390], [1440,900]]) {
     const page = await browser.newPage();
@@ -50,10 +50,26 @@ try {
       await page.waitForFunction(() => document.querySelectorAll('.veh-marker').length === 1);
       await page.click('#routePanelClose');
     }
-    await page.waitForFunction(() => document.querySelectorAll('.veh-marker__tether').length === 2);
+    await page.waitForFunction(() => document.querySelectorAll('.veh-marker').length === 3);
+    assert.equal(await page.$$eval('.veh-marker__tether', nodes => nodes.length), 0);
     await page.screenshot({path:`/tmp/busearch-overlap-${width}.png`});
+    // Zoom out in place: recycled badges must return to their GPS position.
+    await page.focus('.maplibregl-canvas');
+    for (let step = 0; step < 5; step++) {
+      await page.keyboard.press('-');
+      await new Promise(resolve => setTimeout(resolve, 400));
+    }
+    await page.waitForFunction(() => document.querySelectorAll('.veh-marker--dot').length === 3);
+    assert.equal(await page.$$eval('.veh-marker__tether', nodes => nodes.length), 0);
+    const positions = await page.$$eval('.veh-marker--dot', nodes => nodes.map(node => {
+      const rect = node.getBoundingClientRect();
+      return {x: rect.x, y: rect.y};
+    }));
+    assert.deepEqual(positions[1], positions[0]);
+    assert.deepEqual(positions[2], positions[0]);
+    await page.screenshot({path:`/tmp/busearch-overview-${width}.png`});
     assert.deepEqual(errors, []);
-    console.log(`PASS ${width}x${height}: three coincident buses individually selectable`);
+    console.log(`PASS ${width}x${height}: three coincident buses individually selectable without connecting lines; overview dots at GPS position`);
     await page.close();
   }
 } finally { await browser.close(); }

@@ -499,7 +499,10 @@ export function TransitMap({
 
     const viewport = map.getContainer().getBoundingClientRect();
     const topbar = document.getElementById("topbar")?.getBoundingClientRect();
-    const offsets = layoutVehicleMarkers([...currentVehKeys].map(id => {
+    // Dots show the actual GPS position. Only spread overlapping vehicle badges.
+    const badgeKeys = [...currentVehKeys].filter(id =>
+      !vehicleMarkersRef.current.get(id)!.getElement().classList.contains("veh-marker--dot"));
+    const offsets = layoutVehicleMarkers(badgeKeys.map(id => {
       const vehicle = vehiclesByIdRef.current.get(id)!;
       const element = vehicleMarkersRef.current.get(id)!.getElement();
       const point = map.project([vehicle.lon, vehicle.lat]);
@@ -516,22 +519,10 @@ export function TransitMap({
         top >= viewport.top + 8 && bottom <= viewport.bottom - 76 &&
         (!topbar || right <= topbar.left || left >= topbar.right || top >= topbar.bottom + 8 || bottom <= topbar.top);
     });
-    for (const [id, offset] of offsets) {
+    for (const id of currentVehKeys) {
+      const offset = offsets.get(id) ?? [0, 0];
       const marker = vehicleMarkersRef.current.get(id)!;
       marker.setOffset(offset);
-      const element = marker.getElement();
-      let tether = element.querySelector<HTMLDivElement>(".veh-marker__tether");
-      const length = Math.hypot(...offset);
-      if (length > 0) {
-        if (!tether) {
-          tether = document.createElement("div");
-          tether.className = "veh-marker__tether";
-          tether.setAttribute("aria-hidden", "true");
-          element.prepend(tether);
-        }
-        tether.style.width = `${length}px`;
-        tether.style.transform = `rotate(${Math.atan2(-offset[1], -offset[0])}rad)`;
-      } else tether?.remove();
     }
 
     const popupVehicle = popupVehicleIdRef.current ? vehiclesByIdRef.current.get(popupVehicleIdRef.current) : undefined;
@@ -586,15 +577,6 @@ export function TransitMap({
             arrow.append(document.createElement("i"));
             el.prepend(arrow);
           }
-          if (s.kierunek_opis?.trim()) {
-            const label = document.createElement("div");
-            label.className = "stop-marker__plakietka";
-            const text = document.createElement("span");
-            text.textContent = s.kierunek_opis.trim();
-            label.append(text);
-            el.append(label);
-          }
-
           el.addEventListener("click", (e) => {
             e.stopPropagation();
             const current = stopsByIdRef.current.get(s.id);
@@ -614,6 +596,15 @@ export function TransitMap({
             el.className = expectedClass;
           }
         }
+        const el = marker.getElement();
+        el.title = `${s.nazwa} · ID ${s.id}${isTechnical ? " · przystanek techniczny" : ""}`;
+        let label = el.querySelector<HTMLDivElement>(".stop-marker__plakietka");
+        if (!label) {
+          label = document.createElement("div");
+          label.className = "stop-marker__plakietka";
+          el.append(label);
+        }
+        label.textContent = s.nazwa;
       });
     }
 
@@ -839,12 +830,13 @@ export function TransitMap({
     if (!map || !mapLoaded) return;
     const source = map.getSource("route-stops-source") as maplibregl.GeoJSONSource | undefined;
     source?.setData({ type: "FeatureCollection", features: (selectedVehicle || lineRouteStops.length > 0) ? routeStops
-      .filter((stop) => Number.isFinite(stop.lat) && Number.isFinite(stop.lon))
+      // The selected platform already has its HTML pin and name plaque.
+      .filter((stop) => Number.isFinite(stop.lat) && Number.isFinite(stop.lon) && Number(stop.id) !== selectedStop?.id)
       .map((stop) => ({ type: "Feature" as const,
         geometry: { type: "Point" as const, coordinates: [stop.lon, stop.lat] },
         properties: { id: stop.id, name: stop.name, color: colorForLine(selectedVehicle?.linia ?? String(routeGeometry?.linia ?? "")) },
       })) : [] });
-  }, [vehicleRouteStops, lineRouteStops, selectedVehicle?.linia, selectedVehicle?.nr_boczny, routeGeometry, mapLoaded, styleRevision]);
+  }, [vehicleRouteStops, lineRouteStops, selectedStop?.id, selectedVehicle?.linia, selectedVehicle?.nr_boczny, routeGeometry, mapLoaded, styleRevision]);
 
   return <div ref={mapContainerRef} id="map" className="map-viewport" />;
 }
