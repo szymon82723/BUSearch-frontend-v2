@@ -50,7 +50,8 @@ try {
       await page.waitForFunction(() => document.querySelectorAll('.veh-marker').length === 1);
       await page.click('#routePanelClose');
     }
-    await page.waitForFunction(() => document.querySelectorAll('.veh-marker__tether').length === 2);
+    await page.waitForFunction(() => document.querySelectorAll('.veh-marker').length === 3);
+    assert.equal(await page.$$eval('.veh-marker__tether', nodes => nodes.length), 0);
     await page.screenshot({path:`/tmp/busearch-overlap-${width}.png`});
     // Zoom out in place: recycled badges must return to their GPS position.
     await page.focus('.maplibregl-canvas');
@@ -68,7 +69,7 @@ try {
     assert.deepEqual(positions[2], positions[0]);
     await page.screenshot({path:`/tmp/busearch-overview-${width}.png`});
     assert.deepEqual(errors, []);
-    console.log(`PASS ${width}x${height}: three coincident buses individually selectable; overview dots at GPS position without tethers`);
+    console.log(`PASS ${width}x${height}: three coincident buses individually selectable without connecting lines; overview dots at GPS position`);
     await page.close();
   }
 } finally { await browser.close(); }

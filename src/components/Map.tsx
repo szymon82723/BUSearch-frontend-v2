@@ -523,19 +523,6 @@ export function TransitMap({
       const offset = offsets.get(id) ?? [0, 0];
       const marker = vehicleMarkersRef.current.get(id)!;
       marker.setOffset(offset);
-      const element = marker.getElement();
-      let tether = element.querySelector<HTMLDivElement>(".veh-marker__tether");
-      const length = Math.hypot(...offset);
-      if (length > 0) {
-        if (!tether) {
-          tether = document.createElement("div");
-          tether.className = "veh-marker__tether";
-          tether.setAttribute("aria-hidden", "true");
-          element.prepend(tether);
-        }
-        tether.style.width = `${length}px`;
-        tether.style.transform = `rotate(${Math.atan2(-offset[1], -offset[0])}rad)`;
-      } else tether?.remove();
     }
 
     const popupVehicle = popupVehicleIdRef.current ? vehiclesByIdRef.current.get(popupVehicleIdRef.current) : undefined;

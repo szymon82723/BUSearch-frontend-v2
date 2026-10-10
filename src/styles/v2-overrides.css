@@ -123,8 +123,6 @@
 .vehicle-map-card { padding: 12px 14px; font: 500 13px/1.35 var(--font-main); }
 .vehicle-map-card__updated { margin-top: 4px; color: var(--ui-text-3); font-size: .9em; }
 .veh-marker:focus-visible { outline: 2px solid var(--ui-accent); outline-offset: 4px; }
-.veh-marker__tether { position: absolute; left: 50%; top: 50%; height: 2px; background: var(--veh-color); opacity: .65; transform-origin: 0 50%; pointer-events: none; z-index: -1; }
-.veh-marker__tether::after { content: ""; position: absolute; right: -3px; top: -2px; width: 6px; height: 6px; border-radius: 50%; background: var(--veh-color); }
 
 .veh-marker__fleet { position: absolute; left: 50%; top: calc(100% + 3px); transform: translateX(-50%); padding: 2px 5px; border: 1px solid var(--ui-line-strong); border-radius: 5px; background: var(--ui-surface); color: var(--ui-text); font: 600 10px/1.25 var(--font-main); white-space: nowrap; pointer-events: none; }
 

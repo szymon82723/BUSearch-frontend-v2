@@ -16,10 +16,14 @@ V1 nadal obsługuje produkcję; v2 działa na `beta-testy.busearch.pl`.
   zastępuje pinezkę trasy, aby nazwa nie była narysowana dwukrotnie.
 - Punkty pojazdów przy zoomie poniżej 13 pozostają w pozycji GPS. Rozsuwanie
   działa dla plakietek pojazdów po przybliżeniu; oddalenie zeruje przesunięcia
-  i usuwa łączniki, także dla ponownie wykorzystanych markerów.
+  także dla ponownie wykorzystanych markerów. Łączniki nie są rysowane
+  również przy pełnych plakietkach; rozsuwanie i wybór pojazdów nadal działają.
 - Usunięto przycisk przełączania śledzenia z panelu pojazdu. Wybór pojazdu
   uruchamia śledzenie automatycznie; otwarcie przystanku je wstrzymuje,
   a zamknięcie wznawia. Test obejmuje ruch pojazdu po wznowieniu.
+- Strona główna v2 i pasek nad mapą informują o pracach nad nową wersją
+  BUSearch i odsyłają do repozytorium na GitHubie. Sprawdzono widoczność
+  i szerokość komunikatu przy 320, 390 i 1440 px oraz planer w poziomie.
 - Dodano `bun run check` i GitHub Actions z instalacją zależności według
   `bun.lock`, kontrolą TypeScriptu i budowaniem aplikacji. README opisuje
   wymagania testów, a odznaka build korzysta z wyniku workflow.

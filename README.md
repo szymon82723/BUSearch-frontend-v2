@@ -28,7 +28,7 @@ Projekt tworzy **Szymon Czaja** ([szymo.xyz](https://szymo.xyz)). Kod powstaje w
 
 - **Śledzenie pojazdów na żywo:** pozycje autobusów i tramwajów w czasie rzeczywistym na mapie wektorowej, estymowane opóźnienia (ETA), stan odświeżenia danych oraz numer taborowy prezentowany pod znacznikiem pojazdu.
 - **Przebieg trasy i śledzenie kursu:** wybór pojazdu automatycznie włącza prowadzenie kamery. Panel pokazuje kolejne przystanki oraz godziny rozkładowe i prognozowane. Otwarcie przystanku wstrzymuje prowadzenie kamery, a zamknięcie przywraca śledzenie.
-- **Znaczniki mapy:** punkty pojazdów na oddalonej mapie pozostają w pozycji GPS; nakładające się plakietki pojazdów są rozsuwane po przybliżeniu. Plakietki przystanków pokazują ich nazwy, także gdy API nie podaje opisu kierunku.
+- **Znaczniki mapy:** punkty pojazdów na oddalonej mapie pozostają w pozycji GPS; nakładające się plakietki pojazdów są rozsuwane po przybliżeniu, bez rysowania łączników. Plakietki przystanków pokazują ich nazwy, także gdy API nie podaje opisu kierunku.
 - **Tablice odjazdów z przystanków:** rzeczywiste i rozkładowe godziny odjazdów, oznaczenia słupków, kierunki, wyróżnienia linii tramwajowych i autobusowych oraz obsługa przystanków współdzielonych.
 - **Wyszukiwarka połączeń:** planer podróży door-to-door z wyborem słupków, czasem wyjazdu w strefie czasowej Polski, limitem przesiadek, preferowanym tempem marszu i prezentacją trasy na mapie.
 - **Rozkłady jazdy:** pełne tablice rozkładów dla linii i słupków, z podziałem na kierunki, typy dni, legendę i wybór konkretnej daty z kalendarza.
@@ -37,6 +37,9 @@ Projekt tworzy **Szymon Czaja** ([szymo.xyz](https://szymo.xyz)). Kod powstaje w
 - **Powiadomienia o odjazdach:** możliwość subskrypcji odjazdów z wybranego słupka (Web Push / mostek mobilny Android).
 - **Obsługa wielu miast:** dedykowane konfiguracje dla Bydgoszczy, Torunia i Trójmiasta (linie tramwajowe, granice mapy, specyficzne integracje ITS).
 - **Nowoczesny interfejs:** ciemny motyw z czytelnym kontrastem, panele dolne (bottom sheets) z płynnymi animacjami na urządzeniach mobilnych oraz ergonomiczny układ desktopowy.
+
+Na stronie głównej i nad mapą widoczny jest komunikat o pracach nad nową
+wersją z linkiem do repozytorium GitHub.
 
 ## Uruchomienie lokalne
 
